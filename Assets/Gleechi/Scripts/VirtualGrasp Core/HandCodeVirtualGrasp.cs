@@ -1,0 +1,276 @@
+﻿// Copyright (C) 2014-2017 Gleechi AB. All rights reserved.
+
+//#define USE_STEAM_VR
+
+using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI; // for Text UI
+using UnityEngine.VR; // for VR Settings
+using VirtualGrasp;
+
+[RequireComponent (typeof (VG_SensorConfiguration))]
+public class HandCodeVirtualGrasp : VG_Controller
+{
+	// Check this if we want to use VR mode
+	public bool useVR = true;
+	// A shader for object highlighting. We have to add this here in order to bring the shader into a build.
+	public Shader shader = null;
+
+	// We have a scene with one specific avatar
+	private int avatarID = 1;
+	// An array of the current VirtualGrasp hand status (since we use two hands, we have two elements)
+	private VG_HandStatus[] current = new VG_HandStatus[2];
+	// An array of the former VirtualGrasp hand status (since we use two hands, we have two elements)
+	private VG_HandStatus[] former  = new VG_HandStatus[2];
+	// A reference to an object selector
+	private HandCodeObjectSelection pSelector = null;
+	// A reference to an sensor configuration
+	private VG_SensorConfiguration pSensorMapper = null;
+
+	void OnApplicationQuit()
+	{
+		Release ();
+	}
+
+	void Awake()
+	{
+#if USE_STEAM_VR
+		if (useVR) VRSettings.LoadDeviceByName ("OpenVR");
+#endif
+	}
+
+    void Start()
+	{
+		// First, setup the cameras dependent on the play mode (VR or non-VR)
+		GameObject cam2D = GameObject.Find("Camera (noVR)");
+		GameObject cam3D = GameObject.Find("Camera (head)");
+
+		VRSettings.enabled = useVR;
+
+#if USE_STEAM_VR
+		GameObject viveRig = GameObject.Find("[CameraRig]");
+		if (useVR)
+		{
+			if (cam2D) cam2D.gameObject.SetActive(false);
+			if (cam3D) cam3D.tag = "MainCamera";
+		}
+		else
+		{
+			if (viveRig != null)
+			{
+				viveRig.GetComponent<SteamVR_ControllerManager>().enabled = false;
+				viveRig.GetComponent<SteamVR_PlayArea>().enabled = false;
+				viveRig.GetComponent<MeshRenderer>().enabled = false;
+			}
+#else
+		{
+#endif
+			if (cam3D) cam3D.gameObject.SetActive(false);
+			if (cam2D) cam2D.tag = "MainCamera";   
+		}
+
+
+		// First, initialize the VirtualGrasp library from a specific folder.
+		// Note that those folders differ dependent on configuration and editor mode.
+		string libraryDirectory = "";
+#if UNITY_EDITOR_64
+		libraryDirectory = Application.dataPath + "/Plugins/x86_64/";
+#else
+
+#if UNITY_EDITOR
+		libraryDirectory = Application.dataPath + "/Plugins/x86/";
+#else
+		//libraryDirectory = Application.dataPath + "/Plugins/";
+#endif
+#endif
+		if (libraryDirectory.Length == 0) return;
+		Initialize (libraryDirectory);
+
+		// Check if we can access the VirtualGrasp interface
+		if (!IsEnabled())
+		{
+			Debug.LogError ("Failed to initialize VirtualGrasp plugin.");
+			enabled = false;
+			return;
+		}
+
+		// Hand the interface over to the ObjectSelection
+		pSelector = new HandCodeObjectSelection (shader);
+
+		pSensorMapper = GetComponent<VG_SensorConfiguration> ();
+		// Register the sensor configuration to the VirtualGrasp library and create the HandStatus arrays
+		if (pSensorMapper != null) 
+		{
+			pSensorMapper.Register ();
+
+			Transform t;
+			if (VG_Controller.GetBone(avatarID, VG_HandSide.LEFT, VG_BoneType.WRIST, out t) < 0)
+			{
+				current [0] = new VG_HandStatus ();
+				former  [0] = new VG_HandStatus ();
+			}
+			else
+			{
+				current [0] = new VG_HandStatus (t, VG_HandSide.LEFT);
+				former  [0] = new VG_HandStatus (t, VG_HandSide.LEFT);
+			}
+
+			if (VG_Controller.GetBone(avatarID, VG_HandSide.RIGHT, VG_BoneType.WRIST, out t) < 0)
+			{
+				current [1] = new VG_HandStatus ();
+				former  [1] = new VG_HandStatus ();
+			}
+			else
+			{
+				current [1] = new VG_HandStatus (t, VG_HandSide.RIGHT);
+				former  [1] = new VG_HandStatus (t, VG_HandSide.RIGHT);
+			}
+
+			// TODO: now after getting wrists from library, do we need targets?
+			//current [0] = new VG_HandStatus (pSensorMapper.targets [0], VG_HandSide.LEFT);
+			//current [1] = new VG_HandStatus (pSensorMapper.targets [1], VG_HandSide.RIGHT);
+			//former  [0] = new VG_HandStatus (pSensorMapper.targets [0], VG_HandSide.LEFT);
+			//former  [1] = new VG_HandStatus (pSensorMapper.targets [1], VG_HandSide.RIGHT);
+		}
+
+		// Register articulated objects to the VirtualGrasp library
+		List<Transform> artObjects = new List<Transform> ();
+		VG_Articulation[] articulations = UnityEngine.Object.FindObjectsOfType<VG_Articulation> ();
+		foreach (VG_Articulation a in articulations)
+			artObjects.Add (a.transform);
+		VG_ArticulationT[] articulationsT = UnityEngine.Object.FindObjectsOfType<VG_ArticulationT> ();
+		foreach (VG_ArticulationT a in articulationsT)
+			artObjects.Add (a.transform);
+		RegisterObjects (artObjects);
+    }
+
+	// The regular update loop is only doing object selection and highlighting
+	void Update()
+    {
+		pSelector.Select(current);
+		pSelector.HighlightObjects(current);
+	}
+
+	void ReleaseObject(uint handID)
+	{
+		Rigidbody obj_rb = former[handID].selectedObject != null ? former[handID].selectedObject.GetComponent<Rigidbody> () : 
+			current[handID].selectedObject.GetComponent<Rigidbody>();
+		if (obj_rb != null && !obj_rb.useGravity && current[handID].selectedObject.GetComponent<VG_Articulation>() == null)
+			obj_rb.useGravity = true;
+	}
+
+	void FixedUpdate()
+	{
+		
+		if (!IsEnabled()) return;
+
+		// Pulse updates the VG library, including controllers, avatars, etc.
+	 	Pulse();
+
+		for (uint handID = 0; handID < 2; handID++)	
+		{
+			// Check if hand is valid
+			if (current [handID] == null) continue;
+			current[handID].valid = !MissingSensorData(current[handID].side);
+			if (!current [handID].valid)
+				current [handID].hand.position = Vector3.zero;
+
+			// Check if we have no object selected and inform the library if this is the case.
+			if (current [handID].selectedObject == null) 
+			{
+				NoObjectSelected (current[handID].side);
+				continue;
+			}
+
+			// Cache old and get new status of the hands (interaction mode, pose, etc)
+			former[handID].grasp = current[handID].grasp;
+			former[handID].mode = current[handID].mode;
+			current[handID].mode = GetInteractionMode(avatarID, current[handID].side);
+			if (current[handID].mode == VG_InteractionMode.EMPTY)
+				current[handID].grasp = GetGraspByPose(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
+			
+			// Do things based on interaction mode
+			switch (current[handID].mode)
+			{
+				case VG_InteractionMode.EMPTY:
+					break;
+				case VG_InteractionMode.PREVIEW:
+					break;
+				case VG_InteractionMode.GRASP:
+                    break;
+				case VG_InteractionMode.RELEASE:
+					{
+						ReleaseObject (handID);
+						break;
+					}
+				case VG_InteractionMode.HOLD:
+				case VG_InteractionMode.HOLD2:
+				case VG_InteractionMode.MANIPULATE:
+				case VG_InteractionMode.MANIPULATE2:
+				{
+					Rigidbody obj_rb = current[handID].selectedObject.GetComponent<Rigidbody> ();
+					if (obj_rb != null && current[handID].selectedObject.GetComponent<VG_Articulation>() == null)
+						obj_rb.useGravity = false;
+
+					GetObjectTransform(avatarID, current[handID].side, current[handID].selectedObject.gameObject);
+					break;
+				}
+			}
+
+			// Finally, just fill in some status data for visualization
+			current[handID].grab = GetGrabStrength(current[handID].side);
+			current[handID].grabVel = GetGrabVelocity(current[handID].side);
+        }
+    }
+
+	// Late update is only for debug canvas visualization
+	void LateUpdate()
+	{
+		for (uint handID = 0; handID < 2; handID++)
+		{
+			string text = (handID == 0 ? "Left Hand" : "Right Hand") + "\n";
+			if (current [handID] == null) continue;
+
+			text += (current [handID].selectedObject != null ? current [handID].selectedObject.name : "null") + "\n";
+			text += "distance: " + System.Math.Round (current [handID].distance, 2) + "\n";
+			if (current [handID].grasp == 0)
+				text += "grasp: valid\n";
+			else if (current [handID].grasp == -1)
+				text += "grasp: out-of-reach\n";
+			else
+				text += "grasp: invalid\n";
+			text += "sensor valid: " + current [handID].valid + "\n";
+			text += "mode: " + current [handID].mode + "\n";
+			text += "grab strength: " + System.Math.Round (current [handID].grab, 2) + "\n";
+			text += "grab velocity: " + System.Math.Round (current [handID].grabVel, 2) + "\n";
+			if (current [handID].selectedObject != null) {
+				Rigidbody obj_rb = current [handID].selectedObject.GetComponent<Rigidbody> ();
+				if (obj_rb != null && obj_rb.angularVelocity.magnitude > 0.001f) {
+					text += "pvel: " + obj_rb.velocity.magnitude + "\n";
+					text += "rvel: " + obj_rb.angularVelocity.magnitude + "\n";
+					if (current [handID].mode != VG_InteractionMode.EMPTY &&
+						current [handID].mode != VG_InteractionMode.RELEASE) 
+					{
+#if USE_STEAM_VR
+						// Trigger a haptic pulse just for fun
+						SteamVR_Controller.Input ((int)handID + 3).TriggerHapticPulse (500);
+#endif
+						obj_rb.isKinematic = true;
+						GetObjectTransform (avatarID, current [handID].side, current [handID].selectedObject.gameObject);
+						obj_rb.isKinematic = false;
+					}
+				}
+			}
+		
+			MyDebug(handID == 0 ? "DebugCanvas/LeftHandDebug" : "DebugCanvas/RightHandDebug", text);
+		}
+	}
+		
+	private void MyDebug(string target, string str)
+	{
+		GameObject textUI = GameObject.Find (target);
+		if (textUI != null) textUI.GetComponent<Text>().text = str;
+	}
+}
