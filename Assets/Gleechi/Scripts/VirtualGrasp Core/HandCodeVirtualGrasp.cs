@@ -76,7 +76,7 @@ public class HandCodeVirtualGrasp : VG_Controller
 		// Note that those folders differ dependent on configuration and editor mode.
 		string libraryDirectory = "";
 #if UNITY_EDITOR_64
-		libraryDirectory = Application.dataPath + "/Plugins/x86_64/";
+		libraryDirectory = Application.dataPath + "/Gleechi/Plugins/x86_64/";
 #else
 
 #if UNITY_EDITOR
@@ -127,12 +127,6 @@ public class HandCodeVirtualGrasp : VG_Controller
 				current [1] = new VG_HandStatus (t, VG_HandSide.RIGHT);
 				former  [1] = new VG_HandStatus (t, VG_HandSide.RIGHT);
 			}
-
-			// TODO: now after getting wrists from library, do we need targets?
-			//current [0] = new VG_HandStatus (pSensorMapper.targets [0], VG_HandSide.LEFT);
-			//current [1] = new VG_HandStatus (pSensorMapper.targets [1], VG_HandSide.RIGHT);
-			//former  [0] = new VG_HandStatus (pSensorMapper.targets [0], VG_HandSide.LEFT);
-			//former  [1] = new VG_HandStatus (pSensorMapper.targets [1], VG_HandSide.RIGHT);
 		}
 
 		// Register articulated objects to the VirtualGrasp library
@@ -267,7 +261,7 @@ public class HandCodeVirtualGrasp : VG_Controller
 			MyDebug(handID == 0 ? "DebugCanvas/LeftHandDebug" : "DebugCanvas/RightHandDebug", text);
 		}
 	}
-		
+
 	private void MyDebug(string target, string str)
 	{
 		GameObject textUI = GameObject.Find (target);
