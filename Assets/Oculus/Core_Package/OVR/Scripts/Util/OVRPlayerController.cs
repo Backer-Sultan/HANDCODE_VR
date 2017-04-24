@@ -143,7 +143,7 @@ public class OVRPlayerController : MonoBehaviour
 		}
 	}
 
-	protected virtual void UpdateController()
+	protected virtual void Update()
 	{
 		if (useProfileData)
 		{
@@ -350,8 +350,6 @@ public class OVRPlayerController : MonoBehaviour
 			root.position = prevPos;
 			root.rotation = prevRot;
 		}
-
-		UpdateController();
 	}
 
 	/// <summary>
