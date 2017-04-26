@@ -26,5 +26,13 @@ public class CradleTest : MonoBehaviour {
         {
             cradle.Stop();
         }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            cradle.LowerPinsher();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            cradle.RaisePinsher();
+        }
     }
 }

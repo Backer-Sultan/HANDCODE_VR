@@ -15,7 +15,9 @@ public class Cradle : MonoBehaviour
     public float maxLeftPosX = -2.355f, maxRightPosX = 2.355f, middlePosX = 0f;
     public float speed = 0.5f;
     public bool isCradleInMaxRight { get { return (transform.localPosition.x >= maxRightPosX) ? true : false; } }
+    [Tooltip("An object with name `PinsherRotator` will be searched and assigned by default, if it doesn't exist you need to assign it manually.")]
     public Transform pinsherRotator;
+
     [HideInInspector]
     public bool isCradleMoving = false;
     [HideInInspector]
@@ -41,24 +43,35 @@ public class Cradle : MonoBehaviour
             pinsherRotator = transform.Find("PinsherRotator");
         if (!pinsherRotator)
             Debug.LogError("Cradle.cs: Object PinsherRotator is missing!");
+
         pinsherAnimator = pinsherRotator.GetComponent<Animator>();
         if (!pinsherAnimator)
             Debug.LogError("Crale.cs: Animator Component is missing on object PinsherRotator!");
+
+        machine = transform.GetComponentInParent<Machine>();
+        if (!machine)
+            Debug.LogError("Cradle.cs: Machine script is not fount in the parent object!");
+
+        audioSource = GetComponentInChildren<AudioSource>();
+        if (!audioSource)
+            Debug.LogError("Cradle.cs: AudioSource component is missing!");
+
     }
 
     private IEnumerator MoveToRightRoutine()
     {
-        // sound processing
-        //audioSource.clip = machine.sounds.Cradle_Moving;
-        //audioSource.Play();
-        //
-        destination = (transform.localPosition.x < middlePosX) ? 
+        PlaySound(machine.sounds.Cradle_Moving);
+        isCradleMoving = true;
+        destination = (transform.localPosition.x < middlePosX) ?
             new Vector3(middlePosX, 0f, 0f) : new Vector3(maxRightPosX, 0f, 0f);
-        while(Vector3.Distance(transform.position, destination) > Vector3.kEpsilon)
+        while(Vector3.Distance(transform.localPosition, destination) > Vector3.kEpsilon)
         {
-            transform.position = Vector3.MoveTowards(transform.localPosition, destination, speed * Time.deltaTime);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, destination, speed * Time.deltaTime);
             yield return null;
         }
+        audioSource.clip = machine.sounds.Cradle_Stopping;
+        audioSource.Play();
+        isCradleMoving = false;
     }
 
     public void MoveToRight()
@@ -70,17 +83,18 @@ public class Cradle : MonoBehaviour
 
     private IEnumerator MoveToLeftRoutine()
     {
-        // sound processing
-        //audioSource.clip = machine.sounds.Cradle_Moving;
-        //audioSource.Play();
-        //
+        PlaySound(machine.sounds.Cradle_Moving);
+        isCradleMoving = true;
         destination = (transform.localPosition.x > middlePosX) ? 
             new Vector3(middlePosX, 0f, 0f) : new Vector3(maxLeftPosX, 0f, 0f);
-        while (Vector3.Distance(transform.position, destination) > Vector3.kEpsilon)
+        while (Vector3.Distance(transform.localPosition, destination) > Vector3.kEpsilon)
         {
-            transform.position = Vector3.MoveTowards(transform.localPosition, destination, speed * Time.deltaTime);
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, destination, speed * Time.deltaTime);
             yield return null;
         }
+        audioSource.clip = machine.sounds.Cradle_Stopping;
+        audioSource.Play();
+        isCradleMoving = false;
     }
 
     public void MoveToLeft()
@@ -92,35 +106,35 @@ public class Cradle : MonoBehaviour
 
     public void Stop()
     {
-        // sound processing
-        //audioSource.clip = machine.sounds.Cradle_Stopping;
-        //audioSource.Play();
-        //
+        PlaySound(machine.sounds.Cradle_Stopping);
+        isCradleMoving = false;
         StopAllCoroutines();
     }
 
     public void LowerPinsher()
     {
         isPinsherLow = true;
-        pinsherAnimator.SetBool("LowerPincher", true);
+        pinsherAnimator.SetBool("LowerPinsher", isPinsherLow);
     }
 
     public void RaisePinsher()
     {
         isPinsherLow = false;
-        pinsherAnimator.SetBool("LowerPincher", false);
+        pinsherAnimator.SetBool("LowerPinsher", isPinsherLow);
     }
 
     public void ToggleBreak()
     {
-        // sound processing
-        //audioSource.clip = machine.sounds.Cradle_BreakToggle;
-        //audioSource.Play();
-        //
+        PlaySound(machine.sounds.Cradle_Stopping);
         isBreakApplied = !isBreakApplied;
 
         /******* depended on script PaperConsole.cs *****/
         //machine.paperConsole.breakButton.GetComponent<Animator>().SetBool("isBreakApplied", isBreakApplied);
     }
 
+    public void PlaySound(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
 }
