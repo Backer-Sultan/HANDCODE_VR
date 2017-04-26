@@ -15,6 +15,7 @@ public class ArmRigTest : MonoBehaviour {
 	void Update () {
 		if(Input.GetKey(KeyCode.Alpha1))
         {
+            print("armRig.RotateRigUp()");
             armRig.RotateRigUp();
         }
 	}

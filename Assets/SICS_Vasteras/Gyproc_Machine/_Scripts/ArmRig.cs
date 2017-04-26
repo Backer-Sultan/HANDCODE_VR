@@ -53,6 +53,12 @@ public class ArmRig : MonoBehaviour
             if (ID != "left" && ID != "right")
                 Debug.LogError("ArmRig.cs: Invalid ID! ID should be `left` or `right`!");
         }
+
+        if (!mainHandle)
+            mainHandle = transform.Find("MainHandle");
+        if (!mainHandle)
+            Debug.LogError(string.Format("ArmRig.cs ({0}): object MainHandle is missing!", ID));
+
         if (!arm_Left)
             arm_Left = transform.Find("MainHandle/Arm_Left");
         if (!arm_Left)
@@ -62,6 +68,9 @@ public class ArmRig : MonoBehaviour
             arm_Right = transform.Find("MainHandle/Arm_Right");
         if(!arm_Right)
             Debug.LogError(string.Format("ArmRig.cs ({0}): Object MainHandle/Arm_Right is missing!", ID));
+
+       
+
 
         /* initialization for hologram objects goes here:
          * ...

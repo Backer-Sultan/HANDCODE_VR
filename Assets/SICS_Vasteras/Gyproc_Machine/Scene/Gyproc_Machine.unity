@@ -169,6 +169,10 @@ Prefab:
       propertyPath: m_Name
       value: Arm_Left
       objectReference: {fileID: 0}
+    - target: {fileID: 4184046115823594, guid: 5c9f6be291f629c4da145e338decafe1, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 2.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c9f6be291f629c4da145e338decafe1, type: 2}
   m_IsPrefabParent: 0
@@ -265,6 +269,10 @@ Prefab:
     - target: {fileID: 4170783175694640, guid: 5c9f6be291f629c4da145e338decafe1, type: 2}
       propertyPath: m_LocalScale.x
       value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4184046115823594, guid: 5c9f6be291f629c4da145e338decafe1, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 2.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c9f6be291f629c4da145e338decafe1, type: 2}
@@ -511,6 +519,7 @@ GameObject:
   m_Component:
   - component: {fileID: 912304316}
   - component: {fileID: 912304315}
+  - component: {fileID: 912304317}
   m_Layer: 0
   m_Name: Test
   m_TagString: Untagged
@@ -542,6 +551,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &912304317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 912304314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1037041b05d374e4094fe23e7531e4d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1305467159
 Prefab:
   m_ObjectHideFlags: 0
