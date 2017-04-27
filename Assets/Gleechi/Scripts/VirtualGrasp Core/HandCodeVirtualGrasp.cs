@@ -11,7 +11,7 @@ using UnityEngine.VR; // for VR Settings
 using VirtualGrasp;
 
 [RequireComponent (typeof (VG_SensorConfiguration))]
-public class HandCodeVirtualGrasp : VG_Controller
+public class HandCodeVirtualGrasp : MonoBehaviour
 {
 	// Check this if we want to use VR mode
 	public bool useVR = true;
@@ -31,7 +31,7 @@ public class HandCodeVirtualGrasp : VG_Controller
 
 	void OnApplicationQuit()
 	{
-		Release ();
+		VG_Controller.Release ();
 	}
 
 	void Awake()
@@ -86,10 +86,10 @@ public class HandCodeVirtualGrasp : VG_Controller
 #endif
 #endif
 		if (libraryDirectory.Length == 0) return;
-		Initialize (libraryDirectory);
+		VG_Controller.Initialize (libraryDirectory);
 
 		// Check if we can access the VirtualGrasp interface
-		if (!IsEnabled())
+		if (!VG_Controller.IsEnabled())
 		{
 			Debug.LogError ("Failed to initialize VirtualGrasp plugin.");
 			enabled = false;
@@ -128,16 +128,6 @@ public class HandCodeVirtualGrasp : VG_Controller
 				former  [1] = new VG_HandStatus (t, VG_HandSide.RIGHT);
 			}
 		}
-
-		// Register articulated objects to the VirtualGrasp library
-		List<Transform> artObjects = new List<Transform> ();
-		VG_Articulation[] articulations = UnityEngine.Object.FindObjectsOfType<VG_Articulation> ();
-		foreach (VG_Articulation a in articulations)
-			artObjects.Add (a.transform);
-		VG_ArticulationT[] articulationsT = UnityEngine.Object.FindObjectsOfType<VG_ArticulationT> ();
-		foreach (VG_ArticulationT a in articulationsT)
-			artObjects.Add (a.transform);
-		RegisterObjects (artObjects);
     }
 
 	// The regular update loop is only doing object selection and highlighting
@@ -157,33 +147,32 @@ public class HandCodeVirtualGrasp : VG_Controller
 
 	void FixedUpdate()
 	{
-		
-		if (!IsEnabled()) return;
+		if (!VG_Controller.IsEnabled()) return;
 
-		// Pulse updates the VG library, including controllers, avatars, etc.
-	 	Pulse();
+		// Update the VG library, including controllers, avatars, etc.
+		VG_Controller.Update();
 
 		for (uint handID = 0; handID < 2; handID++)	
 		{
 			// Check if hand is valid
 			if (current [handID] == null) continue;
-			current[handID].valid = !MissingSensorData(current[handID].side);
+			current[handID].valid = !VG_Controller.IsMissingSensorData(current[handID].side);
 			if (!current [handID].valid)
 				current [handID].hand.position = Vector3.zero;
 
 			// Check if we have no object selected and inform the library if this is the case.
 			if (current [handID].selectedObject == null) 
 			{
-				NoObjectSelected (current[handID].side);
+				VG_Controller.SetNoObjectSelected (current[handID].side);
 				continue;
 			}
 
 			// Cache old and get new status of the hands (interaction mode, pose, etc)
 			former[handID].grasp = current[handID].grasp;
 			former[handID].mode = current[handID].mode;
-			current[handID].mode = GetInteractionMode(avatarID, current[handID].side);
+			current[handID].mode = VG_Controller.GetInteractionMode(avatarID, current[handID].side);
 			if (current[handID].mode == VG_InteractionMode.EMPTY)
-				current[handID].grasp = GetGraspByPose(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
+				current[handID].grasp = VG_Controller.GraspByPose(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
 			
 			// Do things based on interaction mode
 			switch (current[handID].mode)
@@ -208,14 +197,14 @@ public class HandCodeVirtualGrasp : VG_Controller
 					if (obj_rb != null && current[handID].selectedObject.GetComponent<VG_Articulation>() == null)
 						obj_rb.useGravity = false;
 
-					GetObjectTransform(avatarID, current[handID].side, current[handID].selectedObject.gameObject);
+					VG_Controller.GetObjectTransform(avatarID, current[handID].side, current[handID].selectedObject.gameObject);
 					break;
 				}
 			}
 
 			// Finally, just fill in some status data for visualization
-			current[handID].grab = GetGrabStrength(current[handID].side);
-			current[handID].grabVel = GetGrabVelocity(current[handID].side);
+			current[handID].grab = VG_Controller.GetGrabStrength(current[handID].side);
+			current[handID].grabVel = VG_Controller.GetGrabVelocity(current[handID].side);
         }
     }
 
@@ -252,7 +241,7 @@ public class HandCodeVirtualGrasp : VG_Controller
 						SteamVR_Controller.Input ((int)handID + 3).TriggerHapticPulse (500);
 #endif
 						obj_rb.isKinematic = true;
-						GetObjectTransform (avatarID, current [handID].side, current [handID].selectedObject.gameObject);
+						VG_Controller.GetObjectTransform (avatarID, current [handID].side, current [handID].selectedObject.gameObject);
 						obj_rb.isKinematic = false;
 					}
 				}
