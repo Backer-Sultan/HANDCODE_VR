@@ -442,9 +442,9 @@ public static class OVRInput
         switch (controllerType)
         {
             case Controller.LTouch:
-				return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandLeft, useFixedPoses).ToOVRPose().orientation;
+                return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandLeft, useFixedPoses).ToOVRPose().orientation;
             case Controller.RTouch:
-				return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandRight, useFixedPoses).ToOVRPose().orientation;
+                return OVRPlugin.GetNodeVelocity(OVRPlugin.Node.HandRight, useFixedPoses).ToOVRPose().orientation;
             default:
                 return Quaternion.identity;
         }
@@ -459,9 +459,9 @@ public static class OVRInput
         switch (controllerType)
         {
             case Controller.LTouch:
-				return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandLeft, useFixedPoses).ToOVRPose().orientation;
+                return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandLeft, useFixedPoses).ToOVRPose().orientation;
             case Controller.RTouch:
-				return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandRight, useFixedPoses).ToOVRPose().orientation;
+                return OVRPlugin.GetNodeAcceleration(OVRPlugin.Node.HandRight, useFixedPoses).ToOVRPose().orientation;
             default:
                 return Quaternion.identity;
         }
@@ -2328,7 +2328,7 @@ public static class OVRInput
 
 				if (move.magnitude < minMovMagnitudeMouse)
 				{
-					state.Buttons |= (uint)RawButton.Start;
+					state.Buttons |= (uint)RawButton.A;
 				}
 				else
 				{
@@ -2362,7 +2362,7 @@ public static class OVRInput
 			}
 
 			if (Input.GetKey(KeyCode.Escape))
-				state.Buttons |= (uint)RawButton.Back;
+				state.Buttons |= (uint)RawButton.B;
 
 			previousState = currentState;
 			currentState = state;
@@ -2373,12 +2373,12 @@ public static class OVRInput
 		public override void ConfigureButtonMap()
 		{
 			buttonMap.None                     = RawButton.None;
-			buttonMap.One                      = RawButton.Start;
-			buttonMap.Two                      = RawButton.Back;
+			buttonMap.One                      = RawButton.A;
+			buttonMap.Two                      = RawButton.B;
 			buttonMap.Three                    = RawButton.None;
 			buttonMap.Four                     = RawButton.None;
-			buttonMap.Start                    = RawButton.Start;
-			buttonMap.Back                     = RawButton.Back;
+			buttonMap.Start                    = RawButton.None;
+			buttonMap.Back                     = RawButton.None;
 			buttonMap.PrimaryShoulder          = RawButton.None;
 			buttonMap.PrimaryIndexTrigger      = RawButton.None;
 			buttonMap.PrimaryHandTrigger       = RawButton.None;
