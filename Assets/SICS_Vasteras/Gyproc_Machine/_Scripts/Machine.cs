@@ -1,10 +1,11 @@
 ﻿/*********************************************
- * Author: Backer Sultan                     *
- * Email:  backer.sultan@ri.se               *
- * Created: 25-04-2017                       *
+ * Project: HANDCODE                         *
+ * Author:  Backer Sultan                    *
+ * Email:   backer.sultan@ri.se              *
  * *******************************************/
 
- using System.Collections;
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -25,8 +26,6 @@ public class Machine : MonoBehaviour
     public CradleConsole cradleConsole;
     [HideInInspector]
     public PaperConsole paperConsole;
-    [HideInInspector]
-    public Sounds_Machine sounds;
 
 
 
@@ -52,8 +51,7 @@ public class Machine : MonoBehaviour
                 continue;
             }
         }
-        if (!armRig_Left || !armRig_Right)
-            Debug.LogError("Machine.cs: ArmRig script is missing");
+        //    Debug.LogError("Machine.cs: ArmRig script is missing");
 
         Spool[] spools = GetComponentsInChildren<Spool>();
         foreach (Spool spl in spools)
@@ -83,9 +81,5 @@ public class Machine : MonoBehaviour
         paperConsole = GetComponentInChildren<PaperConsole>();
         if (!paperConsole)
             Debug.LogError("Machine.cs: PaperConsole script is missing!");
-
-        sounds = GetComponent<Sounds_Machine>();
-        if (!sounds)
-            Debug.LogError("Machine.cs: Sounds_Machine script is missing!");
     }
 }

@@ -1,7 +1,7 @@
-﻿/*********************************************
+﻿/*********************************************                                 *
+ * Project: HANDCODE                         *
  * Author: Backer Sultan                     *
  * Email:  backer.sultan@ri.se               *
- * Created: 25-04-2017                       *
  * *******************************************/
 
 using System.Collections;
@@ -12,33 +12,13 @@ public class ArmRig : MonoBehaviour
 {
     /* fields & properties */
 
-    public string ID; // use 'left' for the left ArmRig and 'right' for the right one.
-    public float rotationSpeed = 1f;
-    public float armsSpeed = 0.3f;
-    public float rotationMaxUp = 0.2f;
-    public float rotationMaxDown = 0.1f;
-    public float rotationAcceptedUp = 0.5f;
-    //[HideInInspector]
-    public float rotation = 0f;
-    public float armsDistance = 0f;
-    public float warningDistance = 0.18f;
-    public float damageDistance = 0.078f;
-    public float armsOffsetRange = 0.01f;
-    public float armsOffset = 0f;
-    public bool isArmsMid = true; // old name: armsOffsetInAcceptedRange
-    //[HideInInspector]
-    public Transform arm_Left, arm_Right, mainHandle;
-    //[HideInInspector]
-    public Hologram hologram_Arm_Left, hologram_Arm_Left_Closed, hologram_Arm_Left_Up, hologram_Arm_Right, hologram_Arm_Right_Closed,   hologram_Arm_Right_Up, hologram_Arms_Spool_Up;
+    public string ID; // use 'left' for the left ArmRig and 'right' for the right one. 
+    public Transform mainHandle;
+    public Arm arm_Left, arm_Right;
     public ArmConsole armConsole;
-    //[HideInInspector]
-    public AudioSource audioSource;
-
-    private float leftLimit_Arm_Left = -0.43f; // is the left range limit for the left arm
-    private float rightLimit_Arm_Left = 0.40f; // is the right range limit for the left arm
-    private float leftLimit_Arm_Right = -0.43f; // is the left range limit for the right arm
-    private float rightLimit_Arm_Right = 0.40f; // is the right range limit for the right arm
-
+    
+    private AudioSource audioSource;
+    private HingeJoint joint;
 
     /* methods & coroutines */
 
@@ -60,35 +40,89 @@ public class ArmRig : MonoBehaviour
             Debug.LogError(string.Format("ArmRig.cs ({0}): object MainHandle is missing!", ID));
 
         if (!arm_Left)
-            arm_Left = transform.Find("MainHandle/Arm_Left");
+            arm_Left = transform.Find("MainHandle/Arm_Left").GetComponent<Arm>();
         if (!arm_Left)
             Debug.LogError(string.Format("ArmRig.cs ({0}): Object MainHandle/Arm_Left is missing!", ID));
 
         if (!arm_Right)
-            arm_Right = transform.Find("MainHandle/Arm_Right");
-        if(!arm_Right)
+            arm_Right = transform.Find("MainHandle/Arm_Right").GetComponent<Arm>();
+        if (!arm_Right)
             Debug.LogError(string.Format("ArmRig.cs ({0}): Object MainHandle/Arm_Right is missing!", ID));
 
-       
+        //if (!armConsole)
+        //    armConsole = transform.Find("MainHandle/Arm_Left/ArmConsole").GetComponent<ArmConsole>();
+        //if (!armConsole)
+        //    Debug.LogError(string.Format("ArmRig.cs ({0}): Object MainHandle/Arm_Left/ArmConsole is missing!", ID));
 
+        audioSource = GetComponentInChildren<AudioSource>();
+        if(!audioSource)
+            Debug.LogError(string.Format("ArmRig.cs ({0}): AudioSource component is missing!", ID));
 
-        /* initialization for hologram objects goes here:
-         * ...
-         */
-
-        // setting arms offset (basically for ArmRig_Left in position 4 processing)
-        armsOffset = arm_Left.localPosition.z;
+        joint = mainHandle.GetComponent<HingeJoint>();
+        if (!joint)
+            Debug.LogError(string.Format("ArmRig.cs({0}): Component HingeJoint is missing on Object `ArmRig/MainHandle`!", ID));
     }
 
-    public void RotateRigUp()
+    public void RotateUp()
     {
-        if (mainHandle.localRotation.z < rotationMaxUp)
-            mainHandle.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
-        else
-        rotation = mainHandle.localRotation.z;
+        JointMotor motor = joint.motor;
+        motor.targetVelocity = 10f;
+        joint.motor = motor;
+        PlaySound(MachineSounds.Instance.ArmRig_Rotating);
     }
 
+    public void RotateDown()
+    {
+        JointMotor motor = joint.motor;
+        motor.targetVelocity = -10f;
+        joint.motor = motor;
+        PlaySound(MachineSounds.Instance.ArmRig_Rotating);
+    }
 
+    public void StopRotating()
+    {
+        JointMotor motor = joint.motor;
+        motor.targetVelocity = 0f;
+        joint.motor = motor;
+        PlaySound(MachineSounds.Instance.ArmRig_StopRotating);
+    }
+
+    public void OpenArms()
+    {
+        arm_Left.MoveLeft();
+        arm_Right.MoveRight();
+    }
+
+    public void CloseArms()
+    {
+        arm_Left.MoveRight();
+        arm_Right.MoveLeft();
+    }
+
+    public void MoveArmsLeft()
+    {
+        arm_Left.MoveLeft();
+        arm_Right.MoveLeft();
+    }
+
+    public void MoveArmsRight()
+    {
+        arm_Left.MoveRight();
+        arm_Right.MoveRight();
+    }
+ 
+    public void StopArms()
+    {
+        arm_Left.Stop();
+        arm_Right.Stop();
+    }
+
+    public void PlaySound(AudioClip clip)
+    {
+        audioSource.Stop();
+        audioSource.clip = clip;
+        audioSource.Play();
+    }
 }
 
 

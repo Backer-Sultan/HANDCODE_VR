@@ -1,7 +1,7 @@
 ﻿/*********************************************
- * Author: Backer Sultan                     *
- * Email:  backer.sultan@ri.se               *
- * Created: 25-04-2017                       *
+ * Project: HANDCODE                         *
+ * Author:  Backer Sultan                    *
+ * Email:   backer.sultan@ri.se              *
  * *******************************************/
 
 using System.Collections;
@@ -28,5 +28,10 @@ public class Spool : MonoBehaviour
             if (ID != "left" && ID != "right")
                 Debug.LogError("Spool.cs: Invalid ID! ID should be `left` or `right`!");
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        print(other.name);
     }
 }

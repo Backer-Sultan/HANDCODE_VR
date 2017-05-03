@@ -1,36 +1,41 @@
 ﻿/*********************************************
- * Author: Backer Sultan                     *
- * Email:  backer.sultan@ri.se               *
+ * Project: HANDCODE                         *
+ * Author:  Backer Sultan                    *
+ * Email:   backer.sultan@ri.se              *
  * Created: 25-04-2017                       *
  * *******************************************/
 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Cradle : MonoBehaviour
 {
     /* fields & properties */
 
-    public float maxLeftPosX = -2.355f, maxRightPosX = 2.355f, middlePosX = 0f;
+    [Range(0f, 1f)]
     public float speed = 0.5f;
-    public bool isCradleInMaxRight { get { return (transform.localPosition.x >= maxRightPosX) ? true : false; } }
     [Tooltip("An object with name `PinsherRotator` will be searched and assigned by default, if it doesn't exist you need to assign it manually.")]
     public Transform pinsherRotator;
-
-    [HideInInspector]
-    public bool isCradleMoving = false;
     [HideInInspector]
     public bool isBreakApplied = true;
     [HideInInspector]
     public bool isPinsherLow = false;
     [HideInInspector]
-    public AudioSource audioSource;
-    [HideInInspector]
-    public Machine machine;
+    public enum CradlePosition { MIDDLE, LEFT, RIGHT };
+    public CradlePosition cradlePos = CradlePosition.MIDDLE;
+    [Header("Events")]
+    public UnityEvent onTargetReached;
+    public UnityEvent onTargetLeft;
+    public UnityEvent onPinsherLowered;
+    public UnityEvent onPinsherRaised;
+    public UnityEvent onBreakToggled;
 
-    private Vector3 destination;
+    private AudioSource audioSource;
     private Animator pinsherAnimator;
+    private bool isMoving = false;
+    private Vector3 direction = Vector3.zero;
 
 
 
@@ -48,85 +53,57 @@ public class Cradle : MonoBehaviour
         if (!pinsherAnimator)
             Debug.LogError("Crale.cs: Animator Component is missing on object PinsherRotator!");
 
-        machine = transform.GetComponentInParent<Machine>();
-        if (!machine)
-            Debug.LogError("Cradle.cs: Machine script is not fount in the parent object!");
-
         audioSource = GetComponentInChildren<AudioSource>();
         if (!audioSource)
             Debug.LogError("Cradle.cs: AudioSource component is missing!");
 
     }
 
-    private IEnumerator MoveToRightRoutine()
+    public void MoveToLeft()
     {
-        PlaySound(machine.sounds.Cradle_Moving);
-        isCradleMoving = true;
-        destination = (transform.localPosition.x < middlePosX) ?
-            new Vector3(middlePosX, 0f, 0f) : new Vector3(maxRightPosX, 0f, 0f);
-        while(Vector3.Distance(transform.localPosition, destination) > Vector3.kEpsilon)
+        if(cradlePos != CradlePosition.LEFT)
         {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, destination, speed * Time.deltaTime);
-            yield return null;
+            PlaySound(MachineSounds.Instance.Cradle_Moving);
+            direction = Vector3.left;
+            isMoving = true;
         }
-        audioSource.clip = machine.sounds.Cradle_Stopping;
-        audioSource.Play();
-        isCradleMoving = false;
     }
 
     public void MoveToRight()
     {
-        IEnumerator routine = MoveToRightRoutine();
-        StopAllCoroutines();
-        StartCoroutine(routine);
-    }
-
-    private IEnumerator MoveToLeftRoutine()
-    {
-        PlaySound(machine.sounds.Cradle_Moving);
-        isCradleMoving = true;
-        destination = (transform.localPosition.x > middlePosX) ? 
-            new Vector3(middlePosX, 0f, 0f) : new Vector3(maxLeftPosX, 0f, 0f);
-        while (Vector3.Distance(transform.localPosition, destination) > Vector3.kEpsilon)
+       if(cradlePos!= CradlePosition.RIGHT)
         {
-            transform.localPosition = Vector3.MoveTowards(transform.localPosition, destination, speed * Time.deltaTime);
-            yield return null;
+            PlaySound(MachineSounds.Instance.Cradle_Moving);
+            direction = Vector3.right;
+            isMoving = true;
         }
-        audioSource.clip = machine.sounds.Cradle_Stopping;
-        audioSource.Play();
-        isCradleMoving = false;
-    }
-
-    public void MoveToLeft()
-    {
-        IEnumerator routine = MoveToLeftRoutine();
-        StopAllCoroutines();
-        StartCoroutine(routine);
     }
 
     public void Stop()
     {
-        PlaySound(machine.sounds.Cradle_Stopping);
-        isCradleMoving = false;
-        StopAllCoroutines();
+        PlaySound(MachineSounds.Instance.Cradle_Stopping);
+        isMoving = false;
     }
 
     public void LowerPinsher()
     {
         isPinsherLow = true;
         pinsherAnimator.SetBool("LowerPinsher", isPinsherLow);
+        onPinsherLowered.Invoke();
     }
 
     public void RaisePinsher()
     {
         isPinsherLow = false;
         pinsherAnimator.SetBool("LowerPinsher", isPinsherLow);
+        onPinsherRaised.Invoke();
     }
 
     public void ToggleBreak()
     {
-        PlaySound(machine.sounds.Cradle_Stopping);
+        PlaySound(MachineSounds.Instance.Cradle_Stopping);
         isBreakApplied = !isBreakApplied;
+        onBreakToggled.Invoke();
 
         /******* depended on script PaperConsole.cs *****/
         //machine.paperConsole.breakButton.GetComponent<Animator>().SetBool("isBreakApplied", isBreakApplied);
@@ -134,7 +111,42 @@ public class Cradle : MonoBehaviour
 
     public void PlaySound(AudioClip clip)
     {
+        audioSource.Stop();
         audioSource.clip = clip;
         audioSource.Play();
+    }
+
+    private void FixedUpdate()
+    {
+        if (isMoving)
+        {
+            transform.Translate(direction * speed * Time.deltaTime, Space.Self);
+            // stoping when reaching the middle position (aproximately (0,0,0)).
+            if (Vector3.Distance(transform.localPosition, Vector3.zero) <= Vector3.kEpsilon)
+                Stop();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "CradleLimitRight")
+        {
+            Stop();
+            cradlePos = CradlePosition.RIGHT;
+            onTargetReached.Invoke();
+            return;
+        }
+        if (other.tag == "CradleLimitLeft")
+        {
+            Stop();
+            cradlePos = CradlePosition.LEFT;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (cradlePos == CradlePosition.RIGHT)
+            onTargetLeft.Invoke();
+        cradlePos = CradlePosition.MIDDLE;
     }
 }
