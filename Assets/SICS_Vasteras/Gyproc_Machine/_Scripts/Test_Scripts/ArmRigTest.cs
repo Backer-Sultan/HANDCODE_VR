@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ArmRigTest : MonoBehaviour {
+public class ArmRigTest : MonoBehaviour
+{
     ArmRig armRig;
 
     void Start ()

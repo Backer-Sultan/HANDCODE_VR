@@ -76,7 +76,6 @@ public class Arm : MonoBehaviour
         {
             Stop();
             armPos = ArmPosition.LEFT;
-            return;
         }
         if (other.tag == "ArmLimitRight")
         {
