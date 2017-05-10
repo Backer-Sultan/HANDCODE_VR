@@ -38,7 +38,6 @@ public class PhysxRotaryButton : MonoBehaviour {
 			spring.targetPosition = -rotationAmplitude / 2.0f;
 			joint.spring = spring;
 
-			transform.localRotation = Quaternion.AngleAxis(spring.targetPosition, Vector3.up);
 		}
 	}
 	
