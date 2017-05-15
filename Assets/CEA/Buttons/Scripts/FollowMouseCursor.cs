@@ -31,7 +31,7 @@ public class FollowMouseCursor : MonoBehaviour {
 
 		}
 
-    pos.z = distanceFromCamera+ pressure;
+    pos.z = distanceFromCamera + pressure;
     pos = Camera.main.ScreenToWorldPoint(pos);
     transform.position = pos;
   }
