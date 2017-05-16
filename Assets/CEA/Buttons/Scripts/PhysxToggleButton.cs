@@ -8,52 +8,49 @@ public class PhysxToggleButton : PhysxSimpleButton
 
 	public enum PhysxToggleButtonState { Released,PressedToEnable, Pressed, PressedToDisable }
 	private PhysxToggleButtonState state;
+	private ConfigurableJoint joint;
+
+	[Range(0, 1f)]
+	public float lockPosition = 0.5f;
+	private float offsetTriggerButton;
 
 	// Use this for initialization
 	void Start () {
 		state = PhysxToggleButtonState.Released;
+		joint = GetComponent<ConfigurableJoint>();
+		offsetTriggerButton = transform.localPosition.y - trigger.localPosition.y;
+		Debug.Log(offsetTriggerButton);
 
-		if (joint != null)
-		{
-			SoftJointLimit limit = new SoftJointLimit();
-			limit.bounciness = 0;
-			limit.contactDistance = 0;
-			limit.limit = triggerThreshold + triggerTolerance * triggerThreshold;
-			joint.linearLimit = limit;
-
-			positionOffset = joint.connectedBody.transform.localPosition.y - transform.localPosition.y;
-		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if (joint != null)
+		if (trigger != null)
 		{
-			float pressure = Mathf.Abs(joint.connectedBody.transform.localPosition.y - transform.localPosition.y);
+			float pressure = transform.localPosition.y - trigger.localPosition.y;
 
 			if (state == PhysxToggleButtonState.Released)
 			{
-				if (pressure > triggerThreshold)
+				if (pressure <0)
 				{
 					BaseEventData eventData = new BaseEventData(EventSystem.current);
 					onPhysxButtonPressed.Invoke(eventData);
 					state = PhysxToggleButtonState.PressedToEnable;
+					joint.connectedAnchor = new Vector3(0,0, lockPosition * offsetTriggerButton);
 				}
 			}
 			else if (state == PhysxToggleButtonState.PressedToEnable)
 			{
-				if (pressure < triggerThreshold)
+				if (pressure > 0)
 				{
-					joint.connectedBody.transform.position -= new Vector3(0, triggerThreshold / 2, 0);
 					state = PhysxToggleButtonState.Pressed;
 				}
 			}
 			else if (state == PhysxToggleButtonState.Pressed)
 			{
-				if (pressure > triggerThreshold / 2)
+				if (pressure < 0)
 				{
-					joint.connectedBody.transform.position += new Vector3(0, triggerThreshold / 2, 0);
 					BaseEventData eventData = new BaseEventData(EventSystem.current);
 					onPhysxButtonReleased.Invoke(eventData);
 					state = PhysxToggleButtonState.PressedToDisable;
@@ -61,8 +58,11 @@ public class PhysxToggleButton : PhysxSimpleButton
 			}
 			else
 			{
-				if (pressure < triggerTolerance * joint.linearLimit.limit)
+				if (pressure > 0)
+				{
 					state = PhysxToggleButtonState.Released;
+					joint.connectedAnchor = new Vector3(0, 0, offsetTriggerButton);
+				}
 			}
 		}
 	}
