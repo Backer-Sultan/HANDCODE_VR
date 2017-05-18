@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using VRTK.UnityEventHelper;
 
 public class MachineButton : MonoBehaviour
 {
@@ -34,6 +35,7 @@ public class MachineButton : MonoBehaviour
 
     private void Start()
     {
+        buttonEvents = GetComponentInChildren<VRTK_Button_UnityEvents>();
         if (ID == ButtonID.NONE)
             Debug.LogError("MachineButton.cs: ID can't be NONE! please set the button ID!");
     }
@@ -59,6 +61,8 @@ public class MachineButton : MonoBehaviour
     }
 
     /* methods & coroutines */
+
+    public VRTK_Button_UnityEvents buttonEvents;
 
 
 }
