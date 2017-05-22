@@ -33,11 +33,12 @@ public class PhysxRotaryButton : MonoBehaviour {
 			joint.limits = limits;
 
 			spring = new JointSpring();
-			spring.damper = 10;
-			spring.spring = 100;
+			spring.damper = 0.002f;
+			spring.spring = 0.02f;
 			spring.targetPosition = -rotationAmplitude / 2.0f;
 			joint.spring = spring;
 
+			//transform.localRotation = Quaternion.AngleAxis(spring.targetPosition, Vector3.up);
 		}
 	}
 	
