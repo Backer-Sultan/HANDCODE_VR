@@ -20,15 +20,10 @@ public class FollowMouseCursor : MonoBehaviour {
 		if(Input.GetMouseButton(0))
 		{
 			pressure += pressureSpeed;
-			if (pressure > 3)
-				pressure = 3;
 		}
-		else
+		else if (Input.GetMouseButton(1))
 		{
-			pressure -= 2*pressureSpeed;
-			if (pressure < 0)
-				pressure = 0;
-
+			pressure -= pressureSpeed;
 		}
 
     pos.z = distanceFromCamera + pressure;
