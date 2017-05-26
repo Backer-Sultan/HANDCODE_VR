@@ -399,6 +399,7 @@ Transform:
   - {fileID: 1733418550}
   - {fileID: 1760693302}
   - {fileID: 116342821}
+  - {fileID: 1538142095}
   m_Father: {fileID: 464807903}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1459,7 +1460,7 @@ MonoBehaviour:
   - {fileID: 1314108238}
   m_settings:
     m_controlledHandsMode: 0
-    m_fingerControlBySensor: 0
+    m_fingerControlBySensor: 1
     m_transitionDuration: 10
     m_interactionType: 0
     m_useGraspSpeedThreshold: 0
@@ -1469,9 +1470,9 @@ MonoBehaviour:
   - m_sensor: 14
     m_usePosition: 1
     m_useRotation: 1
-    m_useFingers: 0
+    m_useFingers: 1
     m_useGrasp: 1
-    m_origin: {fileID: 0}
+    m_origin: {fileID: 1538142095}
     m_dynamicOrigin: 1
     m_offset: {x: 0, y: 0, z: 0}
     m_dynamicOffset: 0
@@ -1826,6 +1827,48 @@ Transform:
   m_Father: {fileID: 576605099}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1305232364
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1305232365}
+  - component: {fileID: 1305232367}
+  m_Layer: 8
+  m_Name: Colliders
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1305232365
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1305232364}
+  m_LocalRotation: {x: -0.00000011827795, y: 0.0000000023283062, z: -0.1816177, w: 0.98336923}
+  m_LocalPosition: {x: 0.017199859, y: -0.0039000264, z: 0}
+  m_LocalScale: {x: 0.6177044, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1764419454}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -20.928001}
+--- !u!136 &1305232367
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1305232364}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.0074366606
+  m_Height: 0.05791065
+  m_Direction: 0
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1307538611
 GameObject:
   m_ObjectHideFlags: 0
@@ -2113,6 +2156,34 @@ Transform:
   m_Father: {fileID: 1566498183}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1538142094
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1538142095}
+  m_Layer: 0
+  m_Name: SensorOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1538142095
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1538142094}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 100, y: 100, z: 100}
+  m_Children: []
+  m_Father: {fileID: 187738464}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1001 &1543223991
 Prefab:
   m_ObjectHideFlags: 0
@@ -2565,7 +2636,8 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.0336, y: 0.0051, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1305232365}
   m_Father: {fileID: 972681962}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
