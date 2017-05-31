@@ -22,7 +22,7 @@ public class BezierLaserBeam : MonoBehaviour {
   // Use this for initialization
   void Start () {
     curve = new CubicBezierCurve();
-    line.numPositions = lineResolution;
+    line.positionCount = lineResolution;
   }
 	
 	// Update is called once per frame
@@ -37,7 +37,7 @@ public class BezierLaserBeam : MonoBehaviour {
                         origin.position + (dist * origin.forward),
                         origin.position);
 
-      line.numPositions = lineResolution;
+      line.positionCount = lineResolution;
       line.SetPositions(curve.GetCurvePoints(lineResolution));
       if (line.material)
       {
