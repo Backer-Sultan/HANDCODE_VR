@@ -16,8 +16,8 @@ public class ProgressRadial : MonoBehaviour
 
     public Image bar;
     public Text percentage;
-    public Animator GreenExpaner;
-    public Animator CheckMark;  
+    public Animator greenExpander;
+    public Animator checkmark;  
     [Range(0.1f, 1f)]
     public float speed = 0.3f;
     public UnityEvent OnFilled;
@@ -27,21 +27,20 @@ public class ProgressRadial : MonoBehaviour
     
 
 
-
     /* methods & coroutines */
 
     private void Start()
     {
         // initialization
         if (!bar)
-            bar = transform.FindChild("ProgressRadial/Green").GetComponent<Image>();
+            bar = transform.Find("ProgressRadial/Green").GetComponent<Image>();
         if (!bar)
             Debug.LogError("ProgressRadial.cs: component Image on Object 'Green' is missing!");
         else
             bar.fillAmount = 0f;
 
         if (!percentage)
-            percentage = transform.FindChild("White_Solid/ProgressRadial/Text").GetComponent<Text>();
+            percentage = transform.Find("White_Solid/ProgressRadial/Text").GetComponent<Text>();
         if (!percentage)
             Debug.LogError("ProgressRadial.cs: component Text on Object 'Text' is missing!");
         else
@@ -59,11 +58,7 @@ public class ProgressRadial : MonoBehaviour
 
     public void Subtract(float num)
     {
-        if (activeRoutine != null)
-            StopCoroutine(activeRoutine);
-        stack -= num;
-        activeRoutine = AddOrSubtractRoutine(stack);
-        StartCoroutine(activeRoutine);
+        Add(-num);
     }
 
     private IEnumerator AddOrSubtractRoutine(float num)
@@ -90,14 +85,14 @@ public class ProgressRadial : MonoBehaviour
         stack = 0f;
         if (bar.fillAmount == 1f)
         {
-            GreenExpaner.gameObject.SetActive(true);
-            CheckMark.gameObject.SetActive(true);
+            greenExpander.gameObject.SetActive(true);
+            checkmark.gameObject.SetActive(true);
             OnFilled.Invoke();
         }
         else
         {
-            GreenExpaner.gameObject.SetActive(false);
-            CheckMark.gameObject.SetActive(false);
+            greenExpander.gameObject.SetActive(false);
+            checkmark.gameObject.SetActive(false);
         }
     }
 }
