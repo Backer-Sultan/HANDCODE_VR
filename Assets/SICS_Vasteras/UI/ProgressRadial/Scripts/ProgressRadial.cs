@@ -3,10 +3,9 @@
  * Author:  Backer Sultan                    *
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
- 
+
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;  
+using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 
@@ -17,14 +16,15 @@ public class ProgressRadial : MonoBehaviour
     public Image bar;
     public Text percentage;
     public Animator greenExpander;
-    public Animator checkmark;  
+    public Animator checkmark;
     [Range(0.1f, 1f)]
     public float speed = 0.3f;
     public UnityEvent OnFilled;
 
     private IEnumerator activeRoutine;
     private float stack = 0f;
-    
+    private AudioSource audioSource;
+
 
 
     /* methods & coroutines */
@@ -33,18 +33,31 @@ public class ProgressRadial : MonoBehaviour
     {
         // initialization
         if (!bar)
-            bar = transform.Find("ProgressRadial/Green").GetComponent<Image>();
+            bar = transform.Find("Green").GetComponent<Image>();
         if (!bar)
             Debug.LogError("ProgressRadial.cs: component Image on Object 'Green' is missing!");
         else
             bar.fillAmount = 0f;
 
         if (!percentage)
-            percentage = transform.Find("White_Solid/ProgressRadial/Text").GetComponent<Text>();
+            percentage = transform.Find("White_Solid/Text").GetComponent<Text>();
         if (!percentage)
             Debug.LogError("ProgressRadial.cs: component Text on Object 'Text' is missing!");
         else
             percentage.text = "0%";
+
+
+        // Inactive GameObject can't be found using transform.Find(). You have to assign it manually in inspetor.
+        if (!greenExpander)
+            Debug.LogError("ProgressRadial.cs: component Animator on Object 'GreenExpander' is missing!");
+
+        // Inactive GameObject can't be found using transform.Find(). You have to assign it manually in inspetor.
+        if (!checkmark)
+            Debug.LogError("ProgressRadial.cs: component Animator on Object 'CheckMark' is missing!");
+
+        audioSource = GetComponent<AudioSource>();
+        if (!audioSource)
+            Debug.LogError("ProgressRadial.cs: component AudioSource is missing!");
     }
 
     public void Add(float num)
@@ -94,5 +107,11 @@ public class ProgressRadial : MonoBehaviour
             greenExpander.gameObject.SetActive(false);
             checkmark.gameObject.SetActive(false);
         }
+    }
+
+    public void PlayAudio(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }
