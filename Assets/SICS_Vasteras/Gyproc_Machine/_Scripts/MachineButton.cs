@@ -33,6 +33,10 @@ public class MachineButton : MonoBehaviour
 
     private bool isPressed = false;
 
+
+
+    /* methods & coroutines */
+
     private void Start()
     {
         buttonEvents = GetComponentInChildren<VRTK_Button_UnityEvents>();
