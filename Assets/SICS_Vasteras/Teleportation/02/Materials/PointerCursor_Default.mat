@@ -8,8 +8,8 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: PointerCursor_Default
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _EMISSION _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
-  m_LightmapFlags: 1
+  m_ShaderKeywords: _ALPHAPREMULTIPLY_ON _GLOSSYREFLECTIONS_OFF _SPECULARHIGHLIGHTS_OFF
+  m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_CustomRenderQueue: 3000
   stringTagMap:
@@ -35,11 +35,11 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _EmissionMap:
-        m_Texture: {fileID: 2800000, guid: 729f1106c9d54f241ab0eaa0434579df, type: 3}
+        m_Texture: {fileID: 2800000, guid: f9b15fcdba0c6744c95f3d6445cec5ba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 729f1106c9d54f241ab0eaa0434579df, type: 3}
+        m_Texture: {fileID: 2800000, guid: f9b15fcdba0c6744c95f3d6445cec5ba, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -79,5 +79,5 @@ Material:
     - _UseUIAlphaClip: 0
     - _ZWrite: 0
     m_Colors:
-    - _Color: {r: 0.36764705, g: 0.9476673, b: 1, a: 0.734}
-    - _EmissionColor: {r: 0, g: 0.5081534, b: 0.6764706, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 0.734}
+    - _EmissionColor: {r: 0.031358108, g: 0.64851755, b: 0.85294116, a: 1}
