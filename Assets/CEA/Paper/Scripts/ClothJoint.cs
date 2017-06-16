@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClothJoint : MonoBehaviour {
+public class ClothJoint : MonoBehaviour
+{
 
 	public Cloth clothParent;
 	public Cloth clothChild;
@@ -14,149 +15,200 @@ public class ClothJoint : MonoBehaviour {
 
 	int[] jointCutId;
 	int[] jointCutPairId;
+	List<int>[] jointCutLinkId;
 
 	public Transform knife;
 	public float cuttingDistance = 0.02f;
 
 	// Use this for initialization
-	void Start () {
+	void Start()
+	{
 
-		ClothSkinningCoefficient[] coefficients;
-
-		//identification of the parent cloth vertex joint + set them free
-		coefficients = clothParent.coefficients;
-
-		int count = 0;
-		for (int i = 0; i < coefficients.Length; i++)
-			if (coefficients[i].maxDistance == 1)
-				count++;
-
-		int index = 0;
-		jointPointsIdParent = new int[count];
-		for (int i = 0; i < coefficients.Length; i++)
-			if (coefficients[i].maxDistance == 1)
-			{
-				coefficients[i].maxDistance = float.MaxValue;
-				jointPointsIdParent[index] = i;
-				index++;
-			}
-
-		clothParent.coefficients = coefficients;
-
-		//identification of the child cloth vertex joint
-		coefficients = clothChild.coefficients;
-
-		count = 0;
-		for (int i = 0; i < coefficients.Length; i++)
-			if (coefficients[i].maxDistance <= 2)
-				count++;
-
-		index = 0;
-		jointPointsIdChild = new int[count];
-		for (int i = 0; i < coefficients.Length; i++)
+		if (clothParent && clothChild)
 		{
-			if (coefficients[i].maxDistance <= 2)
-			{
-				jointPointsIdChild[index] = i;
-				index++;
-			}
-		}
+			ClothSkinningCoefficient[] coefficients;
 
-		//Reorganising the child vertices Ids to match with closest parent vertice Id
-		int[] adjustedIds = new int[jointPointsIdChild.Length];
-		for (int i = 0; i < jointPointsIdParent.Length; i++)
-		{
-			Vector3 v = clothParent.vertices[jointPointsIdParent[i]];
-			v = clothParent.transform.TransformPoint(v); //local parent to world
-			v = clothChild.transform.InverseTransformPoint(v); //world to local child
-			float min = float.MaxValue;
-			for (int j = 0; j < jointPointsIdChild.Length; j++)
-			{
-				float dist = Vector3.Distance(v, clothChild.vertices[jointPointsIdChild[j]]);
-				if (dist < min)
+			//identification of the parent cloth vertex joint + set them free
+			coefficients = clothParent.coefficients;
+
+			int count = 0;
+			for (int i = 0; i < coefficients.Length; i++)
+				if (coefficients[i].maxDistance == 1)
+					count++;
+
+			int index = 0;
+			jointPointsIdParent = new int[count];
+			for (int i = 0; i < coefficients.Length; i++)
+				if (coefficients[i].maxDistance == 1)
 				{
-					min = dist;
-					adjustedIds[i] = jointPointsIdChild[j];
+					//coefficients[i].maxDistance = float.MaxValue;
+					jointPointsIdParent[index] = i;
+					index++;
+				}
+
+			clothParent.coefficients = coefficients;
+
+			//identification of the child cloth vertex joint
+			coefficients = clothChild.coefficients;
+
+			count = 0;
+			for (int i = 0; i < coefficients.Length; i++)
+				if (coefficients[i].maxDistance <= 2)
+					count++;
+
+			index = 0;
+			jointPointsIdChild = new int[count];
+			for (int i = 0; i < coefficients.Length; i++)
+			{
+				if (coefficients[i].maxDistance <= 2)
+				{
+					jointPointsIdChild[index] = i;
+					index++;
 				}
 			}
-		}
 
-		jointPointsIdChild = adjustedIds;
-
-		//copying  mesh befor modifiying it
-		meshChild = (Mesh)Instantiate(clothChild.GetComponent<SkinnedMeshRenderer>().sharedMesh);
-		clothChild.GetComponent<SkinnedMeshRenderer>().sharedMesh = meshChild;
-
-		//identification of the vertex joints that can be cut and their pair vertex that will be remove with them
-		jointCutId = new int[jointPointsIdChild.Length / 2];
-		jointCutPairId = new int[jointPointsIdChild.Length / 2];
-		int indexCut = 0;
-		int indexCutPair = 0;
-		for (int i = 0; i < jointPointsIdChild.Length; i++)
-		{
-			if (coefficients[jointPointsIdChild[i]].maxDistance == 1)
+			//Reorganising the child vertices Ids to match with closest parent vertice Id
+			int[] adjustedIds = new int[jointPointsIdParent.Length];
+			for (int i = 0; i < jointPointsIdParent.Length; i++)
 			{
-				jointCutId[indexCut] = jointPointsIdChild[i];
-				indexCut++;
-
-				//shearching its vertex joint pair
-				float min = float.MaxValue;
-				for (int j = 0; j < jointPointsIdChild.Length; j++)
-				{
-					if (coefficients[jointPointsIdChild[j]].maxDistance == 2)
-					{
-						float dist = Vector3.Distance(meshChild.vertices[jointPointsIdChild[i]], meshChild.vertices[jointPointsIdChild[j]]);
-						if (dist < min)
-						{
-							min = dist;
-							jointCutPairId[indexCutPair] = jointPointsIdChild[j];
-							//coefficients[jointPointsIdChild[j]].maxDistance = 0;
-						}
-					}
-				}
-				indexCutPair++;
-			}
-		}
-
-
-		//setting free the child vertex joints
-		for (int i = 0; i < jointPointsIdChild.Length; i++)
-			coefficients[jointPointsIdChild[i]].maxDistance = 0;
-
-		clothChild.coefficients = coefficients;
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-
-		//Joint update
-		Vector3[] vertices = meshChild.vertices;
-		for (int i=0;i< jointPointsIdParent.Length;i++)
-		{
 				Vector3 v = clothParent.vertices[jointPointsIdParent[i]];
 				v = clothParent.transform.TransformPoint(v); //local parent to world
 				v = clothChild.transform.InverseTransformPoint(v); //world to local child
-				vertices[jointPointsIdChild[i]] = v;
-		}
-		meshChild.vertices = vertices;
-
-		//Knife Cut
-		Vector3 localKnife = clothChild.transform.InverseTransformPoint(knife.position);
-
-		ClothSkinningCoefficient[] coefficients = clothChild.coefficients;
-		for (int i = 0; i < jointCutId.Length; i++)
-		{
-			if (coefficients[jointCutId[i]].maxDistance == 0)
-			{
-				float dist = Vector3.Distance(clothChild.vertices[jointCutId[i]], localKnife);
-				if (dist < cuttingDistance)
+				float min = 0.01f;
+				adjustedIds[i] = -1;
+				for (int j = 0; j < jointPointsIdChild.Length; j++)
 				{
-					coefficients[jointCutId[i]].maxDistance = float.MaxValue;
-					coefficients[jointCutPairId[i]].maxDistance = float.MaxValue;
+					float dist = Vector3.Distance(v, clothChild.vertices[jointPointsIdChild[j]]);
+					if (dist <= min)
+					{
+						min = dist;
+						adjustedIds[i] = jointPointsIdChild[j];
+					}
 				}
 			}
+
+			jointPointsIdChild = adjustedIds;
+
+			//copying  mesh befor modifiying it
+			meshChild = (Mesh)Instantiate(clothChild.GetComponent<SkinnedMeshRenderer>().sharedMesh);
+			clothChild.GetComponent<SkinnedMeshRenderer>().sharedMesh = meshChild;
+
+			count = 0;
+			for (int i = 0; i < coefficients.Length; i++)
+				if (coefficients[i].maxDistance == 1)
+					count++;
+
+			//identification of the vertex joints that can be cut
+			jointCutId = new int[count];
+
+
+			int indexCut = 0;
+			int indexLink = 0;
+			for (int i = 0; i < jointPointsIdChild.Length; i++)
+			{
+				if (jointPointsIdChild[i] != -1)
+				{
+					if (coefficients[jointPointsIdChild[i]].maxDistance == 1)
+					{
+						jointCutId[indexCut] = jointPointsIdChild[i];
+						indexCut++;
+					}
+				}
+			}
+
+			jointCutLinkId = new List<int>[count];
+
+			//identification of the vertex joints that will be cut with their parent vertex
+			for (int i = 0; i < jointPointsIdChild.Length; i++)
+			{
+				if (jointPointsIdChild[i] != -1)
+				{
+					if (coefficients[jointPointsIdChild[i]].maxDistance == 2)
+					{
+						//shearching its vertex joint corresponding
+						float min = float.MaxValue;
+						int minId = -1;
+						for (int j = 0; j < jointCutId.Length; j++)
+						{
+							if (coefficients[jointCutId[j]].maxDistance == 1)
+							{
+								float dist = Vector3.Distance(meshChild.vertices[jointPointsIdChild[i]], meshChild.vertices[jointCutId[j]]);
+								if (dist < min)
+								{
+									min = dist;
+									minId = j;
+								}
+							}
+						}
+						if (minId != -1)
+						{
+							if (jointCutLinkId[minId] == null)
+								jointCutLinkId[minId] = new List<int>();
+							jointCutLinkId[minId].Add(jointPointsIdChild[i]);
+						}
+						indexLink++;
+					}
+				}
+			}
+
+			for (int i = indexCut; i < jointCutId.Length; i++)
+				jointCutId[i] = -1;
+
+			//setting free the child vertex joints
+			for (int i = 0; i < jointPointsIdChild.Length; i++)
+				if (jointPointsIdChild[i] != -1)
+					coefficients[jointPointsIdChild[i]].maxDistance = 0;
+
+			clothChild.coefficients = coefficients;
+
 		}
-		clothChild.coefficients = coefficients;
+	}
+
+	// Update is called once per frame
+	void Update()
+	{
+		if (clothParent && clothChild)
+		{
+			//Joint update
+			Vector3[] vertices = meshChild.vertices;
+			for (int i = 0; i < jointPointsIdParent.Length; i++)
+			{
+				if (jointPointsIdChild[i] != -1)
+				{
+					Vector3 v = clothParent.vertices[jointPointsIdParent[i]];
+					v = clothParent.transform.TransformPoint(v); //local parent to world
+					v = clothChild.transform.InverseTransformPoint(v); //world to local child
+					vertices[jointPointsIdChild[i]] = v;
+				}
+			}
+			meshChild.vertices = vertices;
+
+			//Knife Cut
+			Vector3 localKnife = clothChild.transform.InverseTransformPoint(knife.position);
+
+			ClothSkinningCoefficient[] coefficients = clothChild.coefficients;
+			for (int i = 0; i < jointCutId.Length; i++)
+			{
+				if (jointCutId[i] != -1)
+				{
+					//if (coefficients[jointCutId[i]].maxDistance == 0)
+					{
+						float dist = Vector3.Distance(clothChild.vertices[jointCutId[i]], localKnife);
+						if (dist < cuttingDistance)
+						{
+							coefficients[jointCutId[i]].maxDistance = float.MaxValue;
+
+							if (jointCutLinkId[i] != null)
+								for (int j = 0; j < jointCutLinkId[i].Count; j++)
+									coefficients[jointCutLinkId[i][j]].maxDistance = float.MaxValue;
+
+							/*if (jointCutPairId[i] != -1)
+								coefficients[jointCutPairId[i]].maxDistance = float.MaxValue;*/
+						}
+					}
+				}
+			}
+			clothChild.coefficients = coefficients;
+		}
 	}
 }
