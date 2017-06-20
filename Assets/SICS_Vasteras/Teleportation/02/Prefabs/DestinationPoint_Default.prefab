@@ -109,7 +109,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4015639872510694}
-  - component: {fileID: 65147613429512424}
   m_Layer: 0
   m_Name: DestinationPoint_Default
   m_TagString: Untagged
@@ -356,18 +355,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1540965327427904}
   m_Mesh: {fileID: 4300000, guid: 2985f8534ad789742a71573500c993a4, type: 3}
---- !u!65 &65147613429512424
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1972075678844564}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.0065984726, z: 1}
-  m_Center: {x: 0, y: 0.0026054382, z: 0}
 --- !u!95 &95301234854909174
 Animator:
   serializedVersion: 3
