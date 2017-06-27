@@ -82,7 +82,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 #if UNITY_EDITOR
 		libraryDirectory = Application.dataPath + "/Plugins/x86/";
 #else
-		//libraryDirectory = Application.dataPath + "/Plugins/";
+		libraryDirectory = Application.dataPath + "/Plugins/";
 #endif
 #endif
 		if (libraryDirectory.Length == 0) return;
