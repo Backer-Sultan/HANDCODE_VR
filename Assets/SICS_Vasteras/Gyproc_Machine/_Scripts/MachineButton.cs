@@ -30,6 +30,7 @@ public class MachineButton : MonoBehaviour
     public ButtonID ID;
     public UnityEvent onPressed;
     public UnityEvent onReleased;
+    public UnityAction onHighlighted;
 
     private bool isPressed = false;
 
@@ -44,8 +45,7 @@ public class MachineButton : MonoBehaviour
     }
 
     /************************************************************************************
-     * Here comes the implementatoin of pushing and releasing events
-     * based on data from VirtualGrasp Or simply by reading the
-     * button-surface's local poisition.
+     * Here comes the Gleechi's implementatoin of pushing, releasing and highlighting.
+     * Invoking onPressed, onReleased and onHighlighted will do the work for us.
      ************************************************************************************/
 }
