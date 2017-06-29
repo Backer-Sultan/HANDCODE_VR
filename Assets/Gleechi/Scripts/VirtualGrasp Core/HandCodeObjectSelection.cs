@@ -58,7 +58,7 @@ public class HandCodeObjectSelection
         sunflower(50, 0.05f);
 
         m_interactionParameters["Grasp"] = new InteractionParams(0.25f, 30.0f, 1.0f);
-        m_interactionParameters["Push"] = new InteractionParams(0.05f, 90.0f, 0.3f);
+        m_interactionParameters["Push"] = new InteractionParams(0.075f, 90.0f, 0.75f);
     }
 
     public void Highlight(VG_HandStatus hand)
@@ -100,11 +100,11 @@ public class HandCodeObjectSelection
 
     public void HighlightObjects(VG_HandStatus[] current)
     {
+        ClearHighlight(0);
+        ClearHighlight(1);
         if (current[0] == null || current[1] == null)
             return;
 
-        ClearHighlight(0);
-        ClearHighlight(1);
         if (current[0].graspStatus == VG_ReturnCode.SUCCESS &&
             current[1].graspStatus == VG_ReturnCode.SUCCESS &&
             current[0].selectedObject != null &&
@@ -300,7 +300,7 @@ public class HandCodeObjectSelection
                 continue;
 
             // Decide from the grip button if we want push or grasp
-            if (controller.GetPress(Valve.VR.EVRButtonId.k_EButton_Grip))
+            if (VG_Controller.IsIndexPushInteractionForSide(hand.side))
             {
                 SelectToPush(hand);
             }

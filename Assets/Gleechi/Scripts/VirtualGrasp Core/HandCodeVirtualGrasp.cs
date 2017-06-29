@@ -8,6 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI; // for Text UI
 using UnityEngine.VR; // for VR Settings
+using UnityEngine.Events;
 using VirtualGrasp;
 
 [RequireComponent (typeof (VG_SensorConfiguration))]
@@ -34,7 +35,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		VG_Controller.Release ();
 	}
 
-	void Awake()
+    void Awake()
 	{
 #if USE_STEAM_VR
 		if (useVR) VRSettings.LoadDeviceByName ("OpenVR");
@@ -95,7 +96,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 			return;
 		}
 
-		// Hand the interface over to the ObjectSelection
+        // Hand the interface over to the ObjectSelection
 		pSelector = new HandCodeObjectSelection (shader);
 
 		pSensorMapper = GetComponent<VG_SensorConfiguration> ();
@@ -104,8 +105,11 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		{
 			pSensorMapper.Register ();
 
-			Transform t;
-			if (VG_Controller.GetBone(avatarID, VG_HandSide.LEFT, VG_BoneType.WRIST, out t) < 0)
+            // Temporary: set this to true to have the alternative button pushing interaction
+            VG_Controller.SetPushByGrabStrength(false);
+
+            Transform t;
+			if (VG_Controller.GetBone(avatarID, VG_HandSide.LEFT, VG_BoneType.WRIST, out t) != VG_ReturnCode.SUCCESS)
 			{
 				current [0] = new VG_HandStatus ();
 				former  [0] = new VG_HandStatus ();
@@ -116,7 +120,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 				former  [0] = new VG_HandStatus (t, VG_HandSide.LEFT);
 			}
 
-			if (VG_Controller.GetBone(avatarID, VG_HandSide.RIGHT, VG_BoneType.WRIST, out t) < 0)
+			if (VG_Controller.GetBone(avatarID, VG_HandSide.RIGHT, VG_BoneType.WRIST, out t) != VG_ReturnCode.SUCCESS)
 			{
 				current [1] = new VG_HandStatus ();
 				former  [1] = new VG_HandStatus ();
@@ -169,7 +173,8 @@ public class HandCodeVirtualGrasp : MonoBehaviour
             current[handID].mode = VG_Controller.GetInteractionMode(avatarID, current[handID].side);
             if (current[handID].mode == VG_InteractionMode.EMPTY)
             {
-                if (SteamVR_Controller.Input(current[handID].side == VG_HandSide.LEFT ? 3 : 4).GetPress(Valve.VR.EVRButtonId.k_EButton_Grip))
+                if (VG_Controller.IsIndexPushInteractionForSide(current[handID].side))
+                    //SteamVR_Controller.Input(current[handID].side == VG_HandSide.LEFT ? 3 : 4).GetPress(Valve.VR.EVRButtonId.k_EButton_Grip))
                     VG_Controller.PushWithFinger(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
                 else
                     current[handID].graspStatus = VG_Controller.GraspByPose(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
