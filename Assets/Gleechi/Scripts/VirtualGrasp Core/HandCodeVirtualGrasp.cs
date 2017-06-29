@@ -8,7 +8,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI; // for Text UI
 using UnityEngine.VR; // for VR Settings
-using UnityEngine.Events;
 using VirtualGrasp;
 
 [RequireComponent (typeof (VG_SensorConfiguration))]
@@ -35,7 +34,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		VG_Controller.Release ();
 	}
 
-    void Awake()
+	void Awake()
 	{
 #if USE_STEAM_VR
 		if (useVR) VRSettings.LoadDeviceByName ("OpenVR");
@@ -83,7 +82,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 #if UNITY_EDITOR
 		libraryDirectory = Application.dataPath + "/Plugins/x86/";
 #else
-		libraryDirectory = "./Handcode_Data/Plugins/";
+		libraryDirectory = Application.dataPath + "/Plugins/";
 #endif
 #endif
 

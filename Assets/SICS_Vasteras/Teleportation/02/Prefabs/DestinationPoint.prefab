@@ -11,6 +11,21 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1950045718761376}
   m_IsPrefabParent: 1
+--- !u!1 &1084718103241840
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4818447849563370}
+  m_Layer: 0
+  m_Name: Destination_Location
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1089159567381528
 GameObject:
   m_ObjectHideFlags: 1
@@ -40,7 +55,6 @@ GameObject:
   - component: {fileID: 4540036255167988}
   - component: {fileID: 33178301199415244}
   - component: {fileID: 23831990437715736}
-  - component: {fileID: 95512786975662652}
   m_Layer: 0
   m_Name: Cylinder_Teleport_02
   m_TagString: Untagged
@@ -58,7 +72,6 @@ GameObject:
   - component: {fileID: 4167742280474322}
   - component: {fileID: 33220779333279666}
   - component: {fileID: 23121058658004110}
-  - component: {fileID: 95094396845146206}
   m_Layer: 0
   m_Name: Cylinder_Teleport_02
   m_TagString: Untagged
@@ -76,7 +89,6 @@ GameObject:
   - component: {fileID: 4464573715667238}
   - component: {fileID: 33990286185745084}
   - component: {fileID: 23181130157094362}
-  - component: {fileID: 95429516711716372}
   m_Layer: 0
   m_Name: Inverted_Cylinder_Teleport_02
   m_TagString: Untagged
@@ -94,7 +106,6 @@ GameObject:
   - component: {fileID: 4407743090018480}
   - component: {fileID: 33850210833704294}
   - component: {fileID: 23621497576473606}
-  - component: {fileID: 95093852021362846}
   m_Layer: 0
   m_Name: Cylinder_Teleport_02
   m_TagString: Untagged
@@ -112,7 +123,6 @@ GameObject:
   - component: {fileID: 4711715721813296}
   - component: {fileID: 33102272544806270}
   - component: {fileID: 23153353458287568}
-  - component: {fileID: 95561194384539714}
   m_Layer: 0
   m_Name: Inverted_Cylinder_Teleport_02
   m_TagString: Untagged
@@ -280,7 +290,6 @@ GameObject:
   - component: {fileID: 4789648747961028}
   - component: {fileID: 33397630599376688}
   - component: {fileID: 23321642510142534}
-  - component: {fileID: 95338235659653718}
   m_Layer: 0
   m_Name: Inverted_Cylinder_Teleport_02
   m_TagString: Untagged
@@ -426,6 +435,7 @@ Transform:
   - {fileID: 4319097353176790}
   - {fileID: 4155556262932848}
   - {fileID: 4376042509747874}
+  - {fileID: 4818447849563370}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -568,6 +578,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4319097353176790}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4818447849563370
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1084718103241840}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.607}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4231728398853006}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4870491739735894
 Transform:
@@ -1088,57 +1111,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 0.06676102, z: 1}
   m_Center: {x: 0, y: 0.036294818, z: 0}
---- !u!95 &95093852021362846
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1252134339133662}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: ffaf99759e818c54a83e9e262378dc70, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95094396845146206
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1146217397501840}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: ffaf99759e818c54a83e9e262378dc70, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95338235659653718
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1833652880271462}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 25b88998184faf947b9f40028e44c56e, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95414215420168738
 Animator:
   serializedVersion: 3
@@ -1149,57 +1121,6 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 683b75f36f2662d439c378a2fea79863, type: 3}
   m_Controller: {fileID: 9100000, guid: 980e3f2ec5f3963418c23fb047ec8f22, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95429516711716372
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1241435868706232}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 25b88998184faf947b9f40028e44c56e, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95512786975662652
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1103345015774418}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: ffaf99759e818c54a83e9e262378dc70, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95561194384539714
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1333850762466632}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 25b88998184faf947b9f40028e44c56e, type: 3}
-  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1494,7 +1415,7 @@ MonoBehaviour:
   defaultCursorObject: {fileID: 1481089949026296}
   hoverCursorObject: {fileID: 1334543664382674}
   lockedCursorObject: {fileID: 1694687410280488}
-  destinationLocation: {fileID: 0}
+  destinationLocation: {fileID: 4818447849563370}
   snapToPoint: 1
   hidePointerCursorOnHover: 1
   hideDirectionIndicatorOnHover: 1

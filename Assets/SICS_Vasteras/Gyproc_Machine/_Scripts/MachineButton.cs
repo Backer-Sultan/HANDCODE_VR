@@ -30,6 +30,7 @@ public class MachineButton : MonoBehaviour
     public ButtonID ID;
     public UnityEvent onPressed;
     public UnityEvent onReleased;
+    public UnityAction onHighlighted;
 
     private bool isPressed = false;
 
@@ -39,34 +40,12 @@ public class MachineButton : MonoBehaviour
 
     private void Start()
     {
-        buttonEvents = GetComponentInChildren<VRTK_Button_UnityEvents>();
         if (ID == ButtonID.NONE)
             Debug.LogError("MachineButton.cs: ID can't be NONE! please set the button ID!");
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        print(other.name + "Entered!");
-        if (other.tag == "Hand")
-        {
-            isPressed = true;
-            onPressed.Invoke();
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        print(other.name + "Leaved!");
-        if (other.tag == "Hand")
-        {
-            isPressed = false;
-            onReleased.Invoke();
-        }
-    }
-
-    /* methods & coroutines */
-
-    public VRTK_Button_UnityEvents buttonEvents;
-
-
+    /************************************************************************************
+     * Here comes the Gleechi's implementatoin of pushing, releasing and highlighting.
+     * Invoking onPressed, onReleased and onHighlighted will do the work for us.
+     ************************************************************************************/
 }
