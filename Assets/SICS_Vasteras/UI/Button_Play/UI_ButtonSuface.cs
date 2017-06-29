@@ -4,40 +4,71 @@ using UnityEngine;
 
 public class UI_ButtonSuface : MonoBehaviour
 {
+    public float speed = 0.1f;
+
     private float initalPosition;
     private float maxPushPosition = 0f;
     private new Collider collider;
+    private  Rigidbody rigid;
     private bool isFollowingFinger = false;
 
     private void Start()
     {
         initalPosition = transform.localPosition.z;
         collider = GetComponent<Collider>();
-        if(collider == null)
+        rigid = GetComponent<Rigidbody>();
+        if (collider == null)
             print("UI_ButtonSurface: Component 'Collider' is missing!");
-        print(initalPosition);
     }
 
+    // reaching max push
     private void OnTriggerEnter(Collider other)
     {
+        print("OnTriggerEnter!");
         if (other.name == "Background")
-            isFollowingFinger = false;
-        if (other.tag == "Finger")
-            isFollowingFinger = true;
+            rigid.isKinematic = true;
     }
 
-
-    private void OnTriggerStay(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        if(transform.localPosition.z <= maxPushPosition&& transform.localPosition.z >= initalPosition)
+        print("OnCollisionEnter!"); 
+        StopAllCoroutines();
+    }
+    private void OnCollisionExit(Collision collision)
+    {
+        print("OnCollisionExit!");
+        if(collider.gameObject.tag == "Finger")
         {
-            transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.InverseTransformVector(other.transform.position).z);
+            rigid.isKinematic = false;
+            StartCoroutine(MoveSurfaceBackRoutine());
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private IEnumerator MoveSurfaceBackRoutine()
     {
-        if (other.tag == "Finger")
-            isFollowingFinger = false;
+        while(transform.localPosition.z > initalPosition)
+        {
+            transform.Translate(Vector3.back * Time.deltaTime, Space.Self);
+            yield return null;
+        }
     }
+
+    private void OnTriggerStay(Collider other)
+    {
+        print("OnTriggerStay!");
+        if(isFollowingFinger)
+        {
+            Vector3 localPosition = transform.InverseTransformPoint(other.transform.position);
+            localPosition.Set(0f, 0f, localPosition.z);
+            transform.localPosition = localPosition;
+
+            Vector3 localVelocity = transform.InverseTransformDirection(GetComponent<Rigidbody>().velocity);
+            localVelocity.x = 0f;
+            localVelocity.y = 0f;
+
+            GetComponent<Rigidbody>().velocity = transform.TransformDirection(localVelocity);
+        }
+    }
+
+
 }
