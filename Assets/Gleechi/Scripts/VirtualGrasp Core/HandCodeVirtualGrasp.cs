@@ -85,18 +85,17 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		libraryDirectory = Application.dataPath + "/Plugins/";
 #endif
 #endif
-		if (libraryDirectory.Length == 0) return;
-		VG_Controller.Initialize (libraryDirectory);
 
-		// Check if we can access the VirtualGrasp interface
-		if (!VG_Controller.IsEnabled())
+        // Check if we can access the VirtualGrasp interface
+        VG_Controller.Initialize(libraryDirectory);
+        if (!VG_Controller.IsEnabled())
 		{
 			Debug.LogError ("Failed to initialize VirtualGrasp plugin.");
 			enabled = false;
 			return;
 		}
 
-		// Hand the interface over to the ObjectSelection
+        // Hand the interface over to the ObjectSelection
 		pSelector = new HandCodeObjectSelection (shader);
 
 		pSensorMapper = GetComponent<VG_SensorConfiguration> ();
@@ -105,8 +104,11 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		{
 			pSensorMapper.Register ();
 
-			Transform t;
-			if (VG_Controller.GetBone(avatarID, VG_HandSide.LEFT, VG_BoneType.WRIST, out t) < 0)
+            // Temporary: set this to true to have the alternative button pushing interaction
+            VG_Controller.SetPushByGrabStrength(false);
+
+            Transform t;
+			if (VG_Controller.GetBone(avatarID, VG_HandSide.LEFT, VG_BoneType.WRIST, out t) != VG_ReturnCode.SUCCESS)
 			{
 				current [0] = new VG_HandStatus ();
 				former  [0] = new VG_HandStatus ();
@@ -117,7 +119,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 				former  [0] = new VG_HandStatus (t, VG_HandSide.LEFT);
 			}
 
-			if (VG_Controller.GetBone(avatarID, VG_HandSide.RIGHT, VG_BoneType.WRIST, out t) < 0)
+			if (VG_Controller.GetBone(avatarID, VG_HandSide.RIGHT, VG_BoneType.WRIST, out t) != VG_ReturnCode.SUCCESS)
 			{
 				current [1] = new VG_HandStatus ();
 				former  [1] = new VG_HandStatus ();
@@ -129,14 +131,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 			}
 		}
     }
-
-	// The regular update loop is only doing object selection and highlighting
-	void Update()
-    {
-		pSelector.Select(current);
-		pSelector.HighlightObjects(current);
-	}
-
+    
 	void ReleaseObject(uint handID)
 	{
 		Rigidbody obj_rb = former[handID].selectedObject != null ? former[handID].selectedObject.GetComponent<Rigidbody> () : 
@@ -152,7 +147,10 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		// Update the VG library, including controllers, avatars, etc.
 		VG_Controller.Update();
 
-		for (uint handID = 0; handID < 2; handID++)	
+        pSelector.Select(current);
+        pSelector.HighlightObjects(current);
+
+        for (uint handID = 0; handID < 2; handID++)	
 		{
 			// Check if hand is valid
 			if (current [handID] == null) continue;
@@ -167,13 +165,20 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 				continue;
 			}
 
-			// Cache old and get new status of the hands (interaction mode, pose, etc)
-			former[handID].grasp = current[handID].grasp;
-			former[handID].mode = current[handID].mode;
-			current[handID].mode = VG_Controller.GetInteractionMode(avatarID, current[handID].side);
-			if (current[handID].mode == VG_InteractionMode.EMPTY)
-				current[handID].grasp = VG_Controller.GraspByPose(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
-			
+            // Cache old and get new status of the hands (interaction mode, pose, etc)
+            former[handID].graspStatus = current[handID].graspStatus;
+            former[handID].mode = current[handID].mode;
+
+            current[handID].mode = VG_Controller.GetInteractionMode(avatarID, current[handID].side);
+            if (current[handID].mode == VG_InteractionMode.EMPTY)
+            {
+                if (VG_Controller.IsIndexPushInteractionForSide(current[handID].side))
+                    //SteamVR_Controller.Input(current[handID].side == VG_HandSide.LEFT ? 3 : 4).GetPress(Valve.VR.EVRButtonId.k_EButton_Grip))
+                    VG_Controller.PushWithFinger(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
+                else
+                    current[handID].graspStatus = VG_Controller.GraspByPose(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
+            }
+
 			// Do things based on interaction mode
 			switch (current[handID].mode)
 			{
@@ -218,18 +223,17 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 
 			text += (current [handID].selectedObject != null ? current [handID].selectedObject.name : "null") + "\n";
 			text += "distance: " + System.Math.Round (current [handID].distance, 2) + "\n";
-			if (current [handID].grasp == 0)
-				text += "grasp: valid\n";
-			else if (current [handID].grasp == -1)
-				text += "grasp: out-of-reach\n";
-			else
-				text += "grasp: invalid\n";
-			text += "sensor valid: " + current [handID].valid + "\n";
+            text += "grasp: " + current[handID].graspStatus + "\n";
+            text += "sensor valid: " + current [handID].valid + "\n";
 			text += "mode: " + current [handID].mode + "\n";
 			text += "grab strength: " + System.Math.Round (current [handID].grab, 2) + "\n";
 			text += "grab velocity: " + System.Math.Round (current [handID].grabVel, 2) + "\n";
-			if (current [handID].selectedObject != null) {
-				Rigidbody obj_rb = current [handID].selectedObject.GetComponent<Rigidbody> ();
+			if (current [handID].selectedObject != null)
+            {
+                if (current[handID].selectedObject.GetComponent<VG_Articulation>() != null)
+                    text += "state value: " + System.Math.Round(VG_Controller.GetObjectState(current[handID].selectedObject), 4) + "\n";
+
+                Rigidbody obj_rb = current [handID].selectedObject.GetComponent<Rigidbody> ();
 				if (obj_rb != null && obj_rb.angularVelocity.magnitude > 0.001f) {
 					text += "pvel: " + obj_rb.velocity.magnitude + "\n";
 					text += "rvel: " + obj_rb.angularVelocity.magnitude + "\n";
