@@ -292,13 +292,7 @@ public class HandCodeObjectSelection
             // If the hand is anything but empty, keep the current selection
             if (hand.mode != VG_InteractionMode.EMPTY)
                 continue; 
-
-            SteamVR_Controller.Device controller = SteamVR_Controller.Input(hand.side == VG_HandSide.LEFT ? 3 : 4);
-
-            // Only select if we are not triggering
-            if (controller.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).x > 0.01f)
-                continue;
-
+            
             // Decide from the grip button if we want push or grasp
             if (VG_Controller.IsIndexPushInteractionForSide(hand.side))
             {
