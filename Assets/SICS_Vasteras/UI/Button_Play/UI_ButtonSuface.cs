@@ -77,6 +77,7 @@ public class UI_ButtonSuface : MonoBehaviour
         {
             print("triggering!!!");
             //transform.localPosition = transform.InverseTransformPoint(other.transform.position);
+            Vector3 relativeFingerPosition = transform.InverseTransformPoint(other.transform.position);
             transform.position = new Vector3(transform.position.x, transform.position.y, other.transform.position.z);
 
         }
