@@ -479,7 +479,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: 0
   origin: {fileID: 0}
-  isValid: 0
 --- !u!20 &116342824
 Camera:
   m_ObjectHideFlags: 0
@@ -1141,13 +1140,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 234780386}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.0193}
+  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 597165933}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
 --- !u!1 &249660992
 GameObject:
   m_ObjectHideFlags: 0
@@ -2960,7 +2959,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   m_eventNormalized: 1
-  m_eventInverted: 1
+  m_eventInverted: 0
   m_eventThreshold: 0.5
 --- !u!114 &597165935
 MonoBehaviour:
@@ -2974,8 +2973,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_type: 2
-  m_min: -0.01
-  m_max: 0
+  m_min: 0
+  m_max: 0.01
   m_discreteStates: []
   m_pivot: {fileID: 234780387}
 --- !u!64 &597165936
@@ -6012,7 +6011,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: -1
   origin: {fileID: 0}
-  isValid: 0
 --- !u!1001 &1735893727
 Prefab:
   m_ObjectHideFlags: 0
@@ -6146,7 +6144,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   index: -1
   origin: {fileID: 0}
-  isValid: 0
 --- !u!1 &1774943052
 GameObject:
   m_ObjectHideFlags: 0
