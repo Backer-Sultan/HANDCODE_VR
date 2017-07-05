@@ -156,7 +156,6 @@ public class SteamVR_Settings : EditorWindow
 				Debug.Log("Switching to native OpenVR support.");
 		}
 
-		/*
 		var dlls = new string[]
 		{
 			"Plugins/x86/openvr_api.dll",
@@ -175,7 +174,6 @@ public class SteamVR_Settings : EditorWindow
 				Debug.Log(path + " in use; cannot delete.  Please restart Unity to complete upgrade.");
 			}
 		}
-		*/
 
 		EditorApplication.update -= Update;
 	}

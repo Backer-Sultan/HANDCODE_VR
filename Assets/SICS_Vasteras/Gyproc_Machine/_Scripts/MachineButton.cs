@@ -3,14 +3,11 @@
  * Author:  Backer Sultan                    *
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
-
-using System.Collections;
-using System.Collections.Generic;
+ 
 using UnityEngine;
 using UnityEngine.Events;
-using VRTK.UnityEventHelper;
-
-public class MachineButton : MonoBehaviour
+using VirtualGrasp;
+public class MachineButton : InteractiveObject
 {
     /* fields & properties */
 
@@ -28,24 +25,34 @@ public class MachineButton : MonoBehaviour
         MAINCONSOLE_ARMRIG_ROTATE_DOWN,
     }
     public ButtonID ID;
-    public UnityEvent onPressed;
+    public bool isPressed { get { return isPressed; } }
+    public UnityEvent onPushed;
     public UnityEvent onReleased;
-    public UnityAction onHighlighted;
 
-    private bool isPressed = false;
+    private bool _isPressed = false;
 
 
 
     /* methods & coroutines */
 
-    private void Start()
+    private new void Start()
     {
+        base.Start();
         if (ID == ButtonID.NONE)
             Debug.LogError("MachineButton.cs: ID can't be NONE! please set the button ID!");
+
+        VG_TriggerEvent triggerEvent = GetComponentInChildren<VG_TriggerEvent>();
+        if (triggerEvent == null)
+            return;
     }
 
-    /************************************************************************************
-     * Here comes the Gleechi's implementatoin of pushing, releasing and highlighting.
-     * Invoking onPressed, onReleased and onHighlighted will do the work for us.
-     ************************************************************************************/
+    public void OnPushed()
+    {
+        onPushed.Invoke();
+    }
+
+    public void OnReleased()
+    {
+        onReleased.Invoke();
+    }
 }

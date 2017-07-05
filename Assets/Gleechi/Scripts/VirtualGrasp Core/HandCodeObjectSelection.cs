@@ -65,24 +65,31 @@ public class HandCodeObjectSelection
     {
         if (hand.selectedObject == null || hand.selectedObject.GetComponent<MeshRenderer>() == null)
             return;
-        
+
         int id = hand.side < 0 ? 0 : 1;
         highlightedObjects[id] = hand.selectedObject.gameObject;
         unhighLightedMaterials[id] = new Material(hand.selectedObject.GetComponent<MeshRenderer>().material);
         highLightMaterials[id] = new Material(hand.selectedObject.GetComponent<MeshRenderer>().material);
         highLightMaterials[id].shader = shader;
-        highlightedObjects[id].GetComponent<MeshRenderer>().material = highLightMaterials[id];
-        highlightedObjects[id].GetComponent<MeshRenderer>().material.SetColor("_RimColor", colors[id]);
+        //highlightedObjects[id].GetComponent<MeshRenderer>().material = highLightMaterials[id];
+        //highlightedObjects[id].GetComponent<MeshRenderer>().material.SetColor("_RimColor", colors[id]);
+
+        InteractiveObject interactive = highlightedObjects[id].GetComponentInParent<InteractiveObject>();
+        if (interactive)
+            interactive.Highlight();
     }
 
     public void ClearHighlight(Transform obj)
     {
+
         for (int i = 0; i < 2; i++)
         {
             if (highlightedObjects[i] == null)
                 continue;
-            if (highlightedObjects[i].transform == obj)
-                highlightedObjects[i].GetComponent<MeshRenderer>().material = unhighLightedMaterials[i];
+            //if (highlightedObjects[i].transform == obj)
+            //    highlightedObjects[i].GetComponent<MeshRenderer>().material = unhighLightedMaterials[i];
+            
+
         }
     }
 
@@ -93,7 +100,12 @@ public class HandCodeObjectSelection
         {
             if (highlightedObjects[i] == null)
                 return;
-            highlightedObjects[i].GetComponent<MeshRenderer>().material = unhighLightedMaterials[i];
+            //highlightedObjects[i].GetComponent<MeshRenderer>().material = unhighLightedMaterials[i];
+            {
+                InteractiveObject intertactive = highlightedObjects[i].GetComponentInParent<InteractiveObject>();
+                if (intertactive)
+                    intertactive.Unhighlight();
+            }
             highlightedObjects[i] = null;
         }
     }
@@ -277,6 +289,8 @@ public class HandCodeObjectSelection
 
     public void Select(VG_HandStatus[] status)
     {
+        ClearHighlight(0);
+        ClearHighlight(1);
         foreach (VG_HandStatus hand in status)
         {
             // If the hand is invalid in any way, reset the current selection
@@ -291,12 +305,10 @@ public class HandCodeObjectSelection
 
             // If the hand is anything but empty, keep the current selection
             if (hand.mode != VG_InteractionMode.EMPTY)
-                continue; 
+                continue;
 
-            SteamVR_Controller.Device controller = SteamVR_Controller.Input(hand.side == VG_HandSide.LEFT ? 3 : 4);
-
-            // Only select if we are not triggering
-            if (controller.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).x > 0.01f)
+            // If user started pushing interaction button, keep the current selection
+            if (SteamVR_Controller.Input(hand.side == VG_HandSide.LEFT ? 3 : 4).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).x > 0.01f)
                 continue;
 
             // Decide from the grip button if we want push or grasp
