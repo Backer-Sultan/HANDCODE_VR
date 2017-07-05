@@ -105,7 +105,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 			pSensorMapper.Register ();
 
             // Temporary: set this to true to have the alternative button pushing interaction
-            VG_Controller.SetPushByGrabStrength(false);
+            VG_Controller.SetPushByGrabStrength(true);
 
             Transform t;
 			if (VG_Controller.GetBone(avatarID, VG_HandSide.LEFT, VG_BoneType.WRIST, out t) != VG_ReturnCode.SUCCESS)
@@ -172,11 +172,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
             current[handID].mode = VG_Controller.GetInteractionMode(avatarID, current[handID].side);
             if (current[handID].mode == VG_InteractionMode.EMPTY)
             {
-                if (VG_Controller.IsIndexPushInteractionForSide(current[handID].side))
-                    //SteamVR_Controller.Input(current[handID].side == VG_HandSide.LEFT ? 3 : 4).GetPress(Valve.VR.EVRButtonId.k_EButton_Grip))
-                    VG_Controller.PushWithFinger(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
-                else
-                    current[handID].graspStatus = VG_Controller.GraspByPose(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
+                VG_Controller.PushWithFinger(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
             }
 
 			// Do things based on interaction mode

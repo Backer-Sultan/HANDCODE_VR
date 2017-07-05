@@ -277,6 +277,8 @@ public class HandCodeObjectSelection
 
     public void Select(VG_HandStatus[] status)
     {
+        ClearHighlight(0);
+        ClearHighlight(1);
         foreach (VG_HandStatus hand in status)
         {
             // If the hand is invalid in any way, reset the current selection
@@ -291,12 +293,10 @@ public class HandCodeObjectSelection
 
             // If the hand is anything but empty, keep the current selection
             if (hand.mode != VG_InteractionMode.EMPTY)
-                continue; 
+                continue;
 
-            SteamVR_Controller.Device controller = SteamVR_Controller.Input(hand.side == VG_HandSide.LEFT ? 3 : 4);
-
-            // Only select if we are not triggering
-            if (controller.GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).x > 0.01f)
+            // If user started pushing interaction button, keep the current selection
+            if (SteamVR_Controller.Input(hand.side == VG_HandSide.LEFT ? 3 : 4).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).x > 0.01f)
                 continue;
 
             // Decide from the grip button if we want push or grasp
