@@ -65,24 +65,31 @@ public class HandCodeObjectSelection
     {
         if (hand.selectedObject == null || hand.selectedObject.GetComponent<MeshRenderer>() == null)
             return;
-        
+
         int id = hand.side < 0 ? 0 : 1;
         highlightedObjects[id] = hand.selectedObject.gameObject;
         unhighLightedMaterials[id] = new Material(hand.selectedObject.GetComponent<MeshRenderer>().material);
         highLightMaterials[id] = new Material(hand.selectedObject.GetComponent<MeshRenderer>().material);
         highLightMaterials[id].shader = shader;
-        highlightedObjects[id].GetComponent<MeshRenderer>().material = highLightMaterials[id];
-        highlightedObjects[id].GetComponent<MeshRenderer>().material.SetColor("_RimColor", colors[id]);
+        //highlightedObjects[id].GetComponent<MeshRenderer>().material = highLightMaterials[id];
+        //highlightedObjects[id].GetComponent<MeshRenderer>().material.SetColor("_RimColor", colors[id]);
+
+        InteractiveObject interactive = highlightedObjects[id].GetComponentInParent<InteractiveObject>();
+        if (interactive)
+            interactive.Highlight();
     }
 
     public void ClearHighlight(Transform obj)
     {
+
         for (int i = 0; i < 2; i++)
         {
             if (highlightedObjects[i] == null)
                 continue;
-            if (highlightedObjects[i].transform == obj)
-                highlightedObjects[i].GetComponent<MeshRenderer>().material = unhighLightedMaterials[i];
+            //if (highlightedObjects[i].transform == obj)
+            //    highlightedObjects[i].GetComponent<MeshRenderer>().material = unhighLightedMaterials[i];
+            
+
         }
     }
 
@@ -93,7 +100,12 @@ public class HandCodeObjectSelection
         {
             if (highlightedObjects[i] == null)
                 return;
-            highlightedObjects[i].GetComponent<MeshRenderer>().material = unhighLightedMaterials[i];
+            //highlightedObjects[i].GetComponent<MeshRenderer>().material = unhighLightedMaterials[i];
+            {
+                InteractiveObject intertactive = highlightedObjects[i].GetComponentInParent<InteractiveObject>();
+                if (intertactive)
+                    intertactive.Unhighlight();
+            }
             highlightedObjects[i] = null;
         }
     }
