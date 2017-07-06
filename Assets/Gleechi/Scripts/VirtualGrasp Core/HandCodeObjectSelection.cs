@@ -6,8 +6,12 @@ using System.Collections;
 using System.Collections.Generic;
 using VirtualGrasp;
 
+/// Interaction params is a helper class for object selection based on multi-raycasting
 public class InteractionParams
 {
+    /// <param name="distanceThreshold"></param> How long the raycasts should be
+    /// <param name="angleThreshold"></param> When to skip an object selection based on the angle
+    /// <param name="radiusScale"></param> How "thick" the raycasts should be 
     public InteractionParams(float distanceThreshold, float angleThreshold, float radiusScale)
     {
         m_distanceThreshold = distanceThreshold;
@@ -22,19 +26,14 @@ public class InteractionParams
 
 public class HandCodeObjectSelection
 {
+    // Dictionary to keep track of highlighted objects.
+    private Dictionary<VG_HandSide, Transform> m_highlightedObjects = new Dictionary<VG_HandSide, Transform>();
+    // Dictionary to initialize different interaction parameters for multi-raycast object selection.
     static private Dictionary<string, InteractionParams> m_interactionParameters = new Dictionary<string, InteractionParams>();
-
-    public Shader shader = null;
-    private Color[] colors = new Color[] { Color.magenta, Color.green, Color.white };
-    
-    private int[] highlighted = new int[2] { -1, -1 };
-
-    private Material[] highLightMaterials = new Material[2] { null, null };
-    private Material[] unhighLightedMaterials = new Material[2] { null, null };
-    private GameObject[] highlightedObjects = new GameObject[2] { null, null };
-
-    // The seed points
+    // The seed points for multi-raycast object selection.
     List<KeyValuePair<Vector3, float>> seedPts = new List<KeyValuePair<Vector3, float>>();
+
+    // Method to generate the seed points for multi-raycast object selection.
     void sunflower(int numRays, float radius)
     {
         float r1, r2, theta;
@@ -51,72 +50,57 @@ public class HandCodeObjectSelection
         }
     }
 
-    public HandCodeObjectSelection(Shader shader_)
+    public HandCodeObjectSelection()
     {
-        shader = shader_;
+        // Initialize the highlighted objects dictionary.
+        m_highlightedObjects[VG_HandSide.LEFT] = null;
+        m_highlightedObjects[VG_HandSide.RIGHT] = null;
 
+        // Parameters for raycast-based object selection
         sunflower(50, 0.05f);
-
         m_interactionParameters["Grasp"] = new InteractionParams(0.25f, 30.0f, 1.0f);
         m_interactionParameters["Push"] = new InteractionParams(0.075f, 90.0f, 0.75f);
     }
 
+    // Highlight the object that is held by a hand.
     public void Highlight(VG_HandStatus hand)
     {
-        if (hand.selectedObject == null || hand.selectedObject.GetComponent<MeshRenderer>() == null)
+        // Got no object, got no highlight
+        if (hand.selectedObject == null)
             return;
-
-        int id = hand.side < 0 ? 0 : 1;
-        highlightedObjects[id] = hand.selectedObject.gameObject;
-        unhighLightedMaterials[id] = new Material(hand.selectedObject.GetComponent<MeshRenderer>().material);
-        highLightMaterials[id] = new Material(hand.selectedObject.GetComponent<MeshRenderer>().material);
-        highLightMaterials[id].shader = shader;
-        //highlightedObjects[id].GetComponent<MeshRenderer>().material = highLightMaterials[id];
-        //highlightedObjects[id].GetComponent<MeshRenderer>().material.SetColor("_RimColor", colors[id]);
-
-        InteractiveObject interactive = highlightedObjects[id].GetComponentInParent<InteractiveObject>();
-        if (interactive)
+        
+        // Highlight object is it has a component and if it's not already highlighted
+        InteractiveObject interactive = hand.selectedObject.gameObject.GetComponentInParent<InteractiveObject>();
+        if (interactive && !interactive.isHighlighted)
+        {
+            m_highlightedObjects[hand.side] = hand.selectedObject;
             interactive.Highlight();
-    }
-
-    public void ClearHighlight(Transform obj)
-    {
-
-        for (int i = 0; i < 2; i++)
-        {
-            if (highlightedObjects[i] == null)
-                continue;
-            //if (highlightedObjects[i].transform == obj)
-            //    highlightedObjects[i].GetComponent<MeshRenderer>().material = unhighLightedMaterials[i];
-            
-
         }
     }
 
-    public void ClearHighlight(int i)
+    // Unhighlight the object that is held by a hand.
+    public void Unhighlight(VG_HandStatus hand)
     {
-        if (highlighted[i] >= 0) highlighted[i] = -1;
-        else
+        // Got no object (or the same object as before), got no unhighlight
+        Transform highlightedObject = m_highlightedObjects[hand.side];
+        if (highlightedObject == hand.selectedObject || highlightedObject == null)
+           return;
+
+        // Unhighlight object is it has a component and if it's not already unhighlighted
+        InteractiveObject interactive = highlightedObject.gameObject.GetComponentInParent<InteractiveObject>();
+        if (interactive && interactive.isHighlighted)
         {
-            if (highlightedObjects[i] == null)
-                return;
-            //highlightedObjects[i].GetComponent<MeshRenderer>().material = unhighLightedMaterials[i];
-            {
-                InteractiveObject intertactive = highlightedObjects[i].GetComponentInParent<InteractiveObject>();
-                if (intertactive)
-                    intertactive.Unhighlight();
-            }
-            highlightedObjects[i] = null;
+            m_highlightedObjects[hand.side] = null;
+            interactive.Unhighlight();
         }
     }
 
+    // Logic to highlight objects based on all current hands.
     public void HighlightObjects(VG_HandStatus[] current)
     {
-        ClearHighlight(0);
-        ClearHighlight(1);
         if (current[0] == null || current[1] == null)
             return;
-
+        
         if (current[0].graspStatus == VG_ReturnCode.SUCCESS &&
             current[1].graspStatus == VG_ReturnCode.SUCCESS &&
             current[0].selectedObject != null &&
@@ -135,14 +119,11 @@ public class HandCodeObjectSelection
                 Highlight(current[1]);
         }
         else
-
+        {
             for (int i = 0; i < current.Length; i++)
             {
                 // Switch off highlight for former selected object if it switched
-                if (highlightedObjects[i] != current[i].selectedObject && highlightedObjects[i] != null)
-                {
-                    ClearHighlight(highlightedObjects[i].transform);
-                }
+                Unhighlight(current[i]);
 
                 // If there's no selected object, we have nothing to highlight
                 if (current[i].selectedObject == null)
@@ -152,14 +133,12 @@ public class HandCodeObjectSelection
                 if (current[i].mode != VG_InteractionMode.EMPTY)
                     continue;
 
-                // If there's no selected grasp, we have nothing to highlight
-                //if (current [i].graspStatus != VG_ReturnCode.SUCCESS)
-                //	continue;
-
                 Highlight(current[i]);
             }
+        }
     }
 
+    // Check a raycast from a given point in a given direction, and return the hit object and the distance to the hit.
     private bool CheckRaycast(Vector3 p, Vector3 dir, float threshold, out Transform selectedObject, out float distance)
     {
         selectedObject = null;
@@ -180,6 +159,7 @@ public class HandCodeObjectSelection
         return false;
     }
 
+    // Select an object by using multiple raycasts.
     private void SelectObjectBySeedRaycasts(string mode, Vector3 p, Quaternion q, out Transform selectedObject, out float distance)
     {
         selectedObject = null;
@@ -205,6 +185,7 @@ public class HandCodeObjectSelection
         }
     }
 
+    // Select an object by using closest bound distance.
     private void SelectObjectByClosestBound(string mode, Vector3 p, Vector3 dir, out Transform selectedObject, out float distance)
     {
         float nxt_distance;
@@ -250,6 +231,7 @@ public class HandCodeObjectSelection
         }
     }
 
+    // Select an object for push interaction
     public void SelectToPush(VG_HandStatus hand)
     {
         Vector3 p;
@@ -260,11 +242,20 @@ public class HandCodeObjectSelection
         VG_Controller.GetFingerBone(1, hand.side, 1, -1, out iid, out p, out q);
 
         SelectObjectBySeedRaycasts("Push", p, Quaternion.LookRotation(q * (Vector3.up + Vector3.forward)), out hand.selectedObject, out hand.distance);
-        if (hand.selectedObject != null) return;
 
+        // Deselect if the object is no prismatic joint. We only want pushable objects to be pushable for now.
+        if (hand.selectedObject != null)
+        {
+            VG_Articulation articulation = hand.selectedObject.GetComponent<VG_Articulation>();
+            if (articulation == null || articulation.m_type != VG_JointType.PRISMATIC)
+                hand.selectedObject = null;
+        }
+
+        // if (hand.selectedObject != null) return;
         //SelectObjectByClosestBound("Push", p, q * Vector3.up, out hand.selectedObject, out hand.distance);
     }
 
+    // Select an object for grasp interaction
     public void SelectToGrasp(VG_HandStatus hand)
     {
         Vector3 p;
@@ -285,12 +276,15 @@ public class HandCodeObjectSelection
 
         // Check raycast if another object is hit before
         CheckRaycast(p, hand.selectedObject.GetComponent<Collider>().bounds.ClosestPoint(p) - p, m_interactionParameters["Grasp"].m_distanceThreshold, out hand.selectedObject, out hand.distance);
+
+        // If there's no selected grasp, we have nothing to highlight
+        if (hand.graspStatus != VG_ReturnCode.SUCCESS)
+            hand.selectedObject = null;
     }
 
+    // Select objects based on current hands.
     public void Select(VG_HandStatus[] status)
     {
-        ClearHighlight(0);
-        ClearHighlight(1);
         foreach (VG_HandStatus hand in status)
         {
             // If the hand is invalid in any way, reset the current selection
