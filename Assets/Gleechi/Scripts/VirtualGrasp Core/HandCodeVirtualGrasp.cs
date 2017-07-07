@@ -15,9 +15,6 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 {
 	// Check this if we want to use VR mode
 	public bool useVR = true;
-	// A shader for object highlighting. We have to add this here in order to bring the shader into a build.
-	public Shader shader = null;
-
 	// We have a scene with one specific avatar
 	private int avatarID = 1;
 	// An array of the current VirtualGrasp hand status (since we use two hands, we have two elements)
@@ -96,7 +93,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		}
 
         // Hand the interface over to the ObjectSelection
-		pSelector = new HandCodeObjectSelection (shader);
+		pSelector = new HandCodeObjectSelection ();
 
 		pSensorMapper = GetComponent<VG_SensorConfiguration> ();
 		// Register the sensor configuration to the VirtualGrasp library and create the HandStatus arrays
@@ -172,7 +169,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
             current[handID].mode = VG_Controller.GetInteractionMode(avatarID, current[handID].side);
             if (current[handID].mode == VG_InteractionMode.EMPTY)
             {
-                VG_Controller.PushWithFinger(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
+                current[handID].graspStatus = VG_Controller.SynthesizeGrasp(current[handID].selectedObject.transform, current[handID].hand, current[handID].side);
             }
 
 			// Do things based on interaction mode
