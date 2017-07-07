@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+[RequireComponent(typeof(Highlighter))]
 public class InteractiveObject : MonoBehaviour
 {
    
@@ -13,9 +15,7 @@ public class InteractiveObject : MonoBehaviour
 
     internal void Start()
     {
-        highlighter = GetComponentInChildren<Highlighter>();
-        if (highlighter == null)
-            Debug.LogError("InteractiveObject.cs: No Highlighter script found in the object's hierarchy!");
+        highlighter = GetComponent<Highlighter>();
     }
 
     public void Highlight()
@@ -29,18 +29,4 @@ public class InteractiveObject : MonoBehaviour
         highlighter.enabled = false;
         _isHighlighted = false;
     }
-
-
-
-
-    // for test only: 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-            Highlight();
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-            Unhighlight();
-    }
-
-
 }

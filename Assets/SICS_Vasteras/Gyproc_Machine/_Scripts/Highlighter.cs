@@ -12,12 +12,15 @@ public class Highlighter : MonoBehaviour
 {
     /* fields & properties */
 
-    public Color highlightColor = Color.blue;
+    public Color highlightColor = new Color(0.7f, 0.7f, 0f);
 
     private Renderer[] renderers;
     private Color emissionColor;
 
-
+    private void Start()
+    {
+        enabled = false;
+    }
 
     /* methods & coroutines */
 
