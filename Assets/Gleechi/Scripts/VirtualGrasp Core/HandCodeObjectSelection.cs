@@ -32,6 +32,8 @@ public class HandCodeObjectSelection
     static private Dictionary<string, InteractionParams> m_interactionParameters = new Dictionary<string, InteractionParams>();
     // The seed points for multi-raycast object selection.
     List<KeyValuePair<Vector3, float>> seedPts = new List<KeyValuePair<Vector3, float>>();
+    // Cached list of interactable objects
+    private List<Transform> m_objects = new List<Transform>();
 
     // Method to generate the seed points for multi-raycast object selection.
     void sunflower(int numRays, float radius)
@@ -52,6 +54,10 @@ public class HandCodeObjectSelection
 
     public HandCodeObjectSelection()
     {
+        // Just cache the list of objects that are tagged
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Object"))
+            m_objects.Add(obj.transform);
+
         // Initialize the highlighted objects dictionary.
         m_highlightedObjects[VG_HandSide.LEFT] = null;
         m_highlightedObjects[VG_HandSide.RIGHT] = null;
@@ -68,7 +74,7 @@ public class HandCodeObjectSelection
         // Got no object, got no highlight
         if (hand.selectedObject == null)
             return;
-        
+
         // Highlight object is it has a component and if it's not already highlighted
         InteractiveObject interactive = hand.selectedObject.gameObject.GetComponentInParent<InteractiveObject>();
         if (interactive && !interactive.isHighlighted)
@@ -84,7 +90,7 @@ public class HandCodeObjectSelection
         // Got no object (or the same object as before), got no unhighlight
         Transform highlightedObject = m_highlightedObjects[hand.side];
         if (highlightedObject == hand.selectedObject || highlightedObject == null)
-           return;
+            return;
 
         // Unhighlight object is it has a component and if it's not already unhighlighted
         InteractiveObject interactive = highlightedObject.gameObject.GetComponentInParent<InteractiveObject>();
@@ -100,7 +106,7 @@ public class HandCodeObjectSelection
     {
         if (current[0] == null || current[1] == null)
             return;
-        
+
         if (current[0].graspStatus == VG_ReturnCode.SUCCESS &&
             current[1].graspStatus == VG_ReturnCode.SUCCESS &&
             current[0].selectedObject != null &&
@@ -159,7 +165,6 @@ public class HandCodeObjectSelection
         return false;
     }
 
-    // Select an object by using multiple raycasts.
     private void SelectObjectBySeedRaycasts(string mode, Vector3 p, Quaternion q, out Transform selectedObject, out float distance)
     {
         selectedObject = null;
@@ -185,7 +190,6 @@ public class HandCodeObjectSelection
         }
     }
 
-    // Select an object by using closest bound distance.
     private void SelectObjectByClosestBound(string mode, Vector3 p, Vector3 dir, out Transform selectedObject, out float distance)
     {
         float nxt_distance;
@@ -195,7 +199,7 @@ public class HandCodeObjectSelection
         distance = -1;
         selectedObject = null;
 
-        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Object"))
+        foreach (Transform obj in m_objects)
         {
             Collider r = obj.GetComponent<Collider>();
 
@@ -219,14 +223,28 @@ public class HandCodeObjectSelection
                 {
                     min_cnt_distance = cnt_distance;
                     distance = Mathf.Min(nxt_distance, distance);
-                    selectedObject = obj.transform;
+                    selectedObject = obj;
                 }
             }
             else if (nxt_distance < distance || distance < 0)
             {
                 min_cnt_distance = cnt_distance;
                 distance = nxt_distance;
-                selectedObject = obj.transform;
+                selectedObject = obj;
+            }
+        }
+    }
+
+    private void SelectObjectByInBounds(Vector3 p, out Transform selectedObject)
+    {
+        selectedObject = null;
+        foreach (Transform obj in m_objects)
+        {
+            // Note: there'll be a problem with nested object colliders
+            if (obj.GetComponent<Collider>().bounds.Contains(p))
+            {
+                selectedObject = obj;
+                return;
             }
         }
     }
@@ -241,7 +259,10 @@ public class HandCodeObjectSelection
         // Get the pose of the first avatar's (1) index finger's (1) last (-1) limb, i.e. the fingertip.
         VG_Controller.GetFingerBone(1, hand.side, 1, -1, out iid, out p, out q);
 
-        SelectObjectBySeedRaycasts("Push", p, Quaternion.LookRotation(q * (Vector3.up + Vector3.forward)), out hand.selectedObject, out hand.distance);
+        SelectObjectByClosestBound("Push", p, q * Vector3.up, out hand.selectedObject, out hand.distance);
+
+        if (hand.selectedObject == null)
+            SelectObjectBySeedRaycasts("Push", p, Quaternion.LookRotation(q * (Vector3.up + Vector3.forward)), out hand.selectedObject, out hand.distance);
 
         // Deselect if the object is no prismatic joint. We only want pushable objects to be pushable for now.
         if (hand.selectedObject != null)
@@ -250,9 +271,6 @@ public class HandCodeObjectSelection
             if (articulation == null || articulation.m_type != VG_JointType.PRISMATIC)
                 hand.selectedObject = null;
         }
-
-        // if (hand.selectedObject != null) return;
-        //SelectObjectByClosestBound("Push", p, q * Vector3.up, out hand.selectedObject, out hand.distance);
     }
 
     // Select an object for grasp interaction
@@ -265,21 +283,18 @@ public class HandCodeObjectSelection
         // Get the pose of the grasp approach center.
         VG_Controller.GetBone(1, hand.side, VG_BoneType.APPROACH, out iid, out p, out q);
 
-        // Check raycast if direct hit
-        //if (CheckRaycast (p, dir, hand)) continue;
-
         SelectObjectBySeedRaycasts("Grasp", p, Quaternion.LookRotation(q * Vector3.up), out hand.selectedObject, out hand.distance);
-        if (hand.selectedObject != null) return;
 
-        SelectObjectByClosestBound("Grasp", p, q * Vector3.up, out hand.selectedObject, out hand.distance);
-        if (hand.selectedObject == null) return;
+        if (hand.selectedObject == null)
+        {
+            SelectObjectByClosestBound("Grasp", p, q * Vector3.up, out hand.selectedObject, out hand.distance);
 
-        // Check raycast if another object is hit before
-        CheckRaycast(p, hand.selectedObject.GetComponent<Collider>().bounds.ClosestPoint(p) - p, m_interactionParameters["Grasp"].m_distanceThreshold, out hand.selectedObject, out hand.distance);
+            // Assure by single raycast that no other object is in front of the selected one
+            //CheckRaycast(p, hand.selectedObject.GetComponent<Collider>().bounds.ClosestPoint(p) - p, m_interactionParameters["Grasp"].m_distanceThreshold, out hand.selectedObject, out hand.distance);
+        }
 
-        // If there's no selected grasp, we have nothing to highlight
-        if (hand.graspStatus != VG_ReturnCode.SUCCESS)
-            hand.selectedObject = null;
+        if (hand.selectedObject == null)
+            SelectObjectByInBounds(p, out hand.selectedObject);
     }
 
     // Select objects based on current hands.
@@ -309,12 +324,27 @@ public class HandCodeObjectSelection
             if (VG_Controller.IsIndexPushInteractionForSide(hand.side))
             {
                 SelectToPush(hand);
+
+                // Disable the selected object if it's not a pushable one.
+                if (hand.selectedObject != null)
+                {
+                    VG_Articulation art = hand.selectedObject.GetComponent<VG_Articulation>();
+                    if (art != null && art.m_type != VG_JointType.PRISMATIC)
+                        hand.selectedObject = null;
+                }
             }
             else
             {
                 SelectToGrasp(hand);
+
+                // Disable the selected object if it's not a graspable one.
+                if (hand.selectedObject != null)
+                {
+                    VG_Articulation art = hand.selectedObject.GetComponent<VG_Articulation>();
+                    if (art != null && art.m_type == VG_JointType.PRISMATIC)
+                        hand.selectedObject = null;
+                }
             }
         }
     }
 }
-
