@@ -7,47 +7,45 @@
 using System.Collections;
 using UnityEngine;
 
-namespace HanCode
+
+public class Highlighter : MonoBehaviour
 {
-    public class Highlighter : MonoBehaviour
+    /* fields & properties */
+
+    public Color highlightColor = Color.blue;
+
+    private Renderer[] renderers;
+    private Color emissionColor;
+
+
+
+    /* methods & coroutines */
+
+    private void OnEnable()
     {
-        /* fields & properties */
+        renderers = GetComponentsInChildren<Renderer>();
+        emissionColor = Color.blue;
+        StartCoroutine(HighlightRoutine());
+    }
 
-        public Color highlightColor = Color.blue;
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        foreach (Renderer rend in renderers)
+            rend.material.SetColor("_EmissionColor", Color.black);
+    }
 
-        private Renderer[] renderers;
-        private Color emissionColor;
-
-
-
-        /* methods & coroutines */
-
-        private void OnEnable()
+    private IEnumerator HighlightRoutine()
+    {
+        float emission;
+        Color finalColor;
+        while (true)
         {
-            renderers = GetComponentsInChildren<Renderer>();
-            emissionColor = Color.blue;
-            StartCoroutine(HighlightRoutine());
-        }
-
-        private void OnDisable()
-        {
-            StopAllCoroutines();
+            emission = Mathf.PingPong(Time.time, 1f);
+            finalColor = highlightColor * Mathf.LinearToGammaSpace(emission);
             foreach (Renderer rend in renderers)
-                rend.material.SetColor("_EmissionColor", Color.black);
-        }
-
-        private IEnumerator HighlightRoutine()
-        {
-            float emission;
-            Color finalColor;
-            while (true)
-            {
-                emission = Mathf.PingPong(Time.time, 1f);
-                finalColor = highlightColor * Mathf.LinearToGammaSpace(emission);
-                foreach (Renderer rend in renderers)
-                    rend.material.SetColor("_EmissionColor", finalColor);
-                yield return null;
-            }
+                rend.material.SetColor("_EmissionColor", finalColor);
+            yield return null;
         }
     }
 }
