@@ -14,15 +14,16 @@ public class MachineButton : InteractiveObject
     public enum ButtonID
     {
         NONE,
-        MAINCONSOLE_CRADLE_MOVE_TO_LEFT,
-        MAINCONSOLE_CRADLE_MOVE_TO_RIGHT,
-        MAINCONSOLE_CRADLE_STOP,
-        MAINCONSOLE_ARMS_CLOSE,
-        MAINCONSOLE_ARMS_OPEN,
-        MAINCONSOLE_ARMS_MOVE_RIGHT,
-        MAINCONSOLE_ARMS_MOVE_LEFT,
-        MAINCONSOLE_ARMRIG_ROTATE_UP,
-        MAINCONSOLE_ARMRIG_ROTATE_DOWN,
+        CRADLE_MOVE_LEFT,
+        CRADLE_MOVE_RIGHT,
+        CRADLE_STOP,
+        ARMS_CLOSE,
+        ARMS_OPEN,
+        ARMS_MOVE_RIGHT,
+        ARMS_MOVE_LEFT,
+        ARMRIG_ROTATE_UP,
+        ARMRIG_ROTATE_DOWN,
+        BREAK_TOGGLE,
     }
     public ButtonID ID;
     public bool isPressed { get { return isPressed; } }
@@ -39,7 +40,7 @@ public class MachineButton : InteractiveObject
     {
         base.Start();
         if (ID == ButtonID.NONE)
-            Debug.LogError("MachineButton.cs: ID can't be NONE! please set the button ID!");
+            Debug.LogError(string.Format("Object: {0}\nMachineButton.cs: ID can't be NONE! please set the button ID!", Machine.GetPath(gameObject)));
 
         VG_TriggerEvent triggerEvent = GetComponentInChildren<VG_TriggerEvent>();
         if (triggerEvent == null)
