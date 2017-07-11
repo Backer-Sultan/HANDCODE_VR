@@ -31,6 +31,18 @@ public class Machine : MonoBehaviour
 
     /* methods & coroutines */
 
+    // returns GameObject's full path in the hierarchy.
+    public static string GetPath(GameObject obj)
+    {
+        string path = "/" + obj.name;
+        while (obj.transform.parent != null)
+        {
+            obj = obj.transform.parent.gameObject;
+            path = "/" + obj.name + path;
+        }
+        return path;
+    }
+
     private void Start()
     {
         cradle = GetComponentInChildren<Cradle>();
