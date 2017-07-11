@@ -4,94 +4,81 @@
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
 
-
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
-public class Machine : MonoBehaviour
+namespace HandCode
 {
-    /* fields & properties */
-
-    [HideInInspector]
-    public Cradle cradle;
-    [HideInInspector]
-    public ArmRig armRig_Right, armRig_Left;
-    [HideInInspector]
-    public Spool spool_Left, spool_Right;
-    [HideInInspector]
-    public MainConsole mainConsole;
-    [HideInInspector]
-    public CradleConsole cradleConsole;
-    [HideInInspector]
-    public PaperConsole paperConsole;
-
-
-
-    /* methods & coroutines */
-
-    // returns GameObject's full path in the hierarchy.
-    public static string GetPath(GameObject obj)
+    public class Machine : MonoBehaviour
     {
-        string path = "/" + obj.name;
-        while (obj.transform.parent != null)
+        /* fields & properties */
+        public enum Identifier
         {
-            obj = obj.transform.parent.gameObject;
-            path = "/" + obj.name + path;
+            NONE,
+            LEFT,
+            Right,
         }
-        return path;
-    }
+        [HideInInspector]
+        public Cradle cradle;
+        [HideInInspector]
+        public ArmRig armRig_Right, armRig_Left;
+        [HideInInspector]
+        public Spool spool_Left, spool_Right;
 
-    private void Start()
-    {
-        cradle = GetComponentInChildren<Cradle>();
-        if (!cradle)
-            Debug.LogError("Machine.cs: Cradle script is missing!");
 
-        ArmRig[] armRigs = GetComponentsInChildren<ArmRig>();
-        foreach (ArmRig rig in armRigs)
+
+        /* methods & coroutines */
+
+        // returns GameObject's full path in the hierarchy.
+        public static string GetPath(GameObject obj)
         {
-            if (rig.ID.Trim().ToLower() == "left")
+            string path = "/" + obj.name;
+            while (obj.transform.parent != null)
             {
-                armRig_Left = rig;
-                continue;
+                obj = obj.transform.parent.gameObject;
+                path = "/" + obj.name + path;
             }
-            if (rig.ID.Trim().ToLower() == "right")
-            {
-                armRig_Right = rig;
-                continue;
-            }
+            return path;
         }
-        //    Debug.LogError("Machine.cs: ArmRig script is missing");
 
-        Spool[] spools = GetComponentsInChildren<Spool>();
-        foreach (Spool spl in spools)
+        private void Start()
         {
-            if (spl.ID == "left")
+            cradle = GetComponentInChildren<Cradle>();
+            if (cradle == false)
+                Debug.LogError(string.Format("{0}\nMachine.cs: Cradle script is missing!", GetPath(gameObject)));
+
+            ArmRig[] armRigs = GetComponentsInChildren<ArmRig>();
+            foreach (ArmRig rig in armRigs)
             {
-                spool_Left = spl;
-                continue;
+                if (rig.ID == Identifier.LEFT)
+                {
+                    armRig_Left = rig;
+                    continue;
+                }
+                if (rig.ID == Identifier.Right)
+                {
+                    armRig_Right = rig;
+                    continue;
+                }
             }
-            if (spl.ID == "right")
+
+            Spool[] spools = GetComponentsInChildren<Spool>();
+            foreach (Spool spl in spools)
             {
-                spool_Right = spl;
-                continue;
+                if (spl.ID == Identifier.LEFT)
+                {
+                    spool_Left = spl;
+                    continue;
+                }
+                if (spl.ID == Identifier.Right)
+                {
+                    spool_Right = spl;
+                    continue;
+                }
             }
+            if (spool_Left == null)
+                Debug.LogError(string.Format("{0}\nMachine.cs: No spool with id `Left` is found!", GetPath(gameObject)));
+            if (spool_Right == null)
+                Debug.LogError(string.Format("{0}\nMachine.cs: No spool with id `Right` is found!", GetPath(gameObject)));
         }
-        if (!spool_Left || !spool_Right)
-            Debug.LogError("Machine.cs: Spool script is missing!");
-
-        mainConsole = GetComponentInChildren<MainConsole>();
-        if (!mainConsole)
-            Debug.LogError("Machine.cs: MainConsole script is missing!");
-
-        cradleConsole = GetComponentInChildren<CradleConsole>();
-        if (!cradleConsole)
-            Debug.LogError("Machine.cs: CradleConsole script is missing!");
-
-        paperConsole = GetComponentInChildren<PaperConsole>();
-        if (!paperConsole)
-            Debug.LogError("Machine.cs: PaperConsole script is missing!");
     }
 }

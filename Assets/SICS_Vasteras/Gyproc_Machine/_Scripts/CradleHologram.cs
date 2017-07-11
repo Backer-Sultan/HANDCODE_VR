@@ -4,54 +4,55 @@
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CradleHologram : MonoBehaviour
+namespace HandCode
 {
-    /* fields & properties */
-
-    [Range(0f, 1f)]
-    public float speed = 0.5f;
-    public Color color1, color2;
-    public Cradle cradle;
-
-    private Color lerpedColor;
-    private Renderer[] rends;
-
-
-
-    /* methods & coroutines */
-
-    private void Start()
+    public class CradleHologram : MonoBehaviour
     {
-        // initialization
-        if (!cradle)
-            cradle = GameObject.Find("Machine/Cradle").GetComponent<Cradle>();
-        if (!cradle)
-            Debug.LogError("CradleHologram: Cradle object is missing!");
+        /* fields & properties */
 
-        rends = GetComponentsInChildren<Renderer>();    
-    }
+        [Range(0f, 1f)]
+        public float speed = 0.5f;
+        public Color color1, color2;
+        public Cradle cradle;
 
-    private void Update()
-    {
-        transform.Translate(Vector3.right * speed * Time.deltaTime);
-        lerpedColor = Color.Lerp(color1, color2, Mathf.PingPong(Time.time * 2f, 1));
-        foreach (Renderer rend in rends)
-            rend.material.color = lerpedColor;
-    }
+        private Color lerpedColor;
+        private Renderer[] rends;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "CradleLimitRight")
-            transform.localPosition = cradle.transform.localPosition;
-    }
 
-    private void OnEnable()
-    {
-        if (cradle)
-            transform.localPosition = cradle.transform.localPosition;
+
+        /* methods & coroutines */
+
+        private void Start()
+        {
+            // initialization
+            if (cradle == false)
+                cradle = GameObject.Find("Machine/Cradle").GetComponent<Cradle>();
+            if (cradle == false)
+                Debug.LogError(string.Format("{0}\nCradleHologram: Cradle object is missing!", Machine.GetPath(gameObject)));
+
+            rends = GetComponentsInChildren<Renderer>();
+        }
+
+        private void Update()
+        {
+            transform.Translate(Vector3.right * speed * Time.deltaTime);
+            lerpedColor = Color.Lerp(color1, color2, Mathf.PingPong(Time.time * 2f, 1));
+            foreach (Renderer rend in rends)
+                rend.material.color = lerpedColor;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "CradleLimitRight")
+                transform.localPosition = cradle.transform.localPosition;
+        }
+
+        private void OnEnable()
+        {
+            if (cradle)
+                transform.localPosition = cradle.transform.localPosition;
+        }
     }
 }

@@ -4,35 +4,42 @@
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DirectionIndicatorArrow : MonoBehaviour
+namespace HandCode
 {
-    public float speed = 0.2f;
-
-    private Animator animator;
-
-    private void Start()
+    public class DirectionIndicatorArrow : MonoBehaviour
     {
-        // initialization
-        animator = GetComponent<Animator>();
-        if (animator == null)
-            Debug.LogError("DirectionIndicatorArrow.cs: component 'Animator' is missing!");
-    }
+        /* fields & properties */
 
-    private void Update()
-    {
-        transform.localPosition += Vector3.up * speed * Time.deltaTime;
-    }
+        public float speed = 0.2f;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.name == "DestroyTrigger")
+        private Animator animator;
+
+
+
+        /* methods & coroutines */
+
+        private void Start()
         {
-            animator.SetTrigger("FadeOut");
-            Destroy(gameObject, 1f);
+            // initialization
+            animator = GetComponent<Animator>();
+            if (animator == null)
+                Debug.LogError(string.Format("{0}\nDirectionIndicatorArrow.cs: Component `Animator` is missing!", Machine.GetPath(gameObject)));
         }
-    }
+
+        private void Update()
+        {
+            transform.localPosition += Vector3.up * speed * Time.deltaTime;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.name == "DestroyTrigger")
+            {
+                animator.SetTrigger("FadeOut");
+                Destroy(gameObject, 1f);
+            }
+        }
+    } 
 }

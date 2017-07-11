@@ -1,32 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*********************************************
+ * Project: HANDCODE                         *
+ * Author:  Backer Sultan                    *
+ * Email:   backer.sultan@ri.se              *
+ * *******************************************/
+
 using UnityEngine;
 
-
-[RequireComponent(typeof(Highlighter))]
-public class InteractiveObject : MonoBehaviour
+namespace HandCode
 {
-   
-    public bool isHighlighted { get { return _isHighlighted; } }
-    
-    private bool _isHighlighted = false;
-    private Highlighter highlighter;
-
-
-    internal void Start()
+    [RequireComponent(typeof(Highlighter))]
+    public class InteractiveObject : MonoBehaviour
     {
-        highlighter = GetComponent<Highlighter>();
+
+        public bool isHighlighted { get { return _isHighlighted; } }
+
+        private bool _isHighlighted = false;
+        private Highlighter highlighter;
+
+
+        internal void Start()
+        {
+            highlighter = GetComponent<Highlighter>();
+        }
+
+        public void Highlight()
+        {
+            highlighter.enabled = true;
+            _isHighlighted = true;
+        }
+
+        public void Unhighlight()
+        {
+            highlighter.enabled = false;
+            _isHighlighted = false;
+        }
     }
 
-    public void Highlight()
-    {
-        highlighter.enabled = true;
-        _isHighlighted = true;
-    }
-
-    public void Unhighlight()
-    {
-        highlighter.enabled = false;
-        _isHighlighted = false;
-    }
 }

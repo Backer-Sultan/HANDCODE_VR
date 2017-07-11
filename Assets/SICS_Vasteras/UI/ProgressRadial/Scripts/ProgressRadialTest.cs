@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using HandCode;
 
 public class ProgressRadialTest : MonoBehaviour
 {

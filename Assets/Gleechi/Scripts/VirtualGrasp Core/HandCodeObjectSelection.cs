@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using VirtualGrasp;
+using HandCode;
 
 /// Interaction params is a helper class for object selection based on multi-raycasting
 public class InteractionParams

@@ -7,48 +7,50 @@
 using System.Collections;
 using UnityEngine;
 
-
-public class Highlighter : MonoBehaviour
+namespace HandCode
 {
-    /* fields & properties */
-
-    public Color highlightColor = new Color(0.7f, 0.7f, 0f);
-
-    private Renderer[] renderers;
-    private Color emissionColor;
-
-    private void Start()
+    public class Highlighter : MonoBehaviour
     {
-        enabled = false;
-    }
+        /* fields & properties */
 
-    /* methods & coroutines */
+        public Color highlightColor = new Color(0.7f, 0.7f, 0f);
 
-    private void OnEnable()
-    {
-        renderers = GetComponentsInChildren<Renderer>();
-        emissionColor = Color.blue;
-        StartCoroutine(HighlightRoutine());
-    }
+        private Renderer[] renderers;
+        private Color emissionColor;
 
-    private void OnDisable()
-    {
-        StopAllCoroutines();
-        foreach (Renderer rend in renderers)
-            rend.material.SetColor("_EmissionColor", Color.black);
-    }
-
-    private IEnumerator HighlightRoutine()
-    {
-        float emission;
-        Color finalColor;
-        while (true)
+        private void Start()
         {
-            emission = Mathf.PingPong(Time.time, 1f);
-            finalColor = highlightColor * Mathf.LinearToGammaSpace(emission);
+            enabled = false;
+        }
+
+        /* methods & coroutines */
+
+        private void OnEnable()
+        {
+            renderers = GetComponentsInChildren<Renderer>();
+            emissionColor = Color.blue;
+            StartCoroutine(HighlightRoutine());
+        }
+
+        private void OnDisable()
+        {
+            StopAllCoroutines();
             foreach (Renderer rend in renderers)
-                rend.material.SetColor("_EmissionColor", finalColor);
-            yield return null;
+                rend.material.SetColor("_EmissionColor", Color.black);
+        }
+
+        private IEnumerator HighlightRoutine()
+        {
+            float emission;
+            Color finalColor;
+            while (true)
+            {
+                emission = Mathf.PingPong(Time.time, 1f);
+                finalColor = highlightColor * Mathf.LinearToGammaSpace(emission);
+                foreach (Renderer rend in renderers)
+                    rend.material.SetColor("_EmissionColor", finalColor);
+                yield return null;
+            }
         }
     }
 }
