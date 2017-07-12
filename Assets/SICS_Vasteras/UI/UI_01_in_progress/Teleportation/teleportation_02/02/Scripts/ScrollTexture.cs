@@ -1,30 +1,42 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿/*********************************************
+ * Project: HANDCODE                         *
+ * Author:  Backer Sultan                    *
+ * Email:   backer.sultan@ri.se              *
+ * *******************************************/
 
-public class ScrollTexture : MonoBehaviour
+using UnityEngine;
+
+namespace HandCode
 {
-	public GameObject[] parts;
-	Renderer[] rends;
-	public float speed =1f;
-
-	private void Start()
-	{
-		rends = GetComponentsInChildren<Renderer>();
-	}
-
-
-	public void RunPaper()
-	{
-		foreach(Renderer r in rends)
-		{
-			r.material.mainTextureOffset = new Vector2(r.material.mainTextureOffset.y - Time.deltaTime*speed, r.material.mainTextureOffset.x);
-		}
-	}
+    public class ScrollTexture : MonoBehaviour
+    {
+        /* fields & properties */
+        public float speed = 1f;
+        public GameObject[] parts;
+        
+        private Renderer[] rends;
 
 
-	private void FixedUpdate()
 
-	{
-		RunPaper();
-	} 
+        /* methods & coroutines */
+
+        private void Start()
+        {
+            rends = GetComponentsInChildren<Renderer>();
+        }
+
+        public void RunPaper()
+        {
+            foreach (Renderer r in rends)
+            {
+                r.material.mainTextureOffset = new Vector2(r.material.mainTextureOffset.y - Time.deltaTime * speed, r.material.mainTextureOffset.x);
+            }
+        }
+
+        private void FixedUpdate()
+
+        {
+            RunPaper();
+        }
+    } 
 }

@@ -8,12 +8,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpoolDamage : MonoBehaviour
+namespace HandCode
 {
-
-    private void OnTriggerEnter(Collider other)
+    public class SpoolDamage : MonoBehaviour
     {
-        if (other.tag == "ArmCone")
-            SendMessageUpwards("ApplyDamage", SendMessageOptions.RequireReceiver);
-    }
+        /* fields & properties */
+
+
+
+        /* methods & coroutines */
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.tag == "ArmCone")
+                SendMessageUpwards("ApplyDamage", SendMessageOptions.RequireReceiver);
+        }
+    } 
 }

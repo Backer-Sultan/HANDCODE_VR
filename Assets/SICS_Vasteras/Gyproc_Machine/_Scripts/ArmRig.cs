@@ -1,128 +1,118 @@
-﻿/*********************************************                                 *
+﻿/*********************************************
  * Project: HANDCODE                         *
  * Author: Backer Sultan                     *
  * Email:  backer.sultan@ri.se               *
  * *******************************************/
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class ArmRig : MonoBehaviour
+namespace HandCode
 {
-    /* fields & properties */
-
-    public string ID; // use 'left' for the left ArmRig and 'right' for the right one. 
-    public Transform mainHandle;
-    public Arm arm_Left, arm_Right;
-    public ArmConsole armConsole;
-    
-    private AudioSource audioSource;
-    private HingeJoint joint;
-
-    /* methods & coroutines */
-
-    private void Start()
+    public class ArmRig : MonoBehaviour
     {
-        // initialization
-        if (ID == string.Empty)
-            Debug.LogError("ArmRig.cs: ID can't be empty!");
-        else
+        /* fields & properties */
+        
+        public Machine.Identifier ID;
+        public Transform mainHandle;
+        public Arm arm_Left, arm_Right;
+
+        private AudioSource audioSource;
+        private HingeJoint joint;
+
+        /* methods & coroutines */
+
+        private void Start()
         {
-            ID = ID.Trim().ToLower();
-            if (ID != "left" && ID != "right")
-                Debug.LogError("ArmRig.cs: Invalid ID! ID should be `left` or `right`!");
+            // initialization
+            if (ID == Machine.Identifier.NONE)
+                Debug.LogError(string.Format("{0}\nArmRig.cs: ID should be assigned!", Machine.GetPath(gameObject)));
+
+            if (mainHandle == null)
+                mainHandle = transform.Find("MainHandle");
+            if (mainHandle == null)
+                Debug.LogError(string.Format("{0}\nArmRig.cs: Object `MainHandle` is missing!", Machine.GetPath(gameObject)));
+
+            if (arm_Left == null)
+                arm_Left = transform.Find("MainHandle/Arm_Left").GetComponent<Arm>();
+            if (arm_Left == null)
+                Debug.LogError(string.Format("{0}\nArmRig.cs: Object `MainHandle/Arm_Left` is missing!", Machine.GetPath(gameObject)));
+
+            if (arm_Right == null)
+                arm_Right = transform.Find("MainHandle/Arm_Right").GetComponent<Arm>();
+            if (arm_Right == null)
+                Debug.LogError(string.Format("{0}\nArmRig.cs: Object `MainHandle/Arm_Right` is missing!", Machine.GetPath(gameObject)));
+
+            
+            audioSource = GetComponentInChildren<AudioSource>();
+            if (audioSource == null)
+                Debug.LogError(string.Format("{0}\nArmRig.cs: Component `AudioSource` is missing!", Machine.GetPath(gameObject)));
+
+            joint = mainHandle.GetComponent<HingeJoint>();
+            if (joint == null)
+                Debug.LogError(string.Format("{0}\nArmRig.cs: Component `HingeJoint` is missing on Object `MainHandle`!", Machine.GetPath(gameObject)));
         }
 
-        if (!mainHandle)
-            mainHandle = transform.Find("MainHandle");
-        if (!mainHandle)
-            Debug.LogError(string.Format("ArmRig.cs ({0}): object MainHandle is missing!", ID));
+        public void RotateUp()
+        {
+            JointMotor motor = joint.motor;
+            motor.targetVelocity = 10f;
+            joint.motor = motor;
+            PlaySound(MachineSounds.Instance.ArmRig_Rotating);
+        }
 
-        if (!arm_Left)
-            arm_Left = transform.Find("MainHandle/Arm_Left").GetComponent<Arm>();
-        if (!arm_Left)
-            Debug.LogError(string.Format("ArmRig.cs ({0}): Object MainHandle/Arm_Left is missing!", ID));
+        public void RotateDown()
+        {
+            JointMotor motor = joint.motor;
+            motor.targetVelocity = -10f;
+            joint.motor = motor;
+            PlaySound(MachineSounds.Instance.ArmRig_Rotating);
+        }
 
-        if (!arm_Right)
-            arm_Right = transform.Find("MainHandle/Arm_Right").GetComponent<Arm>();
-        if (!arm_Right)
-            Debug.LogError(string.Format("ArmRig.cs ({0}): Object MainHandle/Arm_Right is missing!", ID));
+        public void StopRotating()
+        {
+            JointMotor motor = joint.motor;
+            motor.targetVelocity = 0f;
+            joint.motor = motor;
+            PlaySound(MachineSounds.Instance.ArmRig_StopRotating);
+        }
 
-        //if (!armConsole)
-        //    armConsole = transform.Find("MainHandle/Arm_Left/ArmConsole").GetComponent<ArmConsole>();
-        //if (!armConsole)
-        //    Debug.LogError(string.Format("ArmRig.cs ({0}): Object MainHandle/Arm_Left/ArmConsole is missing!", ID));
+        public void OpenArms()
+        {
+            arm_Left.MoveLeft();
+            arm_Right.MoveRight();
+        }
 
-        audioSource = GetComponentInChildren<AudioSource>();
-        if(!audioSource)
-            Debug.LogError(string.Format("ArmRig.cs ({0}): AudioSource component is missing!", ID));
+        public void CloseArms()
+        {
+            arm_Left.MoveRight();
+            arm_Right.MoveLeft();
+        }
 
-        joint = mainHandle.GetComponent<HingeJoint>();
-        if (!joint)
-            Debug.LogError(string.Format("ArmRig.cs({0}): Component HingeJoint is missing on Object `ArmRig/MainHandle`!", ID));
-    }
+        public void MoveArmsLeft()
+        {
+            arm_Left.MoveLeft();
+            arm_Right.MoveLeft();
+        }
 
-    public void RotateUp()
-    {
-        JointMotor motor = joint.motor;
-        motor.targetVelocity = 10f;
-        joint.motor = motor;
-        PlaySound(MachineSounds.Instance.ArmRig_Rotating);
-    }
+        public void MoveArmsRight()
+        {
+            arm_Left.MoveRight();
+            arm_Right.MoveRight();
+        }
 
-    public void RotateDown()
-    {
-        JointMotor motor = joint.motor;
-        motor.targetVelocity = -10f;
-        joint.motor = motor;
-        PlaySound(MachineSounds.Instance.ArmRig_Rotating);
-    }
+        public void StopArms()
+        {
+            arm_Left.Stop();
+            arm_Right.Stop();
+        }
 
-    public void StopRotating()
-    {
-        JointMotor motor = joint.motor;
-        motor.targetVelocity = 0f;
-        joint.motor = motor;
-        PlaySound(MachineSounds.Instance.ArmRig_StopRotating);
-    }
-
-    public void OpenArms()
-    {
-        arm_Left.MoveLeft();
-        arm_Right.MoveRight();
-    }
-
-    public void CloseArms()
-    {
-        arm_Left.MoveRight();
-        arm_Right.MoveLeft();
-    }
-
-    public void MoveArmsLeft()
-    {
-        arm_Left.MoveLeft();
-        arm_Right.MoveLeft();
-    }
-
-    public void MoveArmsRight()
-    {
-        arm_Left.MoveRight();
-        arm_Right.MoveRight();
-    }
- 
-    public void StopArms()
-    {
-        arm_Left.Stop();
-        arm_Right.Stop();
-    }
-
-    public void PlaySound(AudioClip clip)
-    {
-        audioSource.Stop();
-        audioSource.clip = clip;
-        audioSource.Play();
-    }
+        public void PlaySound(AudioClip clip)
+        {
+            audioSource.Stop();
+            audioSource.clip = clip;
+            audioSource.Play();
+        }
+    } 
 }
 
 
