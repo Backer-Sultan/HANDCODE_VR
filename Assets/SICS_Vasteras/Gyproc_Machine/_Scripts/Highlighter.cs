@@ -16,7 +16,6 @@ namespace HandCode
         public Color highlightColor = new Color(0.7f, 0.7f, 0f);
 
         private Renderer[] renderers;
-        private Color emissionColor;
 
         private void Start()
         {
@@ -28,7 +27,6 @@ namespace HandCode
         private void OnEnable()
         {
             renderers = GetComponentsInChildren<Renderer>();
-            emissionColor = Color.blue;
             StartCoroutine(HighlightRoutine());
         }
 
