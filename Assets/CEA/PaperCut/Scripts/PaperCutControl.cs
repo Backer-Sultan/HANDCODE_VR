@@ -19,7 +19,7 @@ public class PaperCutControl : MonoBehaviour {
   void Update() {
     if (clothJoint && rebuild)
     {
-      if (Time.time - start > 1.5f)
+      if (Time.time - start > 1.0f)
       {
         clothJoint.RebuildJoint();
         rebuild = false;

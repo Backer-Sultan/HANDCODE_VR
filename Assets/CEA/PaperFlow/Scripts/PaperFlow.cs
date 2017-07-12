@@ -46,7 +46,6 @@ public class PaperFlow : MonoBehaviour
         keypoints[i] = o.transform;
       }
 
-
       BuildKeypoints();
     }
 
@@ -106,6 +105,7 @@ public class PaperFlow : MonoBehaviour
   void BuildKeypoints()
   {
     int kpIndex = 0;
+    bool sideSwitch = false ;
     for(int i = 0;i<capsules.Length-1;i++)
     {
       bool skip = false;
@@ -127,12 +127,29 @@ public class PaperFlow : MonoBehaviour
       else
         tangents.side1 = false;
 
+      /*if (center0.x > center1.x)
+      {
+        if (sideSwitch)
+          tangents.side0 = !tangents.side0;
+
+        tangents.side1 = !tangents.side1;
+        sideSwitch = true;
+      }
+      else if (sideSwitch)
+      {
+        tangents.side0 = !tangents.side0;
+        sideSwitch = false;
+      }
+      else
+      {
+        sideSwitch = false;
+      }*/
+
       tangents.CalculateTangents();
 
       //Connection the tangents with an arc of a circle
       if (i>0)
       {
-
         Vector3 p1 = keypoints[kpIndex - 2].position;
         Vector3 p2 = new Vector3(tangents.it1.x, tangents.it1.y, center1.z);
         Vector3 p3 = p1 + Vector3.forward;
@@ -142,8 +159,8 @@ public class PaperFlow : MonoBehaviour
         float distance = Vector3.Dot(n, center0) + d;
         if ((distance + capsules[i].radius < 0 && sides[i] == Side.ABOVE) || (distance - capsules[i].radius > 0 && sides[i] == Side.UNDER)) //no possible contact with the current spool
         {
-          skip = true;
-          kpIndex--;
+          //skip = true;
+          //kpIndex--;
         }
 
         if (!skip)
@@ -152,7 +169,7 @@ public class PaperFlow : MonoBehaviour
           Vector3 des = new Vector3(tangents.it0.x - center0.x, tangents.it0.y - center0.y, 0);
 
           Vector3 axis = Vector3.forward;
-          if (sides[i] == Side.ABOVE)
+          if (tangents.side0)
             axis = -Vector3.forward;
 
           Vector3 signRef = Vector3.Cross(ori, axis);

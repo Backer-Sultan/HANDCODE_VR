@@ -8,6 +8,8 @@ public class TwoCirclesTangents
 
   public Vector2 it0,it1;
 
+  private const float epsilon = 10 * float.Epsilon;
+
   public TwoCirclesTangents()
   {
 
@@ -23,7 +25,24 @@ public class TwoCirclesTangents
       bool switched = false;
       if (side0 == side1) //Outer tangents
       {
-        if (r0 < r1) //switching circle 0 and 1 r0 as to be bigger than r1
+        if(Mathf.Abs(r0-r1)< epsilon) //The two circle have equal radius, there is no tangents intersection point 
+        {
+          Vector2 rv = c0 -c1;
+          //if((rv.x>0 && side0) || (rv.x<=0 && !side0))
+          if (side0)
+            rv = new Vector2(rv.y, -rv.x);
+          else 
+            rv = new Vector2(-rv.y, rv.x);
+
+          rv.Normalize();
+          rv *= r0;
+
+          it0 = c0 + rv;
+          it1 = c1 + rv;
+
+          return;
+        }
+        else if (r0 < r1) //switching circle 0 and 1 r0 as to be bigger than r1
         {
           Vector2 c = c0;
           c0 = c1;
@@ -53,7 +72,7 @@ public class TwoCirclesTangents
       //Determining the side of tangent point of circle 1
       float s0x = 1;
       float s0y = -1;
-      if (side0)
+      if(side0)
       {
         s0x = -1;
         s0y = 1;
