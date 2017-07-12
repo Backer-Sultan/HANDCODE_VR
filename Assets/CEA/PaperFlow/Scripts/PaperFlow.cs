@@ -105,7 +105,6 @@ public class PaperFlow : MonoBehaviour
   void BuildKeypoints()
   {
     int kpIndex = 0;
-    bool sideSwitch = false ;
     for(int i = 0;i<capsules.Length-1;i++)
     {
       bool skip = false;
@@ -127,24 +126,6 @@ public class PaperFlow : MonoBehaviour
       else
         tangents.side1 = false;
 
-      /*if (center0.x > center1.x)
-      {
-        if (sideSwitch)
-          tangents.side0 = !tangents.side0;
-
-        tangents.side1 = !tangents.side1;
-        sideSwitch = true;
-      }
-      else if (sideSwitch)
-      {
-        tangents.side0 = !tangents.side0;
-        sideSwitch = false;
-      }
-      else
-      {
-        sideSwitch = false;
-      }*/
-
       tangents.CalculateTangents();
 
       //Connection the tangents with an arc of a circle
@@ -156,14 +137,14 @@ public class PaperFlow : MonoBehaviour
         Vector3 n = Vector3.Cross(p1 - p3, p1 - p2);
         float d = -Vector3.Dot(n, p1);
 
-        float distance = Vector3.Dot(n, center0) + d;
+        /*float distance = Vector3.Dot(n, center0) + d;
         if ((distance + capsules[i].radius < 0 && sides[i] == Side.ABOVE) || (distance - capsules[i].radius > 0 && sides[i] == Side.UNDER)) //no possible contact with the current spool
         {
           //skip = true;
           //kpIndex--;
         }
 
-        if (!skip)
+        if (!skip)*/
         {
           Vector3 ori = keypoints[kpIndex - 1].position - center0;
           Vector3 des = new Vector3(tangents.it0.x - center0.x, tangents.it0.y - center0.y, 0);
