@@ -10,21 +10,23 @@ using UnityEngine.Events;
 
 namespace HandCode
 {
+    public enum CradlePosition
+    {
+        MIDDLE,
+        LEFT,
+        RIGHT,
+    }
+
     public class Cradle : MonoBehaviour
     {
         /* fields & properties */
 
-        public enum CradlePosition
-        {
-            MIDDLE,
-            LEFT,
-            RIGHT,
-        }
         [Range(0f, 1f)]
         public float speed = 0.5f;
         public Transform pinsherRotator;
         public bool isBreakApplied { get { return _isBreakApplied; } }
         public bool isPinsherLow  { get { return _isPinsherLow; } }
+        public bool isTargetReached { get { return _isTargetReached; } }
         [HideInInspector]
         public CradlePosition cradlePos = CradlePosition.MIDDLE;
         [Header("Events")]
@@ -38,6 +40,7 @@ namespace HandCode
         private Animator pinsherAnimator;
         private bool _isBreakApplied = true;
         private bool _isPinsherLow = false;
+        private bool _isTargetReached = false;
         private bool isMoving = false;
         private Vector3 direction = Vector3.zero;
 
@@ -136,6 +139,7 @@ namespace HandCode
             {
                 Stop();
                 cradlePos = CradlePosition.RIGHT;
+                _isTargetReached = true;
                 onTargetReached.Invoke();
                 return;
             }
@@ -149,6 +153,7 @@ namespace HandCode
         private void OnTriggerExit(Collider other)
         {
             if (cradlePos == CradlePosition.RIGHT)
+                _isTargetReached = false;
                 onTargetLeft.Invoke();
             cradlePos = CradlePosition.MIDDLE;
         }

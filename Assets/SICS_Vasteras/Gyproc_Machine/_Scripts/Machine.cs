@@ -8,21 +8,29 @@ using UnityEngine;
 
 namespace HandCode
 {
+    public enum Identifier
+    {
+        NONE,
+        LEFT,
+        Right,
+    }
+
+
     public class Machine : MonoBehaviour
     {
         /* fields & properties */
-        public enum Identifier
-        {
-            NONE,
-            LEFT,
-            Right,
-        }
+        
         [HideInInspector]
         public Cradle cradle;
         [HideInInspector]
         public ArmRig armRig_Right, armRig_Left;
         [HideInInspector]
         public Spool spool_Left, spool_Right;
+        [HideInInspector]
+        public MainConsole mainConsole;
+        public bool isButtonPushActive { get { return _isButtonPushActive; } }
+
+        private bool _isButtonPushActive; // Dubble kommando.
 
 
 
@@ -79,6 +87,20 @@ namespace HandCode
                 Debug.LogError(string.Format("{0}\nMachine.cs: No spool with id `Left` is found!", GetPath(gameObject)));
             if (spool_Right == null)
                 Debug.LogError(string.Format("{0}\nMachine.cs: No spool with id `Right` is found!", GetPath(gameObject)));
+
+            mainConsole = GetComponentInChildren<MainConsole>();
+            if(mainConsole == null)
+                Debug.LogError(string.Format("{0}\nMachine.cs: MainConsole script is missing!", GetPath(gameObject)));
+        }
+
+        public void ActivateButtonPush()
+        {
+            _isButtonPushActive = true;
+        }
+
+        public void DeactivateButtonPush()
+        {
+            _isButtonPushActive = false;
         }
     }
 }
