@@ -30,9 +30,10 @@ namespace HandCode
     public class MachineButton : InteractiveObject
     {
         /* fields & properties */
-        
+
         public MachineButtonID ID;
         public bool isPushed { get { return _isPushed; } }
+        public bool requiresDoubleCommand = false;
         [Header("Events")]
         public UnityEvent onPushed;
         public UnityEvent onReleased;
@@ -61,27 +62,44 @@ namespace HandCode
 
         public void OnPushed()
         {
-            // pushing the button only if the double command button is pushed.
-            if (machine.isButtonPushActive && !_isPushed)
+            if (!_isPushed)
             {
-                _isPushed = true;
-                onPushed.Invoke();
+                if (requiresDoubleCommand)
+                {
+                    if (machine.isDoubleCommandActive)
+                    {
+                        onPushed.Invoke();
+                    }
+                }
+                else
+                {
+                    onPushed.Invoke();
+                }
             }
+            _isPushed = true;
+
+            if (ID != MachineButtonID.DOUBLE_COMMAND)
+                machine.lastPushedButton = this;
         }
 
         public void OnReleased()
         {
-            if(_isPushed)
+            print("OnReleased is invoked()");
+            if (_isPushed)
             {
-                _isPushed = false;
-                onReleased.Invoke();
+                if (requiresDoubleCommand)
+                {
+                    if (machine.isDoubleCommandActive)
+                    {
+                        onReleased.Invoke();
+                    }
+                }
+                else
+                {
+                    onReleased.Invoke();
+                }
             }
+            _isPushed = false;
         }
-
-        private void Update()
-        {
-            if (!machine.isActiveAndEnabled)
-                OnReleased();
-        }
-    } 
+    }
 }

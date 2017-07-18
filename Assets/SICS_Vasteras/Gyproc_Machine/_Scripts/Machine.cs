@@ -28,9 +28,10 @@ namespace HandCode
         public Spool spool_Left, spool_Right;
         [HideInInspector]
         public MainConsole mainConsole;
-        public bool isButtonPushActive { get { return _isButtonPushActive; } }
+        public bool isDoubleCommandActive { get { return _isDoubleCommandActive; } }
+        public MachineButton lastPushedButton;
 
-        private bool _isButtonPushActive; // Dubble kommando.
+        private bool _isDoubleCommandActive; // Dubble kommando.
 
 
 
@@ -93,14 +94,20 @@ namespace HandCode
                 Debug.LogError(string.Format("{0}\nMachine.cs: MainConsole script is missing!", GetPath(gameObject)));
         }
 
-        public void ActivateButtonPush()
+        public void OnDoubleCommandPushed()
         {
-            _isButtonPushActive = true;
+            _isDoubleCommandActive = true;
+            if (lastPushedButton != null && lastPushedButton.isPushed == true)
+                lastPushedButton.onPushed.Invoke();
         }
 
-        public void DeactivateButtonPush()
+        public void OnDoubleCommandReleased()
         {
-            _isButtonPushActive = false;
+            _isDoubleCommandActive = false;
+            if (lastPushedButton != null && lastPushedButton.isPushed == true && lastPushedButton.requiresDoubleCommand)
+            {
+                lastPushedButton.onReleased.Invoke();
+            }
         }
     }
 }
