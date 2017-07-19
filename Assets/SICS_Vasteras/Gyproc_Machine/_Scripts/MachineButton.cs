@@ -84,7 +84,6 @@ namespace HandCode
 
         public void OnReleased()
         {
-            print("OnReleased is invoked()");
             if (_isPushed)
             {
                 if (requiresDoubleCommand)

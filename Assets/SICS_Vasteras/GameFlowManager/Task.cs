@@ -1,7 +1,13 @@
-﻿using System.Collections;
+﻿/*********************************************
+ * Project: HANDCODE                         *
+ * Author:  Backer Sultan                    *
+ * Email:   backer.sultan@ri.se              *
+ * *******************************************/
+ 
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using System;
 
 namespace HandCode
 {
@@ -9,7 +15,8 @@ namespace HandCode
     public enum TaskID
     {
         NONE,
-        MOVE_CRADLE,
+        MOVE_CRADLE_RIGHT,
+        TEST,
         RAISE_ARMS,
     }
 
@@ -21,27 +28,37 @@ namespace HandCode
         COMPLETE,
     }
 
-
     public class Task : MonoBehaviour
     {
+        /* fields & properties */
+
         public TaskID ID;
-        public TaskState state { get { return _state; } }
+        public TaskState state
+        {
+            get
+            {
+                CheckState();
+                return _state;
+            }
+        }
         public GameObject controllerObject;
         public GameObject controlledObject;
         [Header("Voiceover Clips")]
         public AudioClip explanationAudio;
         public AudioClip ControllerAudio;
         public AudioClip ControlledAudio;
-        public bool completionCondition;
+        public Func<bool> completionCondition;
         public List<Task> dependencies; // the list of tasks needed to conteniously be checked during performing this task.
+        [SerializeField] // for test only!!!
+        private TaskState _state = TaskState.PENDING;
         [Header("Evetns")]
         public UnityEvent onStarted;
         public UnityEvent onInterrupted;
         public UnityEvent onCompleted;
 
-        private TaskState _state = TaskState.PENDING;
 
 
+        /* methods & coroutines */
 
         public void StartTask()
         {
@@ -55,33 +72,31 @@ namespace HandCode
             onInterrupted.Invoke();
         }
 
-        private bool CheckSelf()
+        private void CheckState()
         {
             TaskState oldState = _state;
-            if (completionCondition)
+            if (completionCondition.Invoke())
             {
                 _state = TaskState.COMPLETE;
                 // invoking `onComplete` event only when the state changes to complete.
                 if (oldState != _state)
                     onCompleted.Invoke();
-                return true;
             }
-            return false;
+            else if (oldState == TaskState.COMPLETE)
+                _state = TaskState.PENDING;
         }
 
-        private bool CheckDependencies()
+        private void CheckDependencies()
         {
-            // preformance note: "`for` is about twice faster than `foreach` on generic lists.
+            // preformance note: "`for` is twice faster than `foreach` on generic lists.
             for (int i = 0; i < dependencies.Count; i++)
             {
-                if (dependencies[i].CheckSelf() == false)
+                if (dependencies[i].state != TaskState.COMPLETE)
                 {
                     dependencies[i]._state = TaskState.PENDING;
                     Interrupt();
-                    return false;
                 }
             }
-            return true;
         }
 
         private void Update()
@@ -89,7 +104,7 @@ namespace HandCode
             if (_state == TaskState.ACTIVE)
             {
                 CheckDependencies();
-                CheckSelf();
+                CheckState();
             }
         }
     }
