@@ -33,14 +33,7 @@ namespace HandCode
         /* fields & properties */
 
         public TaskID ID;
-        public TaskState state
-        {
-            get
-            {
-                CheckState();
-                return _state;
-            }
-        }
+        public TaskState state { get { CheckState(); return _state; } }
         public GameObject controllerObject;
         public GameObject controlledObject;
         [Header("Voiceover Clips")]
@@ -55,6 +48,7 @@ namespace HandCode
         public UnityEvent onStarted;
         public UnityEvent onInterrupted;
         public UnityEvent onCompleted;
+        public UnityEvent onReset;
 
 
 
@@ -83,7 +77,10 @@ namespace HandCode
                     onCompleted.Invoke();
             }
             else if (oldState == TaskState.COMPLETE)
+            {
                 _state = TaskState.PENDING;
+                onReset.Invoke();
+            }
         }
 
         private void CheckDependencies()

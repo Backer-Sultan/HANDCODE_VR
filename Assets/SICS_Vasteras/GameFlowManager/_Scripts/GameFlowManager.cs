@@ -17,8 +17,8 @@ namespace HandCode
         public SortedList<TaskID, Task> tasks;
         public SortedList<TaskID, Func<bool>> completionConditions;
         public Machine machine;
-        [SerializeField]
-        private Task currentTask;
+        public Task currentTask;
+
         private bool taskInProgress = false;
         private bool isInitDone = false;
 
