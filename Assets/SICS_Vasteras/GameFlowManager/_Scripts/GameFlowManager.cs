@@ -4,7 +4,7 @@
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
  
- using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 
@@ -16,25 +16,26 @@ namespace HandCode
 
         public SortedList<TaskID, Task> tasks;
         public SortedList<TaskID, Func<bool>> completionConditions;
-        public Machine machine;
+        [HideInInspector]
         public Task currentTask;
 
+        private Machine machine;
         private bool taskInProgress = false;
         private bool isInitDone = false;
 
 
 
         /* methods & coroutines */
-        
-         /// <summary>
-         /// The completion condition for every task is defined here.
-         /// There should be an entry for every task assigned in the inspector.
-         /// </summary>
+
+        /// <summary>
+        /// The completion condition for every task is defined here.
+        /// There should be an entry for every task assigned in the inspector.
+        /// </summary>
         private void InitializeCompletionConditions()
         {
             completionConditions = new SortedList<TaskID, Func<bool>>();
             completionConditions.Add(TaskID.MOVE_CRADLE_RIGHT, () => { return machine.cradle.isTargetReached; });
-            completionConditions.Add(TaskID.TEST, () => { return false; });
+            completionConditions.Add(TaskID.TEST, () => { return true; });
             completionConditions.Add(TaskID.RAISE_ARMS, () => { return machine.armRig_Right.mainHandle.rotation.x > 10f; });
         }
 

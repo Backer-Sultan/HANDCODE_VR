@@ -1,18 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿/*********************************************
+ * Project: HANDCODE                         *
+ * Author:  Backer Sultan                    *
+ * Email:   backer.sultan@ri.se              *
+ * *******************************************/
+
 using UnityEngine;
+using System.Collections;
 using VRTK;
 
 namespace HandCode
 {
     public class HintSystem : MonoBehaviour
     {
+        /* fields & properties */
+
         public bool active = true;
 
         private GameFlowManager manager;
         private AudioSource audioSource;
         private BezierLaserBeam hintLine;
-        public GameObject controller;
+
+
+
+        /* methods & coroutines */
+
         private void Start()
         {
             manager = FindObjectOfType<GameFlowManager>();
@@ -38,6 +49,16 @@ namespace HandCode
             SetHighlight(activeState, manager.currentTask.controlledObject);
         }
 
+        public void HighlightControllerForPeriod(float period)
+        {
+            StartCoroutine(HighlightForPeriodRoutine(manager.currentTask.controllerObject, period));
+        }
+
+        public void HighlightControlledForPeriod(float period)
+        {
+            StartCoroutine(HighlightForPeriodRoutine(manager.currentTask.controlledObject, period));
+        }
+
         private void SetHighlight(bool activeState, GameObject obj)
         {
             if (active && obj != null)
@@ -50,7 +71,6 @@ namespace HandCode
                         Machine.GetPath(gameObject), obj.name));
             }
         }
-
 
         public void PlayControllerVoiceOver()
         {
@@ -96,11 +116,14 @@ namespace HandCode
         public void HideLine()
         {
             hintLine.enabled = false;
-        }
-
-
+        }  
         
-
+        private IEnumerator HighlightForPeriodRoutine(GameObject obj, float period)
+        {
+            SetHighlight(true, obj);
+            yield return new WaitForSeconds(period);
+            SetHighlight(false, obj);
+        }
         // tests
         private void Update()
         {

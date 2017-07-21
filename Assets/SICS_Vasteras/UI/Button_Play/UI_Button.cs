@@ -13,11 +13,17 @@ namespace HandCode
 {
     public class UI_Button : MonoBehaviour
     {
+        /* fields & properties */
+
         public Color clickColor;
         public UnityEvent onClick;
 
         private Image img;
         private Color color;
+
+
+
+        /* methods & coroutines */
 
         private void Start()
         {
@@ -29,18 +35,19 @@ namespace HandCode
         {
             if (other.tag == "Finger")
             {
+                VRTK_ControllerHaptics.TriggerHapticPulse(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right), 1f);
                 img.color = clickColor;
-                    onClick.Invoke();
+                onClick.Invoke();
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if(other.tag == "Finger")
+            if (other.tag == "Finger")
             {
                 img.color = color;
             }
         }
-       
+
     }
 }
