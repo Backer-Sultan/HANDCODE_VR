@@ -11,6 +11,7 @@ using VRTK;
 
 namespace HandCode
 {
+    [RequireComponent(typeof(Image))]
     public class UI_Button : MonoBehaviour
     {
         /* fields & properties */
