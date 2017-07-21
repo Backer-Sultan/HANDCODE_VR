@@ -6,22 +6,41 @@
 
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
+using VRTK;
 
 namespace HandCode
 {
     public class UI_Button : MonoBehaviour
     {
-        Button btn;
+        public Color clickColor;
+        public UnityEvent onClick;
+
+        private Image img;
+        private Color color;
 
         private void Start()
         {
-            btn = GetComponent<Button>();
+            img = GetComponent<Image>();
+            color = img.color;
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "Finger")
-                btn.onClick.Invoke();
+            {
+                img.color = clickColor;
+                    onClick.Invoke();
+            }
         }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if(other.tag == "Finger")
+            {
+                img.color = color;
+            }
+        }
+       
     }
 }
