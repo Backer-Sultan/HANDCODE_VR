@@ -35,7 +35,7 @@ namespace HandCode
         {
             completionConditions = new SortedList<TaskID, Func<bool>>();
             completionConditions.Add(TaskID.MOVE_CRADLE_RIGHT, () => { return machine.cradle.isTargetReached; });
-            completionConditions.Add(TaskID.TEST, () => { return true; });
+            completionConditions.Add(TaskID.TEST, () => { return false; });
             completionConditions.Add(TaskID.RAISE_ARMS, () => { return machine.armRig_Right.mainHandle.rotation.x > 10f; });
         }
 
