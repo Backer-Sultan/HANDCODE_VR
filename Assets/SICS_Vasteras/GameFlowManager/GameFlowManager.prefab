@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4293017405494356}
   - component: {fileID: 114015250876587236}
-  - component: {fileID: 114988205440568908}
   m_Layer: 0
   m_Name: GameFlowManager
   m_TagString: Untagged
@@ -80,7 +79,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1390992274133992}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.049000025, y: 0.03729482, z: -1.062}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4216545321653008}
@@ -112,7 +111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 307642d3899431846862e3196549d7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  machine: {fileID: 0}
   currentTask: {fileID: 0}
 --- !u!114 &114416377647817318
 MonoBehaviour:
@@ -126,10 +124,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1
-  controllerObject: {fileID: 1611949837398088, guid: dd6c444f1f1eff44f9c2707f0b53ab38,
-    type: 2}
-  controlledObject: {fileID: 1148711171479932, guid: 2ef77da20fabfdc4c9f6c2dee40b910e,
-    type: 2}
+  controllerObject: {fileID: 0}
+  controlledObject: {fileID: 0}
   explanationAudio: {fileID: 0}
   ControllerAudio: {fileID: 0}
   ControlledAudio: {fileID: 0}
@@ -146,6 +142,11 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReset:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
@@ -162,14 +163,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 2
-  controllerObject: {fileID: 1611949837398088, guid: dd6c444f1f1eff44f9c2707f0b53ab38,
-    type: 2}
-  controlledObject: {fileID: 1148711171479932, guid: 2ef77da20fabfdc4c9f6c2dee40b910e,
-    type: 2}
+  controllerObject: {fileID: 0}
+  controlledObject: {fileID: 0}
   explanationAudio: {fileID: 0}
   ControllerAudio: {fileID: 0}
   ControlledAudio: {fileID: 0}
-  dependencies: []
+  dependencies:
+  - {fileID: 114416377647817318}
   _state: 0
   onStarted:
     m_PersistentCalls:
@@ -186,15 +186,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
---- !u!114 &114988205440568908
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1390992274133992}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6b41b802f07d61488ac94cd09cc9e54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  task: {fileID: 114416377647817318}
+  onReset:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null

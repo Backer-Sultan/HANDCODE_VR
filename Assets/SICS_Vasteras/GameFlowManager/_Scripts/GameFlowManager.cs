@@ -3,10 +3,10 @@
  * Author:  Backer Sultan                    *
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
- 
+
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 namespace HandCode
 {
@@ -21,7 +21,6 @@ namespace HandCode
 
         private Machine machine;
         private bool taskInProgress = false;
-        private bool isInitDone = false;
 
 
 
@@ -39,8 +38,33 @@ namespace HandCode
             completionConditions.Add(TaskID.RAISE_ARMS, () => { return machine.armRig_Right.mainHandle.rotation.x > 10f; });
         }
 
+        private void InitializeTasks()
+        {
+            InitializeCompletionConditions();
+
+            tasks = new SortedList<TaskID, Task>();
+            Task[] taskArray = FindObjectsOfType<Task>();
+            foreach (Task task in taskArray)
+            {
+                if (completionConditions[task.ID] != null)
+                    task.completionCondition = completionConditions[task.ID];
+                else
+                {
+                    Debug.LogError(string.Format("{0}\nGameFlowManager.cs: Task initialization failed!\nCompletion condition is not set for task `{1}`!", Machine.GetPath(gameObject), task.ID.ToString()));
+                    return;
+                }
+                tasks.Add(task.ID, task);
+            }
+        }
+
         public void ManageSwitch()
         {
+            if (currentTask != null)
+            {
+                currentTask.onInterrupted.RemoveListener(GetControlBack);
+                currentTask.onCompleted.RemoveListener(GetControlBack);
+            }
+
             foreach (Task tsk in tasks.Values)
             {
                 if (tsk.state != TaskState.COMPLETE)
@@ -55,49 +79,26 @@ namespace HandCode
             }
         }
 
-        private void Start()
-        {
-            machine = FindObjectOfType<Machine>();
-            if (machine == null)
-                Debug.LogError(string.Format("{0}\nGameFlowManager.cs: No machine is found on the scene!", Machine.GetPath(gameObject)));
-            InitializeCompletionConditions();
-            InitializeTasks();
-            foreach(Task t in tasks.Values)
-            {
-                print(t.ID);
-            }
-            isInitDone = true;
-        }
-
-        private void InitializeTasks()
-        {
-            tasks = new SortedList<TaskID, Task>();
-            Task[] taskArray = FindObjectsOfType<Task>();
-            foreach(Task task in taskArray)
-            {
-                if (completionConditions[task.ID] != null)
-                    task.completionCondition = completionConditions[task.ID];
-                else
-                {
-                    Debug.LogError(string.Format("{0}\nGameFlowManager.cs: Task initialization failed!\nNo completion condition is not set for the task`{1}`!", Machine.GetPath(gameObject), task.ID.ToString()));
-                    return;
-                }
-                tasks.Add(task.ID, task);
-            }
-        }
-
         private void GetControlBack()
         {
             taskInProgress = false;
         }
 
+        private void Start()
+        {
+            machine = FindObjectOfType<Machine>();
+            if (machine == null)
+                Debug.LogError(string.Format("{0}\nGameFlowManager.cs: No machine is found on the scene!", Machine.GetPath(gameObject)));
+            InitializeTasks();
+        }
+
         private void Update()
         {
-            if (isInitDone && !taskInProgress)
+            if (!taskInProgress)
             {
                 ManageSwitch();
             }
-            
+
         }
-    } 
+    }
 }

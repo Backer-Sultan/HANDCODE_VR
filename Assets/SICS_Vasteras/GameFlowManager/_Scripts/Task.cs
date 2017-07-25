@@ -3,7 +3,7 @@
  * Author:  Backer Sultan                    *
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
- 
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -11,7 +11,7 @@ using System;
 
 namespace HandCode
 {
-    // the order of the tasks is set here. declare task ids in the order you want them to execute.
+    // the order of the tasks is set here. declare task IDs in the order you want them to execute.
     public enum TaskID
     {
         NONE,
@@ -34,23 +34,24 @@ namespace HandCode
 
         public TaskID ID;
         public TaskState state { get { CheckState(); return _state; } }
-        public GameObject controllerObject;
-        public GameObject controlledObject;
+        public GameObject controllerObject; // the position/console that the operator interacts with the machine from.
+        public GameObject controlledObject; // the object or the machine part to be controlled.
+        public Func<bool> completionCondition; // is specified and set in GameFlowManager script.
+        public List<Task> dependencies; // the list of tasks needed to conteniously be checked during performing this task.
+
         [Header("Voiceover Clips")]
         public AudioClip explanationAudio;
         public AudioClip ControllerAudio;
         public AudioClip ControlledAudio;
-        public Func<bool> completionCondition;
-        public List<Task> dependencies; // the list of tasks needed to conteniously be checked during performing this task.
-        [SerializeField] // for test only!!!
-        private TaskState _state = TaskState.PENDING;
+
         [Header("Evetns")]
         public UnityEvent onStarted;
         public UnityEvent onInterrupted;
         public UnityEvent onCompleted;
         public UnityEvent onReset;
 
-
+        [SerializeField] // for test only! This field should not be modified from inspector.
+        private TaskState _state = TaskState.PENDING;
 
         /* methods & coroutines */
 
@@ -76,6 +77,7 @@ namespace HandCode
                 if (oldState != _state)
                     onCompleted.Invoke();
             }
+            // the completion condition is broken from another task (while this task is not active)
             else if (oldState == TaskState.COMPLETE)
             {
                 _state = TaskState.PENDING;
