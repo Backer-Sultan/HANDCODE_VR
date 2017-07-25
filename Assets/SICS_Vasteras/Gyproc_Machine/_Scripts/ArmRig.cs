@@ -12,7 +12,7 @@ namespace HandCode
     {
         /* fields & properties */
         
-        public Machine.Identifier ID;
+        public Identifier ID;
         public Transform mainHandle;
         public Arm arm_Left, arm_Right;
 
@@ -24,7 +24,7 @@ namespace HandCode
         private void Start()
         {
             // initialization
-            if (ID == Machine.Identifier.NONE)
+            if (ID == Identifier.NONE)
                 Debug.LogError(string.Format("{0}\nArmRig.cs: ID should be assigned!", Machine.GetPath(gameObject)));
 
             if (mainHandle == null)

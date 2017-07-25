@@ -13,7 +13,7 @@ namespace HandCode
     {
         /* fields & properties */
 
-        public Machine.Identifier ID; 
+        public Identifier ID; 
         [Range(0f, 10f)]
         public float speed = 1f;
         [Header("Events")]
@@ -38,7 +38,7 @@ namespace HandCode
 
         private void Start()
         {
-            if (ID == Machine.Identifier.NONE)
+            if (ID == Identifier.NONE)
                 Debug.LogError(string.Format("{0}\nSpool.cs: ID can't be empty!", Machine.GetPath(gameObject)));
         }
 

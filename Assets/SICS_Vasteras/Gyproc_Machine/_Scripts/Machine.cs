@@ -8,21 +8,30 @@ using UnityEngine;
 
 namespace HandCode
 {
+    public enum Identifier
+    {
+        NONE,
+        LEFT,
+        Right,
+    }
+
+
     public class Machine : MonoBehaviour
     {
         /* fields & properties */
-        public enum Identifier
-        {
-            NONE,
-            LEFT,
-            Right,
-        }
+        
         [HideInInspector]
         public Cradle cradle;
         [HideInInspector]
         public ArmRig armRig_Right, armRig_Left;
         [HideInInspector]
         public Spool spool_Left, spool_Right;
+        [HideInInspector]
+        public MainConsole mainConsole;
+        public bool isDoubleCommandActive { get { return _isDoubleCommandActive; } }
+        public MachineButton lastPushedButton;
+
+        private bool _isDoubleCommandActive; // Dubble kommando.
 
 
 
@@ -79,6 +88,26 @@ namespace HandCode
                 Debug.LogError(string.Format("{0}\nMachine.cs: No spool with id `Left` is found!", GetPath(gameObject)));
             if (spool_Right == null)
                 Debug.LogError(string.Format("{0}\nMachine.cs: No spool with id `Right` is found!", GetPath(gameObject)));
+
+            mainConsole = GetComponentInChildren<MainConsole>();
+            if(mainConsole == null)
+                Debug.LogError(string.Format("{0}\nMachine.cs: MainConsole script is missing!", GetPath(gameObject)));
+        }
+
+        public void OnDoubleCommandPushed()
+        {
+            _isDoubleCommandActive = true;
+            if (lastPushedButton != null && lastPushedButton.isPushed == true)
+                lastPushedButton.onPushed.Invoke();
+        }
+
+        public void OnDoubleCommandReleased()
+        {
+            _isDoubleCommandActive = false;
+            if (lastPushedButton != null && lastPushedButton.isPushed == true && lastPushedButton.requiresDoubleCommand)
+            {
+                lastPushedButton.onReleased.Invoke();
+            }
         }
     }
 }
