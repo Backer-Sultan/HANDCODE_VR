@@ -152,10 +152,16 @@ namespace HandCode
 
         private void OnTriggerExit(Collider other)
         {
-            if (cradlePos == CradlePosition.RIGHT)
+            if (other.tag == "CradleLimitRight")
+            {
                 _isTargetReached = false;
                 onTargetLeft.Invoke();
-            cradlePos = CradlePosition.MIDDLE;
+                cradlePos = CradlePosition.MIDDLE;
+            }
+            if(other.tag == "CradleLimitLeft")
+            {
+                cradlePos = CradlePosition.MIDDLE;
+            }
         }
     } 
 }

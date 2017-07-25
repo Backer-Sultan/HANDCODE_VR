@@ -88,7 +88,8 @@ namespace HandCode
 
         private void OnTriggerExit(Collider other)
         {
-            armPos = ArmPosition.MIDDLE;
+            if (other.tag == "ArmLimitLeft" || other.tag == "ArmLimitRight")
+                armPos = ArmPosition.MIDDLE;
         }
     } 
 }
