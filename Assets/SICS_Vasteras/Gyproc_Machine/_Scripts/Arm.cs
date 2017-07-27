@@ -11,14 +11,13 @@ namespace HandCode
     public class Arm : MonoBehaviour
     {
         /* fields & properties */
-
+        public enum ArmPosition { MIDDLE, LEFT, RIGHT };
         [Range(0f, 1f)]
         public float speed = 0.1f;
+        public ArmPosition armPosition = ArmPosition.MIDDLE;
 
         private bool isMoving = false;
         private Vector3 direction = Vector3.zero;
-        private enum ArmPosition { MIDDLE, LEFT, RIGHT };
-        private ArmPosition armPos = ArmPosition.MIDDLE;
         private AudioSource audioSource;
 
 
@@ -34,7 +33,7 @@ namespace HandCode
 
         public void MoveLeft()
         {
-            if (armPos != ArmPosition.LEFT)
+            if (armPosition != ArmPosition.LEFT)
             {
                 direction = Vector3.back;
                 isMoving = true;
@@ -45,7 +44,7 @@ namespace HandCode
 
         public void MoveRight()
         {
-            if (armPos != ArmPosition.RIGHT)
+            if (armPosition != ArmPosition.RIGHT)
             {
                 direction = Vector3.forward;
                 isMoving = true;
@@ -77,19 +76,19 @@ namespace HandCode
             if (other.tag == "ArmLimitLeft")
             {
                 Stop();
-                armPos = ArmPosition.LEFT;
+                armPosition = ArmPosition.LEFT;
             }
             if (other.tag == "ArmLimitRight")
             {
                 Stop();
-                armPos = ArmPosition.RIGHT;
+                armPosition = ArmPosition.RIGHT;
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
             if (other.tag == "ArmLimitLeft" || other.tag == "ArmLimitRight")
-                armPos = ArmPosition.MIDDLE;
+                armPosition = ArmPosition.MIDDLE;
         }
     } 
 }

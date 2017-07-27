@@ -5,17 +5,29 @@
  * *******************************************/
 
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HandCode
 {
     public class ArmRig : MonoBehaviour
     {
         /* fields & properties */
-        
+
         public Identifier ID;
         public Transform mainHandle;
         public Arm arm_Left, arm_Right;
+        public bool isArmsOpen { get { return _isArmsOpen; } }
+        public bool isArmsRaised { get { return _isArmsRaised; } }
+        public bool isArmsLowered { get { return _isArmsLowered; } }
 
+        [Header("Events")]
+        public UnityEvent onArmsOpened;
+        public UnityEvent onArmsRaised;
+        public UnityEvent onArmsLowered;
+
+        private bool _isArmsOpen = false;
+        private bool _isArmsRaised = false;
+        private bool _isArmsLowered = false;
         private AudioSource audioSource;
         private HingeJoint joint;
 
@@ -42,7 +54,7 @@ namespace HandCode
             if (arm_Right == null)
                 Debug.LogError(string.Format("{0}\nArmRig.cs: Object `MainHandle/Arm_Right` is missing!", Machine.GetPath(gameObject)));
 
-            
+
             audioSource = GetComponentInChildren<AudioSource>();
             if (audioSource == null)
                 Debug.LogError(string.Format("{0}\nArmRig.cs: Component `AudioSource` is missing!", Machine.GetPath(gameObject)));
@@ -112,7 +124,49 @@ namespace HandCode
             audioSource.clip = clip;
             audioSource.Play();
         }
-    } 
+
+        private void Update()
+        {
+            if (arm_Left.armPosition == Arm.ArmPosition.LEFT && arm_Right.armPosition == Arm.ArmPosition.RIGHT)
+            {
+                if (!_isArmsOpen)
+                {
+                    _isArmsOpen = true;
+                    onArmsOpened.Invoke();
+                }
+            }
+            else
+            {
+                _isArmsOpen = false;
+            }
+
+            if (mainHandle.localRotation.z >= joint.limits.max)
+            {
+                if(!_isArmsRaised)
+                {
+                    _isArmsRaised = true;
+                    onArmsRaised.Invoke();
+                }
+            }
+            else
+            {
+                _isArmsRaised = false;
+            }
+
+            if(mainHandle.localEulerAngles.z <= 0f)
+            {
+                if(!_isArmsLowered)
+                {
+                    _isArmsLowered = true;
+                    onArmsLowered.Invoke();
+                }
+            }
+            else
+            {
+                _isArmsLowered = false;
+            }
+        }
+    }
 }
 
 

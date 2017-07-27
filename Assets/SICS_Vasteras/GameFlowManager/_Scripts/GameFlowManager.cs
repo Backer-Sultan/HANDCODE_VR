@@ -34,8 +34,10 @@ namespace HandCode
         {
             completionConditions = new SortedList<TaskID, Func<bool>>();
             completionConditions.Add(TaskID.MOVE_CRADLE_RIGHT, () => machine.cradle.isTargetReached);
+            completionConditions.Add(TaskID.OPEN_ARMS, () => machine.armRig_Right.isArmsOpen);
+            completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.isArmsRaised);
+            completionConditions.Add(TaskID.MOVE_SPOOL, () => machine.spool_Right.isTargetReached);
             completionConditions.Add(TaskID.TEST, () => false);
-            completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.mainHandle.rotation.x > 10f);
         }
 
         private void InitializeTasks()

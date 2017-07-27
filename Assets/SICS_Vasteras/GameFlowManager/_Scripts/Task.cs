@@ -16,8 +16,10 @@ namespace HandCode
     {
         NONE,
         MOVE_CRADLE_RIGHT,
-        TEST,
+        OPEN_ARMS,
         RAISE_ARMS,
+        MOVE_SPOOL,
+        TEST,
     }
 
     public enum TaskState
