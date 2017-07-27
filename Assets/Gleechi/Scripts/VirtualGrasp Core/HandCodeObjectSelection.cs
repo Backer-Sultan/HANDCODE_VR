@@ -77,11 +77,13 @@ public class HandCodeObjectSelection
             return;
 
         // Highlight object is it has a component and if it's not already highlighted
-        InteractiveObject interactive = hand.selectedObject.gameObject.GetComponentInParent<InteractiveObject>();
-        if (interactive && !interactive.isHighlighted)
+        Highlighter highlighter = hand.selectedObject.gameObject.GetComponentInParent<Highlighter>();
+        if (!highlighter)
+            highlighter = hand.selectedObject.gameObject.GetComponentInChildren<Highlighter>();
+        if (highlighter && !highlighter.enabled)
         {
             m_highlightedObjects[hand.side] = hand.selectedObject;
-            interactive.Highlight();
+            highlighter.enabled = true;
         }
     }
 
@@ -94,11 +96,13 @@ public class HandCodeObjectSelection
             return;
 
         // Unhighlight object is it has a component and if it's not already unhighlighted
-        InteractiveObject interactive = highlightedObject.gameObject.GetComponentInParent<InteractiveObject>();
-        if (interactive && interactive.isHighlighted)
+        Highlighter highlighter = highlightedObject.gameObject.GetComponentInParent<Highlighter>();
+        if (!highlightedObject)
+            highlighter = highlightedObject.gameObject.GetComponentInChildren<Highlighter>();
+        if (highlighter && highlighter.enabled)
         {
             m_highlightedObjects[hand.side] = null;
-            interactive.Unhighlight();
+            highlighter.enabled = false;
         }
     }
 
