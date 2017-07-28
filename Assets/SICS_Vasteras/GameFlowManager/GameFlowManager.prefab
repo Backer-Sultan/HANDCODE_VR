@@ -11,6 +11,38 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1390992274133992}
   m_IsPrefabParent: 1
+--- !u!1 &1135461847255564
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4628394993101402}
+  - component: {fileID: 114084166767348294}
+  m_Layer: 0
+  m_Name: Raise_Arms
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1375128088077856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4125179084163396}
+  - component: {fileID: 114164798252894922}
+  m_Layer: 0
+  m_Name: Open_Arms
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1390992274133992
 GameObject:
   m_ObjectHideFlags: 0
@@ -22,6 +54,22 @@ GameObject:
   - component: {fileID: 114015250876587236}
   m_Layer: 0
   m_Name: GameFlowManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1538347799098962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4130091210669174}
+  - component: {fileID: 114268812608936870}
+  m_Layer: 0
+  m_Name: MOVE_SPOOL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -59,6 +107,32 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &4125179084163396
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1375128088077856}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4293017405494356}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4130091210669174
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1538347799098962}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4293017405494356}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4216545321653008
 Transform:
   m_ObjectHideFlags: 1
@@ -83,6 +157,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4216545321653008}
+  - {fileID: 4125179084163396}
+  - {fileID: 4628394993101402}
+  - {fileID: 4130091210669174}
   - {fileID: 4310833838098822}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -98,7 +175,20 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4293017405494356}
-  m_RootOrder: 1
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4628394993101402
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1135461847255564}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4293017405494356}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114015250876587236
 MonoBehaviour:
@@ -112,6 +202,129 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTask: {fileID: 0}
+--- !u!114 &114084166767348294
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1135461847255564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae179e24effed2a42b7fba384ed5c95d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 3
+  controllerObject: {fileID: 0}
+  controlledObject: {fileID: 0}
+  dependencies:
+  - {fileID: 114416377647817318}
+  - {fileID: 114164798252894922}
+  explanationAudio: {fileID: 0}
+  ControllerAudio: {fileID: 0}
+  ControlledAudio: {fileID: 0}
+  onStarted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onInterrupted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReset:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  _state: 0
+--- !u!114 &114164798252894922
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1375128088077856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae179e24effed2a42b7fba384ed5c95d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 2
+  controllerObject: {fileID: 0}
+  controlledObject: {fileID: 0}
+  dependencies:
+  - {fileID: 114416377647817318}
+  explanationAudio: {fileID: 0}
+  ControllerAudio: {fileID: 0}
+  ControlledAudio: {fileID: 0}
+  onStarted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onInterrupted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReset:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  _state: 0
+--- !u!114 &114268812608936870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1538347799098962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae179e24effed2a42b7fba384ed5c95d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 4
+  controllerObject: {fileID: 0}
+  controlledObject: {fileID: 0}
+  dependencies:
+  - {fileID: 114416377647817318}
+  - {fileID: 114164798252894922}
+  - {fileID: 114084166767348294}
+  explanationAudio: {fileID: 0}
+  ControllerAudio: {fileID: 0}
+  ControlledAudio: {fileID: 0}
+  onStarted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onInterrupted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReset:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  _state: 0
 --- !u!114 &114416377647817318
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -126,11 +339,10 @@ MonoBehaviour:
   ID: 1
   controllerObject: {fileID: 0}
   controlledObject: {fileID: 0}
+  dependencies: []
   explanationAudio: {fileID: 0}
   ControllerAudio: {fileID: 0}
   ControlledAudio: {fileID: 0}
-  dependencies: []
-  _state: 0
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -151,6 +363,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  _state: 0
 --- !u!114 &114955402479541390
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -162,15 +375,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae179e24effed2a42b7fba384ed5c95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 2
+  ID: 3
   controllerObject: {fileID: 0}
   controlledObject: {fileID: 0}
+  dependencies: []
   explanationAudio: {fileID: 0}
   ControllerAudio: {fileID: 0}
   ControlledAudio: {fileID: 0}
-  dependencies:
-  - {fileID: 114416377647817318}
-  _state: 0
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -191,3 +402,4 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  _state: 0

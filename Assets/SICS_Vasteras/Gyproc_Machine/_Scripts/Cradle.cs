@@ -34,7 +34,8 @@ namespace HandCode
         public UnityEvent onTargetLeft;
         public UnityEvent onPinsherLowered;
         public UnityEvent onPinsherRaised;
-        public UnityEvent onBreakToggled;
+        public UnityEvent onBreakEnabled;
+        public UnityEvent onBreakDisabled;
 
         private AudioSource audioSource;
         private Animator pinsherAnimator;
@@ -105,14 +106,18 @@ namespace HandCode
             onPinsherRaised.Invoke();
         }
 
-        public void ToggleBreak()
+        public void EnableBreak()
         {
-            PlaySound(MachineSounds.Instance.Cradle_Stopping);
-            _isBreakApplied = !_isBreakApplied;
-            onBreakToggled.Invoke();
+            PlaySound(MachineSounds.Instance.Cradle_BreakToggle);
+            _isBreakApplied = true;
+            onBreakEnabled.Invoke();
+        }
 
-            /******* depended on script PaperConsole.cs *****/
-            //machine.paperConsole.breakButton.GetComponent<Animator>().SetBool("isBreakApplied", isBreakApplied);
+        public void DisableBreak()
+        {
+            PlaySound(MachineSounds.Instance.Cradle_BreakToggle);
+            _isBreakApplied = false;
+            onBreakDisabled.Invoke();
         }
 
         public void PlaySound(AudioClip clip)
@@ -152,10 +157,16 @@ namespace HandCode
 
         private void OnTriggerExit(Collider other)
         {
-            if (cradlePos == CradlePosition.RIGHT)
+            if (other.tag == "CradleLimitRight")
+            {
                 _isTargetReached = false;
                 onTargetLeft.Invoke();
-            cradlePos = CradlePosition.MIDDLE;
+                cradlePos = CradlePosition.MIDDLE;
+            }
+            if(other.tag == "CradleLimitLeft")
+            {
+                cradlePos = CradlePosition.MIDDLE;
+            }
         }
     } 
 }
