@@ -140,7 +140,7 @@ namespace HandCode
                 _isArmsOpen = false;
             }
 
-            if (mainHandle.localRotation.z >= joint.limits.max)
+            if (mainHandle.localEulerAngles.z >= joint.limits.max)
             {
                 if(!_isArmsRaised)
                 {
