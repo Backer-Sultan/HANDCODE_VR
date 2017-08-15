@@ -34,7 +34,8 @@ namespace HandCode
         public UnityEvent onTargetLeft;
         public UnityEvent onPinsherLowered;
         public UnityEvent onPinsherRaised;
-        public UnityEvent onBreakToggled;
+        public UnityEvent onBreakEnabled;
+        public UnityEvent onBreakDisabled;
 
         private AudioSource audioSource;
         private Animator pinsherAnimator;
@@ -105,14 +106,14 @@ namespace HandCode
             onPinsherRaised.Invoke();
         }
 
-        public void ToggleBreak()
+        public void SetBreak(bool state)
         {
-            PlaySound(MachineSounds.Instance.Cradle_Stopping);
-            _isBreakApplied = !_isBreakApplied;
-            onBreakToggled.Invoke();
-
-            /******* depended on script PaperConsole.cs *****/
-            //machine.paperConsole.breakButton.GetComponent<Animator>().SetBool("isBreakApplied", isBreakApplied);
+            PlaySound(MachineSounds.Instance.Cradle_BreakToggle);
+            _isBreakApplied = state;
+            if (_isBreakApplied)
+                onBreakEnabled.Invoke();
+            else
+                onBreakDisabled.Invoke();
         }
 
         public void PlaySound(AudioClip clip)
