@@ -76,6 +76,15 @@ namespace HandCode
             Add(-num);
         }
 
+        public void Assign(float num)
+        {
+            float difference = Mathf.Abs(num - bar.fillAmount);
+            if (num < bar.fillAmount)
+                Add(difference);
+            else
+                Subtract(difference);
+        }
+
         private IEnumerator AddOrSubtractRoutine(float num)
         {
             float total;

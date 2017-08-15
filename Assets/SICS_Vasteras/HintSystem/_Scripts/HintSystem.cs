@@ -124,27 +124,6 @@ namespace HandCode
             yield return new WaitForSeconds(period);
             SetHighlight(false, obj);
         }
-        // tests
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.H))
-                SetControllerHighlight(true);
-            if (Input.GetKeyDown(KeyCode.J))
-                SetControllerHighlight(false);
-
-            if (Input.GetKeyDown(KeyCode.N))
-                SetControlledHighlight(true);
-                
-            if (Input.GetKeyDown(KeyCode.M))
-                SetControlledHighlight(false);
-
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                VRTK_ControllerHaptics.TriggerHapticPulse(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left), 0.5f);
-               // VRTK_ControllerHaptics.TriggerHapticPulse(VRTK_ControllerReference.GetControllerReference(3), 1f);
-           
-            }
-        }
 
     }
     

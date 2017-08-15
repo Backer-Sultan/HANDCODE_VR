@@ -13,12 +13,11 @@ namespace HandCode
     public class GameFlowManager : MonoBehaviour
     {
         /* fields & properties */
+        public Task currentTask { get { return _currentTask; } }
 
-        public SortedList<TaskID, Task> tasks;
-        public SortedList<TaskID, Func<bool>> completionConditions;
-        [HideInInspector]
-        public Task currentTask;
-
+        private SortedList<TaskID, Task> tasks;
+        private SortedList<TaskID, Func<bool>> completionConditions;
+        private Task _currentTask;
         private Machine machine;
         private bool taskInProgress = false;
 
@@ -33,9 +32,9 @@ namespace HandCode
         private void InitializeCompletionConditions()
         {
             completionConditions = new SortedList<TaskID, Func<bool>>();
-            completionConditions.Add(TaskID.MOVE_CRADLE_RIGHT, () => { return machine.cradle.isTargetReached; });
-            completionConditions.Add(TaskID.TEST, () => { return false; });
-            completionConditions.Add(TaskID.RAISE_ARMS, () => { return machine.armRig_Right.mainHandle.rotation.x > 10f; });
+            completionConditions.Add(TaskID.MOVE_CRADLE_RIGHT, () => machine.cradle.isTargetReached);
+            completionConditions.Add(TaskID.TEST, () => false);
+            completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.mainHandle.rotation.x > 10f);
         }
 
         private void InitializeTasks()
@@ -59,20 +58,20 @@ namespace HandCode
 
         public void ManageSwitch()
         {
-            if (currentTask != null)
+            if (_currentTask != null)
             {
-                currentTask.onInterrupted.RemoveListener(GetControlBack);
-                currentTask.onCompleted.RemoveListener(GetControlBack);
+                _currentTask.onInterrupted.RemoveListener(GetControlBack);
+                _currentTask.onCompleted.RemoveListener(GetControlBack);
             }
 
             foreach (Task tsk in tasks.Values)
             {
                 if (tsk.state != TaskState.COMPLETE)
                 {
-                    currentTask = tsk;
-                    currentTask.onInterrupted.AddListener(GetControlBack);
-                    currentTask.onCompleted.AddListener(GetControlBack);
-                    currentTask.StartTask();
+                    _currentTask = tsk;
+                    _currentTask.onInterrupted.AddListener(GetControlBack);
+                    _currentTask.onCompleted.AddListener(GetControlBack);
+                    _currentTask.StartTask();
                     taskInProgress = true;
                     break;
                 }
@@ -82,6 +81,20 @@ namespace HandCode
         private void GetControlBack()
         {
             taskInProgress = false;
+        }
+
+        public int GetTasksCount()
+        {
+            return tasks.Count;
+        }
+
+        public float GetCompletionPercentage()
+        {
+            int numCompleted = 0;
+            foreach (Task task in tasks.Values)
+                if (task.state == TaskState.COMPLETE)
+                    numCompleted++;
+            return (float)numCompleted / tasks.Count;
         }
 
         private void Start()
@@ -98,7 +111,6 @@ namespace HandCode
             {
                 ManageSwitch();
             }
-
         }
     }
 }
