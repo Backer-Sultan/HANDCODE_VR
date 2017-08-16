@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace HandCode
 {
@@ -14,12 +15,16 @@ namespace HandCode
     {
         /* fields & properties */
         public Task currentTask { get { return _currentTask; } }
+        public float completionPercentage { get { return _completionPercentage; } }
+        public UnityEvent onCurrentTaskChanged;
 
         private SortedList<TaskID, Task> tasks;
         private SortedList<TaskID, Func<bool>> completionConditions;
         private Task _currentTask;
         private Machine machine;
         private bool taskInProgress = false;
+        private float _completionPercentage;
+        private bool allTasksComplete = false;
 
 
 
@@ -33,8 +38,10 @@ namespace HandCode
         {
             completionConditions = new SortedList<TaskID, Func<bool>>();
             completionConditions.Add(TaskID.MOVE_CRADLE_RIGHT, () => machine.cradle.isTargetReached);
-            completionConditions.Add(TaskID.TEST, () => false);
-            completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.mainHandle.rotation.x > 10f);
+            completionConditions.Add(TaskID.OPEN_ARMS, () => machine.armRig_Right.isArmsOpen);
+            completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.isArmsUp);
+            completionConditions.Add(TaskID.MOVE_SPOOL, () => machine.spool_Right.isTargetReached);
+            completionConditions.Add(TaskID.LOWER_ARMS, () => machine.armRig_Right.isArmsDown);
         }
 
         private void InitializeTasks()
@@ -76,6 +83,14 @@ namespace HandCode
                     break;
                 }
             }
+            UpdateCompletionPercentage();
+            onCurrentTaskChanged.Invoke();
+
+            // at this point, if `taskInProgress == false` that mean all tasks are complete
+            if (!taskInProgress)
+            {
+                allTasksComplete = true;
+            }
         }
 
         private void GetControlBack()
@@ -83,18 +98,13 @@ namespace HandCode
             taskInProgress = false;
         }
 
-        public int GetTasksCount()
-        {
-            return tasks.Count;
-        }
-
-        public float GetCompletionPercentage()
+        private void UpdateCompletionPercentage()
         {
             int numCompleted = 0;
             foreach (Task task in tasks.Values)
                 if (task.state == TaskState.COMPLETE)
                     numCompleted++;
-            return (float)numCompleted / tasks.Count;
+            _completionPercentage = (float)numCompleted / tasks.Count;
         }
 
         private void Start()
@@ -107,7 +117,7 @@ namespace HandCode
 
         private void Update()
         {
-            if (!taskInProgress)
+            if (!taskInProgress && !allTasksComplete)
             {
                 ManageSwitch();
             }

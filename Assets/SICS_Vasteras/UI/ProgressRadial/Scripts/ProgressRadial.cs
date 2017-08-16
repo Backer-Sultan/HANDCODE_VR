@@ -78,8 +78,13 @@ namespace HandCode
 
         public void Assign(float num)
         {
+            if (activeRoutine != null)
+            {
+                StopCoroutine(activeRoutine);
+                stack = 0f;
+            }
             float difference = Mathf.Abs(num - bar.fillAmount);
-            if (num < bar.fillAmount)
+            if (num > bar.fillAmount)
                 Add(difference);
             else
                 Subtract(difference);
@@ -124,6 +129,17 @@ namespace HandCode
         {
             audioSource.clip = clip;
             audioSource.Play();
+        }
+
+        public void GameFlowSystemListener()
+        {
+            GameFlowManager gfm = GameObject.FindObjectOfType<GameFlowManager>();
+            if(gfm == null)
+            {
+                Debug.LogError(string.Format("{0}\nProgressRadial.cs: Couldn't find any `GameFlowManager.cs`", Machine.GetPath(gameObject)));
+                return;
+            }
+            Assign(gfm.completionPercentage);
         }
     } 
 }

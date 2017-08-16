@@ -7,9 +7,9 @@ public class ProgressRadialTest : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Z))
             progressRadial.Add(0.1f);
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.X))
             progressRadial.Subtract(0.1f);
     }
 

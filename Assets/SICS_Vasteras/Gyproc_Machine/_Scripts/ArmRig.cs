@@ -11,10 +11,13 @@ namespace HandCode
     public class ArmRig : MonoBehaviour
     {
         /* fields & properties */
-        
+
         public Identifier ID;
         public Transform mainHandle;
         public Arm arm_Left, arm_Right;
+        public bool isArmsOpen { get { return arm_Left.armPos == Arm.ArmPosition.LEFT && arm_Right.armPos == Arm.ArmPosition.RIGHT; } }
+        public bool isArmsUp { get { return mainHandle.localEulerAngles.z >= 70f; } }
+        public bool isArmsDown { get { return mainHandle.localRotation.z <= 0f; } }
 
         private AudioSource audioSource;
         private HingeJoint joint;
@@ -42,7 +45,7 @@ namespace HandCode
             if (arm_Right == null)
                 Debug.LogError(string.Format("{0}\nArmRig.cs: Object `MainHandle/Arm_Right` is missing!", Machine.GetPath(gameObject)));
 
-            
+
             audioSource = GetComponentInChildren<AudioSource>();
             if (audioSource == null)
                 Debug.LogError(string.Format("{0}\nArmRig.cs: Component `AudioSource` is missing!", Machine.GetPath(gameObject)));
@@ -112,7 +115,7 @@ namespace HandCode
             audioSource.clip = clip;
             audioSource.Play();
         }
-    } 
+    }
 }
 
 
