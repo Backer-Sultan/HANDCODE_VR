@@ -16,8 +16,8 @@ namespace HandCode
         public Transform mainHandle;
         public Arm arm_Left, arm_Right;
         public bool isArmsOpen { get { return arm_Left.armPos == Arm.ArmPosition.LEFT && arm_Right.armPos == Arm.ArmPosition.RIGHT; } }
-        public bool isArmsUp { get { return transform.localEulerAngles.z >= 70f; } }
-        public bool isArmsDown { get { return transform.localEulerAngles.z < 0f; } }
+        public bool isArmsUp { get { return mainHandle.localEulerAngles.z >= 70f; } }
+        public bool isArmsDown { get { return mainHandle.localRotation.z <= 0f; } }
 
         private AudioSource audioSource;
         private HingeJoint joint;
@@ -116,7 +116,6 @@ namespace HandCode
             audioSource.Play();
         }
     }
-
 }
 
 

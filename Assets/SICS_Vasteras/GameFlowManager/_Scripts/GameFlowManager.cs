@@ -15,7 +15,7 @@ namespace HandCode
     {
         /* fields & properties */
         public Task currentTask { get { return _currentTask; } }
-        public float completionPercentage {  get { return _completionPercentage; } }
+        public float completionPercentage { get { return _completionPercentage; } }
         public UnityEvent onCurrentTaskChanged;
 
         private SortedList<TaskID, Task> tasks;
@@ -24,6 +24,7 @@ namespace HandCode
         private Machine machine;
         private bool taskInProgress = false;
         private float _completionPercentage;
+        private bool allTasksComplete = false;
 
 
 
@@ -41,7 +42,6 @@ namespace HandCode
             completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.isArmsUp);
             completionConditions.Add(TaskID.MOVE_SPOOL, () => machine.spool_Right.isTargetReached);
             completionConditions.Add(TaskID.LOWER_ARMS, () => machine.armRig_Right.isArmsDown);
-            completionConditions.Add(TaskID.TEST, () => false);
         }
 
         private void InitializeTasks()
@@ -85,6 +85,12 @@ namespace HandCode
             }
             UpdateCompletionPercentage();
             onCurrentTaskChanged.Invoke();
+
+            // at this point, if `taskInProgress == false` that mean all tasks are complete
+            if (!taskInProgress)
+            {
+                allTasksComplete = true;
+            }
         }
 
         private void GetControlBack()
@@ -111,7 +117,7 @@ namespace HandCode
 
         private void Update()
         {
-            if (!taskInProgress)
+            if (!taskInProgress && !allTasksComplete)
             {
                 ManageSwitch();
             }
