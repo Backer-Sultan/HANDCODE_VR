@@ -13,13 +13,14 @@ namespace HandCode
     {
         /* fields & properties */
 
-        public Identifier ID; 
+        public Identifier ID;
         [Range(0f, 10f)]
         public float speed = 1f;
         [Header("Events")]
         public UnityEvent onTargetReached;
         public UnityEvent onDamaged;
         public UnityEvent onHandled;
+        public bool isTargetReached { get { return _isTargetReached; } }
         public bool isDamaged { get { return _isDamaged; } }
         public bool isHandled { get { return _isHandled; } }
         [HideInInspector]
@@ -30,7 +31,7 @@ namespace HandCode
         private bool _isDamaged = false;
         private bool _isHandled = false;
         private bool isMoving = false;
-        private bool isTargetReached = false;
+        private bool _isTargetReached = false;
 
 
 
@@ -68,8 +69,8 @@ namespace HandCode
         {
             if (isMoving && !_isDamaged)
             {
-                isTargetReached = Vector3.Distance(transform.localPosition, Vector3.zero) <= Vector3.kEpsilon;
-                if (isTargetReached)
+                _isTargetReached = Vector3.Distance(transform.localPosition, Vector3.zero) <= Vector3.kEpsilon;
+                if (_isTargetReached)
                 {
                     Stop();
                     onTargetReached.Invoke();
@@ -78,5 +79,5 @@ namespace HandCode
                     transform.localPosition = Vector3.MoveTowards(transform.localPosition, Vector3.zero, speed * Time.deltaTime);
             }
         }
-    } 
+    }
 }

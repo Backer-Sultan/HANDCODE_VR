@@ -14,11 +14,11 @@ namespace HandCode
 
         [Range(0f, 1f)]
         public float speed = 0.1f;
+        public enum ArmPosition { MIDDLE, LEFT, RIGHT };
+        public ArmPosition armPos = ArmPosition.MIDDLE;
 
         private bool isMoving = false;
         private Vector3 direction = Vector3.zero;
-        private enum ArmPosition { MIDDLE, LEFT, RIGHT };
-        private ArmPosition armPos = ArmPosition.MIDDLE;
         private AudioSource audioSource;
 
 
