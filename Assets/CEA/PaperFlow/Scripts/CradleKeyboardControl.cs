@@ -18,5 +18,11 @@ public class CradleKeyboardControl : MonoBehaviour {
 
 		if (Input.GetKey(KeyCode.LeftArrow))
 			cradle.MoveToLeft();
-	}
+
+    if (Input.GetKey(KeyCode.UpArrow))
+      cradle.RaisePinsher();
+
+    if (Input.GetKey(KeyCode.DownArrow))
+      cradle.LowerPinsher();
+  }
 }
