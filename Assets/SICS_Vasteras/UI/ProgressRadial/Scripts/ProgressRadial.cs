@@ -107,7 +107,7 @@ namespace HandCode
                 bar.fillAmount = Mathf.MoveTowards(bar.fillAmount, total, speed * Time.deltaTime);
                 delta = bar.fillAmount - init;
                 stack -= delta;
-                percentage.text = string.Format("{0}%", Mathf.Round(bar.fillAmount * 100f).ToString());
+                percentage.text = string.Format("{0}%", Mathf.FloorToInt(bar.fillAmount * 100f).ToString());
                 yield return null;
             }
             activeRoutine = null;

@@ -44,6 +44,7 @@ namespace HandCode
         public List<Task> dependencies; // the list of tasks needed to conteniously be checked during performing this task.
 
         [Header("Voiceover Clips")]
+        public AudioClip instructionAudio;
         public AudioClip explanationAudio;
         public AudioClip ControllerAudio;
         public AudioClip ControlledAudio;
