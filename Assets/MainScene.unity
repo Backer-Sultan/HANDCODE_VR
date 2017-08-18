@@ -2409,6 +2409,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  animator: {fileID: 0}
 --- !u!54 &609705839
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3871,6 +3872,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  animator: {fileID: 0}
 --- !u!54 &1117212853
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4318,7 +4320,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
-  lastPressedButton: {fileID: 0}
+  currentPressedButton: {fileID: 0}
+  currentActiveHighlighter: {fileID: 0}
+  currentClip: {fileID: 0}
   audioSource: {fileID: 0}
 --- !u!1 &1338921671
 GameObject:
@@ -4921,6 +4925,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  animator: {fileID: 0}
 --- !u!65 &1605643143
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5059,6 +5064,7 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  animator: {fileID: 0}
 --- !u!54 &1628342893
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5403,7 +5409,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: 625dacac2be7bf546bf6978b1b633d8e, type: 2}
   m_Color: {r: 0, g: 0, b: 0, a: 0.141}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
@@ -5411,7 +5417,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 0}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1

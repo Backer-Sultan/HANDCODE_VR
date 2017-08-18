@@ -17,8 +17,8 @@ namespace HandCode
         /* fields & properties */
 
         public UnityEvent onClick;
+        public Animator animator;
 
-        private Animator animator;
         private HintSystem hintSystem;
 
 
@@ -41,7 +41,20 @@ namespace HandCode
             if (other.tag == "Finger")
             {
                 VRTK_ControllerHaptics.TriggerHapticPulse(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right), 1f);
-                hintSystem.lastPressedButton = this;
+                //deactivating animation on the currently active button
+                if (hintSystem.currentPressedButton != null)
+                    hintSystem.currentPressedButton.animator.SetBool("Active", false);
+                if (hintSystem.currentActiveHighlighter != null)
+                {
+                    hintSystem.currentActiveHighlighter.enabled = false;
+                    hintSystem.currentActiveHighlighter = null;
+                }
+                if (hintSystem.currentClip != null)
+                {
+                    hintSystem.audioSource.Stop();
+                    hintSystem.currentClip = null;
+                }   
+                hintSystem.currentPressedButton = this;
                 animator.SetBool("Active", true);
                 onClick.Invoke();
                 StartCoroutine(SetButtonsBackRoutine());

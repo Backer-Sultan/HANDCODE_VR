@@ -15,7 +15,9 @@ namespace HandCode
         /* fields & properties */
 
         public bool active = true;
-        public UI_Button lastPressedButton;
+        public UI_Button currentPressedButton;
+        public Highlighter currentActiveHighlighter;
+        public AudioClip currentClip;
         public AudioSource audioSource;
 
         private GameFlowManager manager;
@@ -43,13 +45,13 @@ namespace HandCode
         public void HintController()
         {
             PlayVoiceOver(manager.currentTask.ControllerAudio);
-            HighlightForPeriod(manager.currentTask.controllerObject, manager.currentTask.ControllerAudio.length);
+            HighlightForPeriod(manager.currentTask.controllerObject, currentClip.length);
         }
 
         public void HintControlled()
         {
             PlayVoiceOver(manager.currentTask.ControlledAudio);
-            HighlightForPeriod(manager.currentTask.controlledObject, manager.currentTask.ControlledAudio.length);
+            HighlightForPeriod(manager.currentTask.controlledObject, currentClip.length);
         }
         
         public void HintInstruction()
@@ -81,8 +83,10 @@ namespace HandCode
         private IEnumerator HighlightForPeriodRoutine(GameObject obj, float period)
         {
             SetHighlight(obj, true);
+            currentActiveHighlighter = obj.GetComponent<Highlighter>();
             yield return new WaitForSeconds(period);
             SetHighlight(obj, false);
+            currentActiveHighlighter = null;
         }
 
         private void PlayVoiceOver(AudioClip clip)
@@ -90,6 +94,7 @@ namespace HandCode
             audioSource.Stop();
             audioSource.clip = clip;
             audioSource.Play();
+            currentClip = clip;
         }
 
         /* LineRenderer Methods */
