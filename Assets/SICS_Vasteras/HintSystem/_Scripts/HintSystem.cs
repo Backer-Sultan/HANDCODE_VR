@@ -15,9 +15,12 @@ namespace HandCode
         /* fields & properties */
 
         public bool active = true;
+        public UI_Button currentPressedButton;
+        public Highlighter currentActiveHighlighter;
+        public AudioClip currentClip;
+        public AudioSource audioSource;
 
         private GameFlowManager manager;
-        private AudioSource audioSource;
         private BezierLaserBeam hintLine;
 
 
@@ -39,27 +42,29 @@ namespace HandCode
                 Debug.LogError(string.Format("{0}\nHintSystem.cs: no `BezierLaserBeam` script is found on any of the children objects", Machine.GetPath(gameObject)));
         }
 
-        public void SetControllerHighlight(bool activeState)
+        public void HintController()
         {
-            SetHighlight(activeState, manager.currentTask.controllerObject);
+            PlayVoiceOver(manager.currentTask.ControllerAudio);
+            HighlightForPeriod(manager.currentTask.controllerObject, currentClip.length);
         }
 
-        public void SetControlledHighlight(bool activeState)
+        public void HintControlled()
         {
-            SetHighlight(activeState, manager.currentTask.controlledObject);
+            PlayVoiceOver(manager.currentTask.ControlledAudio);
+            HighlightForPeriod(manager.currentTask.controlledObject, currentClip.length);
+        }
+        
+        public void HintInstruction()
+        {
+            PlayVoiceOver(manager.currentTask.instructionAudio);
         }
 
-        public void HighlightControllerForPeriod(float period)
+        public void HintExplanation()
         {
-            StartCoroutine(HighlightForPeriodRoutine(manager.currentTask.controllerObject, period));
+            PlayVoiceOver(manager.currentTask.explanationAudio);
         }
 
-        public void HighlightControlledForPeriod(float period)
-        {
-            StartCoroutine(HighlightForPeriodRoutine(manager.currentTask.controlledObject, period));
-        }
-
-        private void SetHighlight(bool activeState, GameObject obj)
+        private void SetHighlight(GameObject obj, bool activeState)
         {
             if (active && obj != null)
             {
@@ -71,15 +76,17 @@ namespace HandCode
                         Machine.GetPath(gameObject), obj.name));
             }
         }
-
-        public void PlayControllerVoiceOver()
+        private void HighlightForPeriod(GameObject obj, float period)
         {
-            PlayVoiceOver(manager.currentTask.ControllerAudio);
+            StartCoroutine(HighlightForPeriodRoutine(obj, period));
         }
-
-        public void PlayControlledVoiceOver()
+        private IEnumerator HighlightForPeriodRoutine(GameObject obj, float period)
         {
-            PlayVoiceOver(manager.currentTask.ControlledAudio);
+            SetHighlight(obj, true);
+            currentActiveHighlighter = obj.GetComponent<Highlighter>();
+            yield return new WaitForSeconds(period);
+            SetHighlight(obj, false);
+            currentActiveHighlighter = null;
         }
 
         private void PlayVoiceOver(AudioClip clip)
@@ -87,7 +94,10 @@ namespace HandCode
             audioSource.Stop();
             audioSource.clip = clip;
             audioSource.Play();
+            currentClip = clip;
         }
+
+        /* LineRenderer Methods */
 
         public void DrawLineToController()
         {
@@ -116,15 +126,8 @@ namespace HandCode
         public void HideLine()
         {
             hintLine.enabled = false;
-        }  
-        
-        private IEnumerator HighlightForPeriodRoutine(GameObject obj, float period)
-        {
-            SetHighlight(true, obj);
-            yield return new WaitForSeconds(period);
-            SetHighlight(false, obj);
         }
-
     }
+   
     
 }
