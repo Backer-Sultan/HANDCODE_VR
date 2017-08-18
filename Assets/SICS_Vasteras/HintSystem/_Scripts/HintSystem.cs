@@ -15,9 +15,10 @@ namespace HandCode
         /* fields & properties */
 
         public bool active = true;
+        public UI_Button lastPressedButton;
+        public AudioSource audioSource;
 
         private GameFlowManager manager;
-        private AudioSource audioSource;
         private BezierLaserBeam hintLine;
 
 
@@ -84,7 +85,6 @@ namespace HandCode
             SetHighlight(obj, false);
         }
 
-
         private void PlayVoiceOver(AudioClip clip)
         {
             audioSource.Stop();
@@ -122,15 +122,6 @@ namespace HandCode
         {
             hintLine.enabled = false;
         }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                HintController();
-            }
-        }
-
     }
    
     

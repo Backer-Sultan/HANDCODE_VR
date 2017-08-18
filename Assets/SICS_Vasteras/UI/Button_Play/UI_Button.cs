@@ -4,6 +4,7 @@
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
@@ -18,6 +19,7 @@ namespace HandCode
         public UnityEvent onClick;
 
         private Animator animator;
+        private HintSystem hintSystem;
 
 
 
@@ -28,6 +30,10 @@ namespace HandCode
             animator = GetComponentInChildren<Animator>();
             if (animator == null)
                 print("Error!");
+
+            hintSystem = GetComponentInParent<HintSystem>();
+            if (hintSystem == null)
+                print("Error!");
         }
 
         private void OnTriggerEnter(Collider other)
@@ -35,9 +41,17 @@ namespace HandCode
             if (other.tag == "Finger")
             {
                 VRTK_ControllerHaptics.TriggerHapticPulse(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Right), 1f);
+                hintSystem.lastPressedButton = this;
                 animator.SetBool("Active", true);
                 onClick.Invoke();
+                StartCoroutine(SetButtonsBackRoutine());
             }
+        }
+
+        private IEnumerator SetButtonsBackRoutine()
+        {
+            yield return new WaitForSeconds(hintSystem.audioSource.clip.length);
+            animator.SetBool("Active", false);
         }
     }
 }
