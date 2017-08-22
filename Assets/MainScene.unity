@@ -150,7 +150,7 @@ LineRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 17378209}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 0
@@ -725,7 +725,41 @@ Prefab:
     - target: {fileID: 114593277756497348, guid: d43946bb76a806a4b94c9608de469735,
         type: 2}
       propertyPath: m_Text
+      value: i
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081502170436644, guid: d43946bb76a806a4b94c9608de469735, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224499230226852030, guid: d43946bb76a806a4b94c9608de469735,
+        type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.057
+      objectReference: {fileID: 0}
+    - target: {fileID: 224499230226852030, guid: d43946bb76a806a4b94c9608de469735,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.033
+      objectReference: {fileID: 0}
+    - target: {fileID: 224499230226852030, guid: d43946bb76a806a4b94c9608de469735,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.093
+      objectReference: {fileID: 0}
+    - target: {fileID: 114593277756497348, guid: d43946bb76a806a4b94c9608de469735,
+        type: 2}
+      propertyPath: m_FontData.m_Font
       value: 
+      objectReference: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 114593277756497348, guid: d43946bb76a806a4b94c9608de469735,
+        type: 2}
+      propertyPath: m_FontData.m_FontSize
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 114593277756497348, guid: d43946bb76a806a4b94c9608de469735,
+        type: 2}
+      propertyPath: m_FontData.m_MaxSize
+      value: 60
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d43946bb76a806a4b94c9608de469735, type: 2}
@@ -2512,7 +2546,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &653225580
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3278,7 +3312,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1104145738}
   m_LocalRotation: {x: 0.70636255, y: 0.077557676, z: 0.08063661, w: 0.69895244}
-  m_LocalPosition: {x: 0.318, y: 0.064, z: -0}
+  m_LocalPosition: {x: 0.152, y: 0.027, z: -0.07}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 345306657}
@@ -4067,6 +4101,61 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114800882377692980, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: instructionAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 0baaf52f7ef45dd43b3562d2385b89b5, type: 3}
+    - target: {fileID: 114800882377692980, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: explanationAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: c1da7ce14c0268846b739ef6a3fba522, type: 3}
+    - target: {fileID: 114800882377692980, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: ControllerAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 23f3a0c140ecf2848abac757cd301659, type: 3}
+    - target: {fileID: 114800882377692980, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: ControlledAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: ff5ab78621ff0cc4b9aa9f7e99afaa2d, type: 3}
+    - target: {fileID: 114280423017815608, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: instructionAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: df751a91cae23cc45bf24bb3d0298df1, type: 3}
+    - target: {fileID: 114280423017815608, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: explanationAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: c1da7ce14c0268846b739ef6a3fba522, type: 3}
+    - target: {fileID: 114280423017815608, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: ControllerAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 23f3a0c140ecf2848abac757cd301659, type: 3}
+    - target: {fileID: 114280423017815608, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: ControlledAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: ff5ab78621ff0cc4b9aa9f7e99afaa2d, type: 3}
+    - target: {fileID: 114522301829180880, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: explanationAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: e23018ae6ce8b744392e55ac1294cfa5, type: 3}
+    - target: {fileID: 114522301829180880, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: instructionAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 654441ee50d522b429f09cf32d348b11, type: 3}
+    - target: {fileID: 114522301829180880, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: ControlledAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 61e905fbef46fd543b3df59d00c6ed53, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b3dac61de229bd47b42097fed99ebe3, type: 2}
   m_IsPrefabParent: 0
@@ -5409,7 +5498,7 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 2100000, guid: 625dacac2be7bf546bf6978b1b633d8e, type: 2}
+  m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.141}
   m_RaycastTarget: 1
   m_OnCullStateChanged:

@@ -40,6 +40,8 @@ namespace HandCode
             hintLine = GetComponentInChildren<BezierLaserBeam>();
             if (hintLine == null)
                 Debug.LogError(string.Format("{0}\nHintSystem.cs: no `BezierLaserBeam` script is found on any of the children objects", Machine.GetPath(gameObject)));
+
+            HideLine();
         }
 
         public void HintController()
