@@ -75,9 +75,12 @@ namespace HandCode
         private void CheckState()
         {
             TaskState oldState = _state;
-            if (completionCondition.Invoke())
+            if (completionCondition.Invoke() == true)
             {
-                _state = TaskState.COMPLETE;
+                // `state` shouldn't be set to `complete` when checked while it's not active, even if it initially fulfills the completion condition.
+                if (_state == TaskState.ACTIVE)
+                    _state = TaskState.COMPLETE;
+
                 // invoking `onComplete` event only when the state changes to complete.
                 if (oldState != _state)
                     onCompleted.Invoke();

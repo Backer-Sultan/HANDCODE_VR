@@ -14,41 +14,28 @@ public class ArmRigTest : MonoBehaviour
 	
 	void Update ()
     {
-		if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
+        if (Input.GetKeyDown(KeyCode.Q))
             armRig.MoveArmsLeft();
-        }
-        if (Input.GetKeyUp(KeyCode.Alpha1))
+
+        if (Input.GetKeyUp(KeyCode.W))
             armRig.StopArms();
 
-        if(Input.GetKeyDown(KeyCode.Alpha2))
-        {
+        if(Input.GetKeyDown(KeyCode.E))
             armRig.MoveArmsRight();
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            armRig.StopArms();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
+        if (Input.GetKeyDown(KeyCode.R))
             armRig.OpenArms();
-        }
 
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
+        if (Input.GetKeyDown(KeyCode.T))
             armRig.CloseArms();
-        }
 
-
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
+        if (Input.GetKeyDown(KeyCode.Y))
             armRig.RotateUp();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
+
+        if (Input.GetKeyDown(KeyCode.U))
             armRig.RotateDown();
-        if (Input.GetKeyDown(KeyCode.Alpha8))
+
+        if (Input.GetKeyDown(KeyCode.I))
             armRig.StopRotating();
     }
 }

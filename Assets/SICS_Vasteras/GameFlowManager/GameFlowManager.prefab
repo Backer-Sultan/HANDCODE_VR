@@ -233,6 +233,7 @@ MonoBehaviour:
   controlledObject: {fileID: 0}
   dependencies:
   - {fileID: 114522301829180880}
+  instructionAudio: {fileID: 0}
   explanationAudio: {fileID: 0}
   ControllerAudio: {fileID: 0}
   ControlledAudio: {fileID: 0}
@@ -274,6 +275,7 @@ MonoBehaviour:
   dependencies:
   - {fileID: 114416377647817318}
   - {fileID: 114800882377692980}
+  instructionAudio: {fileID: 0}
   explanationAudio: {fileID: 0}
   ControllerAudio: {fileID: 0}
   ControlledAudio: {fileID: 0}
@@ -289,7 +291,18 @@ MonoBehaviour:
       PublicKeyToken=null
   onCompleted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: MoveToTarget
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   onReset:
@@ -313,6 +326,7 @@ MonoBehaviour:
   controllerObject: {fileID: 0}
   controlledObject: {fileID: 0}
   dependencies: []
+  instructionAudio: {fileID: 0}
   explanationAudio: {fileID: 0}
   ControllerAudio: {fileID: 0}
   ControlledAudio: {fileID: 0}
@@ -355,6 +369,7 @@ MonoBehaviour:
   - {fileID: 114416377647817318}
   - {fileID: 114800882377692980}
   - {fileID: 114280423017815608}
+  instructionAudio: {fileID: 0}
   explanationAudio: {fileID: 0}
   ControllerAudio: {fileID: 0}
   ControlledAudio: {fileID: 0}
@@ -395,6 +410,7 @@ MonoBehaviour:
   controlledObject: {fileID: 0}
   dependencies:
   - {fileID: 114416377647817318}
+  instructionAudio: {fileID: 0}
   explanationAudio: {fileID: 0}
   ControllerAudio: {fileID: 0}
   ControlledAudio: {fileID: 0}

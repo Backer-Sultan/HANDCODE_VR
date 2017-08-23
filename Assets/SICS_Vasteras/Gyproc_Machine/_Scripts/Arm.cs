@@ -15,7 +15,8 @@ namespace HandCode
         [Range(0f, 1f)]
         public float speed = 0.1f;
         public enum ArmPosition { MIDDLE, LEFT, RIGHT };
-        public ArmPosition armPos = ArmPosition.MIDDLE;
+        public ArmPosition armPos { get { return _armPos; } }
+        public ArmPosition _armPos = ArmPosition.MIDDLE;
 
         private bool isMoving = false;
         private Vector3 direction = Vector3.zero;
@@ -34,7 +35,7 @@ namespace HandCode
 
         public void MoveLeft()
         {
-            if (armPos != ArmPosition.LEFT)
+            if (_armPos != ArmPosition.LEFT)
             {
                 direction = Vector3.back;
                 isMoving = true;
@@ -45,7 +46,7 @@ namespace HandCode
 
         public void MoveRight()
         {
-            if (armPos != ArmPosition.RIGHT)
+            if (_armPos != ArmPosition.RIGHT)
             {
                 direction = Vector3.forward;
                 isMoving = true;
@@ -77,18 +78,19 @@ namespace HandCode
             if (other.tag == "ArmLimitLeft")
             {
                 Stop();
-                armPos = ArmPosition.LEFT;
+                _armPos = ArmPosition.LEFT;
             }
             if (other.tag == "ArmLimitRight")
             {
                 Stop();
-                armPos = ArmPosition.RIGHT;
+                _armPos = ArmPosition.RIGHT;
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            armPos = ArmPosition.MIDDLE;
+            if (other.tag == "ArmLimitLeft" || other.tag == "ArmLimitRight")
+                _armPos = ArmPosition.MIDDLE;
         }
-    } 
+    }
 }
