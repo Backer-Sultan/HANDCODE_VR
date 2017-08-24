@@ -28,35 +28,37 @@ public class PaperFlowEditor : Editor
   public override void OnInspectorGUI()
   {
     serializedObject.Update();
-
-    int nbCapsules = EditorGUILayout.IntField("Number of rollers:", m_PaperFlow.rollers.Count);
-
-    if (nbCapsules >= 0)
+    if (m_PaperFlow.rollers != null)
     {
-      if (m_PaperFlow.rollers == null)
-      {
-        m_PaperFlow.rollers = new List<CapsuleCollider>();
-        m_PaperFlow.sides = new List<bool>();
-      }
+      int nbCapsules = EditorGUILayout.IntField("Number of rollers:", m_PaperFlow.rollers.Count);
 
-      if (nbCapsules < m_PaperFlow.rollers.Count)
+      if (nbCapsules >= 0)
       {
-        m_PaperFlow.rollers.RemoveRange(nbCapsules, m_PaperFlow.rollers.Count - nbCapsules);
-        m_PaperFlow.sides.RemoveRange(nbCapsules, m_PaperFlow.rollers.Count - nbCapsules);
-      }
-      else
-      {
-        for (int i = m_PaperFlow.rollers.Count; i < nbCapsules; i++)
+        if (m_PaperFlow.rollers == null)
         {
-          if (i > 0)
+          m_PaperFlow.rollers = new List<CapsuleCollider>();
+          m_PaperFlow.sides = new List<bool>();
+        }
+
+        if (nbCapsules < m_PaperFlow.rollers.Count)
+        {
+          m_PaperFlow.rollers.RemoveRange(nbCapsules, m_PaperFlow.rollers.Count - nbCapsules);
+          m_PaperFlow.sides.RemoveRange(nbCapsules, m_PaperFlow.rollers.Count - nbCapsules);
+        }
+        else
+        {
+          for (int i = m_PaperFlow.rollers.Count; i < nbCapsules; i++)
           {
-            m_PaperFlow.rollers.Add(m_PaperFlow.rollers[i - 1]);
-            m_PaperFlow.sides.Add(m_PaperFlow.sides[i - 1]);
-          }
-          else
-          {
-            m_PaperFlow.rollers.Add(null);
-            m_PaperFlow.sides.Add(false);
+            if (i > 0)
+            {
+              m_PaperFlow.rollers.Add(m_PaperFlow.rollers[i - 1]);
+              m_PaperFlow.sides.Add(m_PaperFlow.sides[i - 1]);
+            }
+            else
+            {
+              m_PaperFlow.rollers.Add(null);
+              m_PaperFlow.sides.Add(false);
+            }
           }
         }
       }
@@ -68,12 +70,12 @@ public class PaperFlowEditor : Editor
       GUILayout.BeginHorizontal();
 
       SerializedProperty rollerProperty = rollers.GetArrayElementAtIndex(i);
-      GUIContent labelRoll = new GUIContent("Roll " + i);
-      EditorGUILayout.PropertyField(rollerProperty, labelRoll, true);
+      GUILayout.Label("Roll " + i, GUILayout.Width(75));
+      EditorGUILayout.PropertyField(rollerProperty, GUIContent.none, true, GUILayout.ExpandWidth(true));
 
       SerializedProperty sideProperty = sides.GetArrayElementAtIndex(i);
       GUIContent labelSide = new GUIContent("Flip Side");
-      EditorGUILayout.PropertyField(sideProperty, labelSide, true);
+      EditorGUILayout.PropertyField(sideProperty, labelSide, true, GUILayout.ExpandWidth(true));
 
       GUILayout.EndHorizontal();
       EditorGUI.indentLevel--;
@@ -112,19 +114,22 @@ public class PaperFlowEditor : Editor
 
   public void OnSceneGUI()
   {
-    Handles.color = new Color(1, 0, 0, 1);
-    for (int i = 0; i < m_PaperFlow.keypoints.Length - 1; i++)
+    if (m_PaperFlow.keypoints != null)
     {
-      if (m_PaperFlow.keypoints[i] != null && m_PaperFlow.keypoints[i + 1] != null)
+      Handles.color = new Color(1, 0, 0, 1);
+      for (int i = 0; i < m_PaperFlow.keypoints.Length - 1; i++)
       {
-        int rollerId0 = (i + 2* m_PaperFlow.subdivision + 2) / (m_PaperFlow.subdivision +2);
-        int rollerId1 = (i+1 + 2 * m_PaperFlow.subdivision + 2) / (m_PaperFlow.subdivision + 2);
-        if (m_PaperFlow.rollers[rollerId0] != null && m_PaperFlow.rollers[rollerId1] != null)
+        if (m_PaperFlow.keypoints[i] != null && m_PaperFlow.keypoints[i + 1] != null)
         {
-          Handles.DrawLine(m_PaperFlow.keypoints[i].position, m_PaperFlow.keypoints[i + 1].position);
+          int rollerId0 = (i + 2 * m_PaperFlow.subdivision + 2) / (m_PaperFlow.subdivision + 2);
+          int rollerId1 = (i + 1 + 2 * m_PaperFlow.subdivision + 2) / (m_PaperFlow.subdivision + 2);
+          if (m_PaperFlow.rollers[rollerId0] != null && m_PaperFlow.rollers[rollerId1] != null)
+          {
+            Handles.DrawLine(m_PaperFlow.keypoints[i].position, m_PaperFlow.keypoints[i + 1].position);
+          }
+          else
+            break;
         }
-        else
-          break;
       }
     }
   }

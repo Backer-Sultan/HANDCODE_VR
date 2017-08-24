@@ -23,6 +23,7 @@ public class PaperFlow : MonoBehaviour
   Mesh meshFront, meshBack;
   GameObject paperFront, paperBack;
   private int rollerDir = -1;
+  private bool triangleMeshRefresh = false;
 
   // Use this for initialization
   void Start()
@@ -42,33 +43,10 @@ public class PaperFlow : MonoBehaviour
 
     if (keypoints.Length > 1)
     {
-      UpdateMesh(meshFront);
+
+      /*UpdateMesh(meshFront);
       UpdateMesh(meshBack);
-
-      //Building triangle list
-      int[] trianglesFront = new int[(keypoints.Length - 1) * 6];
-      int[] trianglesBack = new int[(keypoints.Length - 1) * 6];
-      int idf = 0;
-      int idb = 0;
-      for (int i = 0; i < meshFront.vertices.Length - 3; i += 2)
-      {
-        trianglesFront[idf] = i; idf++;
-        trianglesFront[idf] = i + 1; idf++;
-        trianglesFront[idf] = i + 2; idf++;
-        trianglesFront[idf] = i + 1; idf++;
-        trianglesFront[idf] = i + 3; idf++;
-        trianglesFront[idf] = i + 2; idf++;
-
-        trianglesBack[idb] = i; idb++;
-        trianglesBack[idb] = i + 2; idb++;
-        trianglesBack[idb] = i + 1; idb++;
-        trianglesBack[idb] = i + 1; idb++;
-        trianglesBack[idb] = i + 2; idb++;
-        trianglesBack[idb] = i + 3; idb++;
-      }
-
-      meshFront.SetTriangles(trianglesFront, 0);
-      meshBack.SetTriangles(trianglesBack, 0);
+      UpdateTriangles();*/
 
       MeshFilter mff = paperFront.AddComponent<MeshFilter>();
       mff.mesh = meshFront;
@@ -88,30 +66,41 @@ public class PaperFlow : MonoBehaviour
     if (tangents == null)
       tangents = new TwoCirclesTangents();
 
-    int keypointCount = (rollers.Count - 1) * 2 + Mathf.Max(0, (rollers.Count - 2)) * subdivision;
-    if (keypointCount > 0)
+    if (rollers != null)
     {
-      for (int i = transform.childCount - 1; i >= 0; i--)
+      int keypointCount = (rollers.Count - 1) * 2 + Mathf.Max(0, (rollers.Count - 2)) * subdivision;
+      if (keypointCount > 0)
       {
-        if(Application.isEditor)
-          GameObject.DestroyImmediate(transform.GetChild(i).gameObject);
-        else
-          GameObject.Destroy(transform.GetChild(i).gameObject);
-      }
+        for (int i = transform.childCount - 1; i >= 0; i--)
+        {
+          if (transform.GetChild(i).GetComponent<MeshRenderer>() == null) //Avoid destruction of paper mesh
+          {
+            if (Application.isPlaying)
+              GameObject.Destroy(transform.GetChild(i).gameObject);
+            else
+              GameObject.DestroyImmediate(transform.GetChild(i).gameObject);
+          }
+        }
 
-      keypoints = new Transform[keypointCount];
+        keypoints = new Transform[keypointCount];
 
-      for (int i = 0; i < keypoints.Length; i++)
-      {
-        GameObject o = new GameObject("Paper_Keypoint_" + i);
-        o.transform.parent = this.transform;
-        o.transform.position = transform.position;
-        keypoints[i] = o.transform;
+        for (int i = 0; i < keypoints.Length; i++)
+        {
+          GameObject o = new GameObject("Paper_Keypoint_" + i);
+          o.transform.parent = this.transform;
+          o.transform.position = transform.position;
+          keypoints[i] = o.transform;
+        }
+
+        UpdateKeypoints();
+
+        if (Application.isPlaying && keypoints.Length > 1)
+        {
+          triangleMeshRefresh = true;
+        }
       }
     }
-
-    UpdateKeypoints();
-  }
+  } 
 
   public void UpdateKeypoints()
   {
@@ -235,6 +224,40 @@ public class PaperFlow : MonoBehaviour
   {
     UpdateMesh(meshFront);
     UpdateMesh(meshBack);
+    UpdateTriangles();
+  }
+
+  void UpdateTriangles()
+  {
+    if (triangleMeshRefresh)
+    {
+      //Building triangle list
+      int[] trianglesFront = new int[(keypoints.Length - 1) * 6];
+      int[] trianglesBack = new int[(keypoints.Length - 1) * 6];
+      int idf = 0;
+      int idb = 0;
+      for (int i = 0; i < meshFront.vertices.Length - 3; i += 2)
+      {
+        trianglesFront[idf] = i; idf++;
+        trianglesFront[idf] = i + 1; idf++;
+        trianglesFront[idf] = i + 2; idf++;
+        trianglesFront[idf] = i + 1; idf++;
+        trianglesFront[idf] = i + 3; idf++;
+        trianglesFront[idf] = i + 2; idf++;
+
+        trianglesBack[idb] = i; idb++;
+        trianglesBack[idb] = i + 2; idb++;
+        trianglesBack[idb] = i + 1; idb++;
+        trianglesBack[idb] = i + 1; idb++;
+        trianglesBack[idb] = i + 2; idb++;
+        trianglesBack[idb] = i + 3; idb++;
+      }
+
+      meshFront.SetTriangles(trianglesFront, 0);
+      meshBack.SetTriangles(trianglesBack, 0);
+
+      triangleMeshRefresh = false;
+    }
   }
 
   void UpdateMesh(Mesh mesh)
