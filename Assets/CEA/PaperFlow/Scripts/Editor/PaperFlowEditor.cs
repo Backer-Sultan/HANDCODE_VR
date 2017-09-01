@@ -70,7 +70,7 @@ public class PaperFlowEditor : Editor
       GUILayout.BeginHorizontal();
 
       SerializedProperty rollerProperty = rollers.GetArrayElementAtIndex(i);
-      GUILayout.Label("Roll " + i, GUILayout.Width(75));
+      GUILayout.Label("Roller " + i, GUILayout.Width(75));
       EditorGUILayout.PropertyField(rollerProperty, GUIContent.none, true, GUILayout.ExpandWidth(true));
 
       SerializedProperty sideProperty = sides.GetArrayElementAtIndex(i);

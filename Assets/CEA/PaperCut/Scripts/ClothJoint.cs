@@ -9,7 +9,6 @@ public class ClothJoint : MonoBehaviour
   public Cloth clothParent;
   public Cloth clothChild;
 
-
   Mesh meshChild;
 
   int[] jointPointsIdParent;
@@ -32,9 +31,10 @@ public class ClothJoint : MonoBehaviour
 
   public int CutPointsCount { get { return cutPointsCount; } }
   public int JointPointsCount { get { return jointCutId.Length; } }
+  public bool JointCut { get { return jointCut; } }
 
   // Use this for initialization
-  void Start()
+  void Awake()
   {
     cutPointsCount = 0;
     jointCut = jointHalfCut = false;
@@ -48,20 +48,20 @@ public class ClothJoint : MonoBehaviour
 
       int count = 0;
       for (int i = 0; i < coefficients.Length; i++)
-        if (coefficients[i].maxDistance == 1)
+        if (coefficients[i].maxDistance >= 1)
           count++;
 
       int index = 0;
       jointPointsIdParent = new int[count];
       for (int i = 0; i < coefficients.Length; i++)
-        if (coefficients[i].maxDistance == 1)
+        if (coefficients[i].maxDistance >= 1)
         {
           //coefficients[i].maxDistance = float.MaxValue;
           jointPointsIdParent[index] = i;
           index++;
         }
 
-      clothParent.coefficients = coefficients;
+      //clothParent.coefficients = coefficients;
 
       //identification of the child cloth vertex joint
       coefficients = clothChild.coefficients;
@@ -169,14 +169,32 @@ public class ClothJoint : MonoBehaviour
       for (int i = indexCut; i < jointCutId.Length; i++)
         jointCutId[i] = -1;
 
-      //setting free the child vertex joints
-      for (int i = 0; i < jointPointsIdChild.Length; i++)
+      //constrained the child vertex joints
+      /*for (int i = 0; i < jointPointsIdChild.Length; i++)
         if (jointPointsIdChild[i] != -1)
           coefficients[jointPointsIdChild[i]].maxDistance = 0;
 
-      clothChild.coefficients = coefficients;
+      clothChild.coefficients = coefficients;*/
 
     }
+  }
+
+  void Start()
+  { 
+    //Set free the parent vertices 
+    ClothSkinningCoefficient[] coefficients = clothParent.coefficients;
+    for (int i = 0; i < jointPointsIdParent.Length; i++)
+      coefficients[jointPointsIdParent[i]].maxDistance = float.MaxValue;
+
+    clothParent.coefficients = coefficients;
+
+    //constrained the child vertex joints
+    coefficients = clothChild.coefficients;
+    for (int i = 0; i < jointPointsIdChild.Length; i++)
+      if (jointPointsIdChild[i] != -1)
+        coefficients[jointPointsIdChild[i]].maxDistance = 0;
+
+    clothChild.coefficients = coefficients;
   }
 
   // Update is called once per frame
@@ -269,6 +287,24 @@ public class ClothJoint : MonoBehaviour
       }
       clothChild.coefficients = coefficients;
     }
+  }
+
+  public void CutJoint()
+  {
+    ClothSkinningCoefficient[] coefficients = clothChild.coefficients;
+    for (int i = 0; i < jointCutId.Length; i++)
+    {
+      coefficients[jointCutId[i]].maxDistance = float.MaxValue;
+
+      if (jointCutLinkId[i] != null)
+        for (int j = 0; j < jointCutLinkId[i].Count; j++)
+          coefficients[jointCutLinkId[i][j]].maxDistance = float.MaxValue;
+    }
+
+    clothChild.coefficients = coefficients;
+ 
+    jointCut = jointHalfCut = true;
+    cutPointsCount = jointCutId.Length;
   }
 
   public void RebuildJoint()

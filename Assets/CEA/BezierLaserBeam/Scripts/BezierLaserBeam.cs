@@ -51,7 +51,6 @@ public class BezierLaserBeam : MonoBehaviour
 
                 Vector2 scale = line.material.GetTextureScale("_MainTex");
                 line.material.SetTextureScale("_MainTex", new Vector2(textureScale * curveLength, scale.y));
-
             }
         }
     }

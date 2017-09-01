@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaperCutControl : MonoBehaviour {
+public class ClothCutControl : MonoBehaviour {
 
   public Transform cutPlan1;
   public Transform cutPlan2;
   public ClothJoint clothJoint;
+  public ClothAnimation clothAnimation;
 
   float start;
   bool rebuild = false;
@@ -16,7 +17,29 @@ public class PaperCutControl : MonoBehaviour {
   }
 
   // Update is called once per frame
-  void Update() {
+  void Update()
+  {
+    if(Input.GetKeyDown(KeyCode.A))
+    {
+      if(clothAnimation.T==0)
+        clothAnimation.PlayAnimation();
+      else
+        clothAnimation.RewindAnimation();
+    }
+
+    if (Input.GetKeyDown(KeyCode.C))
+    {
+      if(!clothJoint.JointCut)
+        clothJoint.CutJoint();
+      else
+        clothJoint.RebuildJoint();
+    }
+
+    if (Input.GetKeyDown(KeyCode.R))
+    {
+      clothAnimation.Reinitialize();
+    }
+
     if (clothJoint && rebuild)
     {
       if (Time.time - start > 1.0f)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DisplayClothBackSide : MonoBehaviour {
+public class ClothDisplayBackSide : MonoBehaviour {
 
 	Cloth cloth;
 	GameObject clothBackSide;
@@ -18,7 +18,7 @@ public class DisplayClothBackSide : MonoBehaviour {
 		clothBackSide.transform.localScale = Vector3.one;
 
 		MeshFilter mf = clothBackSide.AddComponent<MeshFilter>();
-		mf.mesh = cloth.GetComponent<MeshFilter>().mesh;
+		mf.mesh = cloth.GetComponent<SkinnedMeshRenderer>().sharedMesh;
 		mesh = mf.mesh;
 		mesh.MarkDynamic();
 

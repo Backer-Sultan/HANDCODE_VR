@@ -21,7 +21,7 @@ public class TwoCirclesTangents
     float D = Vector2.Distance(c0, c1);
     if (D > Mathf.Abs(r0 - r1)) //Checking the existance of tangent lines
     {
-      float xp, yp; // intersection point of the two tangent line
+      float xp, yp; // intersection point of the two tangent lines
       bool switched = false;
       if (side0 == side1) //Outer tangents
       {
@@ -41,7 +41,7 @@ public class TwoCirclesTangents
 
           return;
         }
-        else if (r0 < r1) //switching circle 0 and 1, r0 as to be bigger than r1
+        else if (r0 < r1) //switching circle 0 and 1, r0 has to be bigger than r1
         {
           Vector2 c = c0;
           c0 = c1;
