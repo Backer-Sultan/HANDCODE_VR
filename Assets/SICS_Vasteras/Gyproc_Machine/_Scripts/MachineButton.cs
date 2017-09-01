@@ -23,6 +23,8 @@ namespace HandCode
         ARMRIG_ROTATE_UP,
         ARMRIG_ROTATE_DOWN,
         BREAK_TOGGLE,
+        PINSHER_RAISE,
+        PINSHER_LOWER,
         DOUBLE_COMMAND,
     }
 
