@@ -97,7 +97,7 @@ public class HandCodeObjectSelection
 
         // Unhighlight object is it has a component and if it's not already unhighlighted
         Highlighter highlighter = highlightedObject.gameObject.GetComponentInChildren<Highlighter>();
-        if (!highlightedObject)
+        if (!highlighter)
             highlighter = highlightedObject.gameObject.GetComponentInParent<Highlighter>();
         if (highlighter && highlighter.enabled)
         {
