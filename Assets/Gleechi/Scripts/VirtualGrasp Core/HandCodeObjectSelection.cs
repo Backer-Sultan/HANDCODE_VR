@@ -77,9 +77,9 @@ public class HandCodeObjectSelection
             return;
 
         // Highlight object is it has a component and if it's not already highlighted
-        Highlighter highlighter = hand.selectedObject.gameObject.GetComponentInParent<Highlighter>();
+        Highlighter highlighter = hand.selectedObject.gameObject.GetComponentInChildren<Highlighter>();
         if (!highlighter)
-            highlighter = hand.selectedObject.gameObject.GetComponentInChildren<Highlighter>();
+            highlighter = hand.selectedObject.gameObject.GetComponentInParent<Highlighter>();
         if (highlighter && !highlighter.enabled)
         {
             m_highlightedObjects[hand.side] = hand.selectedObject;
@@ -96,9 +96,9 @@ public class HandCodeObjectSelection
             return;
 
         // Unhighlight object is it has a component and if it's not already unhighlighted
-        Highlighter highlighter = highlightedObject.gameObject.GetComponentInParent<Highlighter>();
-        if (!highlightedObject)
-            highlighter = highlightedObject.gameObject.GetComponentInChildren<Highlighter>();
+        Highlighter highlighter = highlightedObject.gameObject.GetComponentInChildren<Highlighter>();
+        if (!highlighter)
+            highlighter = highlightedObject.gameObject.GetComponentInParent<Highlighter>();
         if (highlighter && highlighter.enabled)
         {
             m_highlightedObjects[hand.side] = null;
