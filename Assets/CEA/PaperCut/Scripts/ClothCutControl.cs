@@ -29,15 +29,24 @@ public class ClothCutControl : MonoBehaviour {
 
     if (Input.GetKeyDown(KeyCode.C))
     {
-      if(!clothJoint.JointCut)
-        clothJoint.CutJoint();
+      if (!clothJoint.JointCut)
+      {
+        if (clothJoint.CutClothVisible)
+          clothJoint.CutJoint();
+        else
+          clothJoint.ShowCutCloth();
+      }
       else
+      {
         clothJoint.RebuildJoint();
+        clothJoint.ShowCutCloth();
+      }
     }
 
     if (Input.GetKeyDown(KeyCode.R))
     {
       clothAnimation.Reinitialize();
+      clothJoint.RebuildJoint();
     }
 
     if (clothJoint && rebuild)

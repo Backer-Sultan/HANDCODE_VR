@@ -10,7 +10,7 @@ public class ClothJoint : MonoBehaviour
   public Cloth clothChild;
 
   Mesh meshChild;
-
+  private Vector3[] initialVertices;
   int[] jointPointsIdParent;
   int[] jointPointsIdChild;
 
@@ -19,6 +19,8 @@ public class ClothJoint : MonoBehaviour
 
   public Transform knife;
   public float cuttingDistance = 0.02f;
+  public float disapearanceTime = 1;
+  private float cutTime = 0;
 
   //The forward axis and the position of the EnableCutPlan transform define the plan above which the points can be cut.
   public Transform EnableCutPlan1, EnableCutPlan2;
@@ -32,6 +34,10 @@ public class ClothJoint : MonoBehaviour
   public int CutPointsCount { get { return cutPointsCount; } }
   public int JointPointsCount { get { return jointCutId.Length; } }
   public bool JointCut { get { return jointCut; } }
+  public bool CutClothVisible { get {  if(clothChild)
+        return clothChild.GetComponent<SkinnedMeshRenderer>().enabled;
+  else
+        return false;} }
 
   // Use this for initialization
   void Awake()
@@ -104,9 +110,10 @@ public class ClothJoint : MonoBehaviour
 
       jointPointsIdChild = adjustedIds;
 
-      //copying  mesh before modifiying it
-      meshChild = (Mesh)Instantiate(clothChild.GetComponent<SkinnedMeshRenderer>().sharedMesh);
-      clothChild.GetComponent<SkinnedMeshRenderer>().sharedMesh = meshChild;
+      //copying  mesh vertices before modifiying it
+      initialVertices = clothChild.GetComponent<SkinnedMeshRenderer>().sharedMesh.vertices;
+
+      meshChild = clothChild.GetComponent<SkinnedMeshRenderer>().sharedMesh;
 
       count = 0;
       for (int i = 0; i < coefficients.Length; i++)
@@ -180,7 +187,7 @@ public class ClothJoint : MonoBehaviour
   }
 
   void Start()
-  { 
+  {
     //Set free the parent vertices 
     ClothSkinningCoefficient[] coefficients = clothParent.coefficients;
     for (int i = 0; i < jointPointsIdParent.Length; i++)
@@ -204,6 +211,23 @@ public class ClothJoint : MonoBehaviour
     KnifeCut();
     JointCutEvent();
     JointPointCutEvent();
+    if (jointCut)
+    {
+      if (clothChild.GetComponent<SkinnedMeshRenderer>().enabled)
+      {
+        if (Time.time - cutTime >= disapearanceTime)
+        {
+          clothChild.GetComponent<SkinnedMeshRenderer>().enabled = false;
+          GetComponentInChildren<MeshRenderer>().enabled = false;
+          RebuildJoint();
+        }
+      }
+    }
+  }
+
+  public void OnApplicationQuit()
+  {
+    meshChild.vertices = initialVertices;
   }
 
   private void JointUpdate()
@@ -230,81 +254,88 @@ public class ClothJoint : MonoBehaviour
   {
     if (clothParent && clothChild)
     {
-      //knife to local frame of reference of cloth
-      Vector3 localKnife = clothChild.transform.InverseTransformPoint(knife.position);
-
-      //Enable Cut Plan in cloth frame of reference
-      Vector3 localPosEnableCut1 = new Vector3(0, 0, 0);
-      Vector3 localDirEnableCut1 = new Vector3(0, 0, 0);
-      if (EnableCutPlan1 != null)
+      if (clothChild.GetComponent<SkinnedMeshRenderer>().enabled)
       {
-        localPosEnableCut1 = clothChild.transform.InverseTransformPoint(EnableCutPlan1.position);
-        localDirEnableCut1 = clothChild.transform.InverseTransformDirection(EnableCutPlan1.forward);
-      }
+        //knife to local frame of reference of cloth
+        Vector3 localKnife = clothChild.transform.InverseTransformPoint(knife.position);
 
-      Vector3 localPosEnableCut2 = new Vector3(0, 0, 0);
-      Vector3 localDirEnableCut2 = new Vector3(0, 0, 0);
-      if (EnableCutPlan2 != null)
-      {
-        localPosEnableCut2 = clothChild.transform.InverseTransformPoint(EnableCutPlan2.position);
-        localDirEnableCut2 = clothChild.transform.InverseTransformDirection(EnableCutPlan2.forward);
-      }
-
-      ClothSkinningCoefficient[] coefficients = clothChild.coefficients;
-
-      for (int i = 0; i < jointCutId.Length; i++)
-      {
-        if (jointCutId[i] != -1)
+        //Enable Cut Plan in cloth frame of reference
+        Vector3 localPosEnableCut1 = new Vector3(0, 0, 0);
+        Vector3 localDirEnableCut1 = new Vector3(0, 0, 0);
+        if (EnableCutPlan1 != null)
         {
-          bool cutEnable = true;
-          if (localPosEnableCut1 != Vector3.zero)
-          {
-            float d = Vector3.Dot(localDirEnableCut1, clothChild.vertices[jointCutId[i]]) - Vector3.Dot(localDirEnableCut1, localPosEnableCut1);
-            if (d < 0)
-              cutEnable = false;
-          }
+          localPosEnableCut1 = clothChild.transform.InverseTransformPoint(EnableCutPlan1.position);
+          localDirEnableCut1 = clothChild.transform.InverseTransformDirection(EnableCutPlan1.forward);
+        }
 
-          if (localPosEnableCut2 != Vector3.zero)
-          {
-            float d = Vector3.Dot(localDirEnableCut2, clothChild.vertices[jointCutId[i]]) - Vector3.Dot(localDirEnableCut2, localPosEnableCut2);
-            if (d < 0)
-              cutEnable = false;
-          }
+        Vector3 localPosEnableCut2 = new Vector3(0, 0, 0);
+        Vector3 localDirEnableCut2 = new Vector3(0, 0, 0);
+        if (EnableCutPlan2 != null)
+        {
+          localPosEnableCut2 = clothChild.transform.InverseTransformPoint(EnableCutPlan2.position);
+          localDirEnableCut2 = clothChild.transform.InverseTransformDirection(EnableCutPlan2.forward);
+        }
 
-          if (cutEnable)
+        ClothSkinningCoefficient[] coefficients = clothChild.coefficients;
+
+        for (int i = 0; i < jointCutId.Length; i++)
+        {
+          if (jointCutId[i] != -1)
           {
-            float dist = Vector3.Distance(clothChild.vertices[jointCutId[i]], localKnife);
-            if (dist < cuttingDistance)
+            bool cutEnable = true;
+            if (localPosEnableCut1 != Vector3.zero)
             {
-              coefficients[jointCutId[i]].maxDistance = float.MaxValue;
+              float d = Vector3.Dot(localDirEnableCut1, clothChild.vertices[jointCutId[i]]) - Vector3.Dot(localDirEnableCut1, localPosEnableCut1);
+              if (d < 0)
+                cutEnable = false;
+            }
 
-              if (jointCutLinkId[i] != null)
-                for (int j = 0; j < jointCutLinkId[i].Count; j++)
-                  coefficients[jointCutLinkId[i][j]].maxDistance = float.MaxValue;
+            if (localPosEnableCut2 != Vector3.zero)
+            {
+              float d = Vector3.Dot(localDirEnableCut2, clothChild.vertices[jointCutId[i]]) - Vector3.Dot(localDirEnableCut2, localPosEnableCut2);
+              if (d < 0)
+                cutEnable = false;
+            }
+
+            if (cutEnable)
+            {
+              float dist = Vector3.Distance(clothChild.vertices[jointCutId[i]], localKnife);
+              if (dist < cuttingDistance)
+              {
+                coefficients[jointCutId[i]].maxDistance = float.MaxValue;
+
+                if (jointCutLinkId[i] != null)
+                  for (int j = 0; j < jointCutLinkId[i].Count; j++)
+                    coefficients[jointCutLinkId[i][j]].maxDistance = float.MaxValue;
+              }
             }
           }
         }
+        clothChild.coefficients = coefficients;
       }
-      clothChild.coefficients = coefficients;
     }
   }
 
   public void CutJoint()
   {
-    ClothSkinningCoefficient[] coefficients = clothChild.coefficients;
-    for (int i = 0; i < jointCutId.Length; i++)
+    if (clothChild && clothChild.GetComponent<SkinnedMeshRenderer>().enabled)
     {
-      coefficients[jointCutId[i]].maxDistance = float.MaxValue;
+      ClothSkinningCoefficient[] coefficients = clothChild.coefficients;
+      for (int i = 0; i < jointCutId.Length; i++)
+      {
+        coefficients[jointCutId[i]].maxDistance = float.MaxValue;
 
-      if (jointCutLinkId[i] != null)
-        for (int j = 0; j < jointCutLinkId[i].Count; j++)
-          coefficients[jointCutLinkId[i][j]].maxDistance = float.MaxValue;
+        if (jointCutLinkId[i] != null)
+          for (int j = 0; j < jointCutLinkId[i].Count; j++)
+            coefficients[jointCutLinkId[i][j]].maxDistance = float.MaxValue;
+      }
+
+      clothChild.coefficients = coefficients;
+
+      cutTime = Time.time;
+      jointCut = jointHalfCut = true;
+      cutPointsCount = jointCutId.Length;
     }
-
-    clothChild.coefficients = coefficients;
- 
-    jointCut = jointHalfCut = true;
-    cutPointsCount = jointCutId.Length;
   }
 
   public void RebuildJoint()
@@ -319,6 +350,12 @@ public class ClothJoint : MonoBehaviour
 
     jointCut = jointHalfCut = false;
     cutPointsCount = 0;
+  }
+
+  public void ShowCutCloth()
+  {
+    clothChild.GetComponent<SkinnedMeshRenderer>().enabled = true;
+    GetComponentInChildren<MeshRenderer>().enabled = true;
   }
 
   private void JointCutEvent()
@@ -338,6 +375,7 @@ public class ClothJoint : MonoBehaviour
 
       if (cut)
       {
+        cutTime = Time.time;
         jointCut = true;
         BaseEventData eventData = new BaseEventData(EventSystem.current);
         OnJointCut.Invoke(eventData);
@@ -369,7 +407,7 @@ public class ClothJoint : MonoBehaviour
         }
       }
 
-      if(cutPointsCount< cutPointsCountCur)
+      if (cutPointsCount < cutPointsCountCur)
       {
         BaseEventData eventData = new BaseEventData(EventSystem.current);
         cutPointsCount = cutPointsCountCur;
