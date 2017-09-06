@@ -17091,6 +17091,8 @@ HingeJoint:
   m_BreakTorque: Infinity
   m_EnableCollision: 0
   m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!59 &59692590511083098
 HingeJoint:
   m_ObjectHideFlags: 1
@@ -17123,6 +17125,8 @@ HingeJoint:
   m_BreakTorque: Infinity
   m_EnableCollision: 0
   m_EnablePreprocessing: 1
+  m_MassScale: 1
+  m_ConnectedMassScale: 1
 --- !u!64 &64023650198344648
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -18508,6 +18512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114025993351427142
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18519,6 +18524,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114026608539748422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18574,6 +18591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114059775910157968
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18585,6 +18603,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114075147456518732
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18596,6 +18626,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114075649196004720
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18618,6 +18660,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114084930704038718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18629,6 +18683,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114091563674744872
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18640,6 +18706,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114097691335578244
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18651,6 +18729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114101323480145650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18684,6 +18763,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114119750168023524
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18695,6 +18775,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114121493173456606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18706,6 +18798,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88925e61a66251a4aa5a757ae772b310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.1
+  _armPos: 0
 --- !u!114 &114136469731496508
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18739,6 +18833,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114148029904409152
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18761,6 +18856,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114159155612293612
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18783,6 +18890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114174897028776620
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18794,6 +18902,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114175010067762422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18805,6 +18914,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114194734933911870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18816,6 +18926,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114196772090173380
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18827,6 +18938,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114202867664680886
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18849,6 +18972,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114215937780841890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18871,6 +19006,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114237059104640546
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18882,6 +19029,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114245906851199204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18893,6 +19041,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114259738577412976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18937,6 +19086,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114290663496792678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18970,6 +19131,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114351903202448700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -18981,6 +19143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114361377551673918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19003,6 +19166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114363954842083912
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19014,6 +19178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114371058255498392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19036,6 +19201,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114376869768453222
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19047,6 +19224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114383105192240440
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19058,6 +19236,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114385838464567420
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19091,6 +19281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114398252689557082
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19102,6 +19293,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865512d2ac89523409bd51de68ff775c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  mainHandle: {fileID: 0}
+  arm_Left: {fileID: 0}
+  arm_Right: {fileID: 0}
 --- !u!114 &114419081897063844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19113,6 +19308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114429234417192486
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19124,6 +19320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114438729672370988
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19157,6 +19354,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114447062594176116
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19168,6 +19377,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114450321335816748
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19212,6 +19422,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114477311213468710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19223,6 +19445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114498729643765192
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19267,6 +19490,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe61cb2809b4f4f44801a9f7c691cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.5
+  color1: {r: 0, g: 0, b: 0, a: 0}
+  color2: {r: 0, g: 0, b: 0, a: 0}
+  cradle: {fileID: 0}
 --- !u!114 &114530004906000456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19289,6 +19516,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114536500836372700
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19311,6 +19550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114546117053675670
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19322,6 +19562,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114548374598919624
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19333,6 +19574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114565430190051026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19344,6 +19586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114567992372255078
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19388,6 +19631,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114579446126623470
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19476,6 +19731,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88925e61a66251a4aa5a757ae772b310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.1
+  _armPos: 0
 --- !u!114 &114623523043949956
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19487,6 +19744,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 865512d2ac89523409bd51de68ff775c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  mainHandle: {fileID: 0}
+  arm_Left: {fileID: 0}
+  arm_Right: {fileID: 0}
 --- !u!114 &114628007011821256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19542,6 +19803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114655276195347204
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19553,6 +19815,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114658509026237032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19564,6 +19838,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114685638173528314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19575,6 +19850,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44c9f784f6c72224cbf54f6217af9250, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cradle: {fileID: 0}
+  armRig_Right: {fileID: 0}
+  armRig_Left: {fileID: 0}
+  spool_Left: {fileID: 0}
+  spool_Right: {fileID: 0}
+  mainConsole: {fileID: 0}
+  lastPushedButton: {fileID: 0}
 --- !u!114 &114689115320661998
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19597,6 +19879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114746574846414760
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19608,6 +19891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114748748393392686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19641,6 +19925,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114763033002278502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19663,6 +19959,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114789814994536138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19685,6 +19993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114798703035642754
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19707,6 +20016,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72e1ab0f3aea7af4a86ec39b600348ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Cradle_Moving: {fileID: 0}
+  Cradle_Stopping: {fileID: 0}
+  Cradle_BreakToggle: {fileID: 0}
+  ArmRig_Rotating: {fileID: 0}
+  ArmRig_StopRotating: {fileID: 0}
+  Arm_Moving: {fileID: 0}
+  Arm_Stopping: {fileID: 0}
 --- !u!114 &114801778530833780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19718,6 +20034,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114802612727804630
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19740,6 +20057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1e11d747e25cfb4aa75366a683c0811, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationSpeed: 1
 --- !u!114 &114821387946259678
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19751,6 +20069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114823787592520062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19762,6 +20081,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88925e61a66251a4aa5a757ae772b310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.1
+  _armPos: 0
 --- !u!114 &114828537468305830
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19784,6 +20105,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114832380807699178
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19795,6 +20128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114837032487941002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19828,6 +20162,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 091351f7bfdcd2d4c842a404321edac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.5
+  pinsherRotator: {fileID: 0}
+  cradlePos: 0
+  onTargetReached:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onTargetLeft:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onPinsherLowered:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onPinsherRaised:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onBreakEnabled:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onBreakDisabled:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114856669853683578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19861,6 +20228,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88925e61a66251a4aa5a757ae772b310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0.1
+  _armPos: 0
 --- !u!114 &114861235556934610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19872,6 +20241,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114862383975618710
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19894,6 +20275,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a79cb8980a91b4e99365d2c2c175a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  speed: 1
+  onTargetReached:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onHandled:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  isLeftSideHandled: 0
+  isRightSideHandled: 0
 --- !u!114 &114869645547612434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19905,6 +20305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114882095144866422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19916,6 +20317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114902348197784764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19927,6 +20329,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114919442462000270
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19938,6 +20352,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03a79cb8980a91b4e99365d2c2c175a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  speed: 1
+  onTargetReached:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onDamaged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onHandled:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  isLeftSideHandled: 0
+  isRightSideHandled: 0
 --- !u!114 &114928158197748128
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19971,6 +20404,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114965529804095650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19982,6 +20427,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114965737962406706
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -19993,6 +20450,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114969122397216902
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20015,6 +20484,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6222357752169498792d89b1c6aa58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ID: 0
+  requiresDoubleCommand: 0
+  onPushed:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReleased:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!114 &114977787319657842
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20048,6 +20529,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!135 &135284341977643846
 SphereCollider:
   m_ObjectHideFlags: 1
