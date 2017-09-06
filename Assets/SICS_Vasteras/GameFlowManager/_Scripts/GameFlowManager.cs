@@ -42,6 +42,9 @@ namespace HandCode
             completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.isArmsUp);
             completionConditions.Add(TaskID.MOVE_SPOOL, () => machine.spool_Right.isTargetReached);
             completionConditions.Add(TaskID.LOWER_ARMS, () => machine.armRig_Right.isArmsDown);
+            completionConditions.Add(TaskID.TELEPORT_POS_4, () => FindObjectOfType<PlayerTracker>().teleportedToPos4);
+
+
         }
 
         private void InitializeTasks()

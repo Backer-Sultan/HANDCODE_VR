@@ -20,6 +20,7 @@ namespace HandCode
         RAISE_ARMS,
         MOVE_SPOOL,
         LOWER_ARMS,
+        TELEPORT_POS_4,
 
         TEST,
     }
