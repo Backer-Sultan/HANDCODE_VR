@@ -68,6 +68,8 @@ namespace HandCode
 
         public void ManageSwitch()
         {
+            UpdateCompletionPercentage();
+
             if (_currentTask != null)
             {
                 _currentTask.onInterrupted.RemoveListener(GetControlBack);
@@ -76,6 +78,7 @@ namespace HandCode
 
             foreach (Task tsk in tasks.Values)
             {
+
                 if (tsk.state != TaskState.COMPLETE)
                 {
                     _currentTask = tsk;
@@ -86,7 +89,7 @@ namespace HandCode
                     break;
                 }
             }
-            UpdateCompletionPercentage();
+
             onCurrentTaskChanged.Invoke();
 
             // at this point, if `taskInProgress == false` that mean all tasks are complete

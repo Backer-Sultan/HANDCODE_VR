@@ -18,10 +18,10 @@ public class ArmRigTest : MonoBehaviour
             armRig.MoveArmsLeft();
 
         if (Input.GetKeyUp(KeyCode.W))
-            armRig.StopArms();
+            armRig.MoveArmsRight();
 
         if(Input.GetKeyDown(KeyCode.E))
-            armRig.MoveArmsRight();
+            armRig.StopArms();
 
         if (Input.GetKeyDown(KeyCode.R))
             armRig.OpenArms();
@@ -30,12 +30,15 @@ public class ArmRigTest : MonoBehaviour
             armRig.CloseArms();
 
         if (Input.GetKeyDown(KeyCode.Y))
-            armRig.RotateUp();
+            armRig.StopArms();
 
         if (Input.GetKeyDown(KeyCode.U))
-            armRig.RotateDown();
+            armRig.RotateUp();
 
         if (Input.GetKeyDown(KeyCode.I))
+            armRig.RotateDown();
+
+        if (Input.GetKeyDown(KeyCode.O))
             armRig.StopRotating();
     }
 }
