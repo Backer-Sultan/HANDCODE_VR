@@ -116,7 +116,6 @@ namespace HandCode
         private void Start()
         {
             gameFlowManager = GameObject.FindObjectOfType<GameFlowManager>();
-
         }
 
         private void Update()
