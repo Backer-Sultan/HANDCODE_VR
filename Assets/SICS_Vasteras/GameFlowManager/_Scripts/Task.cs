@@ -45,6 +45,7 @@ namespace HandCode
         public GameObject controlledObject; // the object or the machine part to be controlled.
         public Func<bool> completionCondition; // is specified and set in GameFlowManager script.
         public List<Task> dependencies; // the list of tasks needed to conteniously be checked during performing this task.
+        public GameFlowManager gameFlowManager;
 
         [Header("Voiceover Clips")]
         public AudioClip instructionAudio;
@@ -89,7 +90,10 @@ namespace HandCode
                     onCompleted.Invoke();
             }
             // the completion condition is broken from another task (while this task is not active)
-            else if (oldState == TaskState.COMPLETE)
+            // AND this task is in the current-task dependecies.
+            else if (gameFlowManager.currentTask!= null &&
+                     gameFlowManager.currentTask.dependencies.Contains(this) && 
+                     oldState == TaskState.COMPLETE)
             {
                 _state = TaskState.PENDING;
                 onReset.Invoke();
@@ -107,6 +111,12 @@ namespace HandCode
                     Interrupt();
                 }
             }
+        }
+
+        private void Start()
+        {
+            gameFlowManager = GameObject.FindObjectOfType<GameFlowManager>();
+
         }
 
         private void Update()

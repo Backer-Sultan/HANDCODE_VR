@@ -15,8 +15,8 @@ namespace HandCode
         public bool isTeleportedPos4 { get { return _isTeleportedPos4; } }
         public bool isTeleportedPos2 { get { return _isTeleportedPos2; } }
 
-        private bool _isTeleportedPos4;
-        private bool _isTeleportedPos2;
+        public bool _isTeleportedPos4;
+        public bool _isTeleportedPos2;
 
 
 
@@ -37,7 +37,7 @@ namespace HandCode
             else
                 _isTeleportedPos4 = false;
 
-            if (Vector3.Distance(t.position, teleportPos2.position) <= 1f)
+            if (Vector3.Distance(t.position, teleportPos2.position) <= 1.4f)
             {
                 _isTeleportedPos2 = true;
                 onTeleportedToPosition2.Invoke();
@@ -45,6 +45,5 @@ namespace HandCode
             else
                 _isTeleportedPos2 = false;
         }
-
     }
 }

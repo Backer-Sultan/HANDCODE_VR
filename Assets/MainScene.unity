@@ -199,6 +199,8 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  _isTeleportedPos4: 0
+  _isTeleportedPos2: 0
 --- !u!114 &87718339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2093,6 +2095,16 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114909743224940652, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114416377647817318, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114416377647817318, guid: 4b3dac61de229bd47b42097fed99ebe3,
         type: 2}
       propertyPath: onCompleted.m_PersistentCalls.m_Calls.Array.size
@@ -2260,6 +2272,41 @@ Prefab:
       propertyPath: onCompleted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
       value: 12
       objectReference: {fileID: 0}
+    - target: {fileID: 114416377647817318, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114416377647817318, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: onStarted.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909743224940652, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909743224940652, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909743224940652, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1179915738}
+    - target: {fileID: 114909743224940652, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ResetNotifier
+      objectReference: {fileID: 0}
+    - target: {fileID: 114909743224940652, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: onReset.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b3dac61de229bd47b42097fed99ebe3, type: 2}
   m_IsPrefabParent: 0
@@ -2375,6 +2422,12 @@ Transform:
   m_Father: {fileID: 35468341}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1179915738 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114015250876587236, guid: 4b3dac61de229bd47b42097fed99ebe3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1047246339}
+  m_Script: {fileID: 11500000, guid: 307642d3899431846862e3196549d7ca, type: 3}
 --- !u!1001 &1190382018
 Prefab:
   m_ObjectHideFlags: 0

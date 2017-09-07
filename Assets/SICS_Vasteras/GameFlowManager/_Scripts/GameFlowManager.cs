@@ -69,7 +69,7 @@ namespace HandCode
 
         public void ManageSwitch()
         {
-            UpdateCompletionPercentage();
+           // UpdateCompletionPercentage();
 
             if (_currentTask != null)
             {
