@@ -21,6 +21,8 @@ namespace HandCode
         MOVE_SPOOL,
         LOWER_ARMS,
         TELEPORT_POS_4,
+        TELEPORT_POS_2,
+        HANDLE_SPOOL,
 
         TEST,
     }

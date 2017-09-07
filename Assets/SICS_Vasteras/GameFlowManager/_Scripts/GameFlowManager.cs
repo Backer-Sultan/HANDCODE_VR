@@ -42,8 +42,9 @@ namespace HandCode
             completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.isArmsUp);
             completionConditions.Add(TaskID.MOVE_SPOOL, () => machine.spool_Right.isTargetReached);
             completionConditions.Add(TaskID.LOWER_ARMS, () => machine.armRig_Right.isArmsDown);
-            completionConditions.Add(TaskID.TELEPORT_POS_4, () => FindObjectOfType<PlayerTracker>().teleportedToPos4);
-
+            completionConditions.Add(TaskID.TELEPORT_POS_4, () => FindObjectOfType<PlayerTracker>().isTeleportedPos4);
+            completionConditions.Add(TaskID.TELEPORT_POS_2, () => FindObjectOfType<PlayerTracker>().isTeleportedPos2);
+            completionConditions.Add(TaskID.HANDLE_SPOOL, () => machine.spool_Right.isHandled);
 
         }
 
@@ -78,7 +79,6 @@ namespace HandCode
 
             foreach (Task tsk in tasks.Values)
             {
-
                 if (tsk.state != TaskState.COMPLETE)
                 {
                     _currentTask = tsk;
@@ -89,7 +89,6 @@ namespace HandCode
                     break;
                 }
             }
-
             onCurrentTaskChanged.Invoke();
 
             // at this point, if `taskInProgress == false` that mean all tasks are complete

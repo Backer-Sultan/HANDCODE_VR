@@ -115,6 +115,14 @@ namespace HandCode
             audioSource.clip = clip;
             audioSource.Play();
         }
+
+        public void SetRotationLimit(float angle)
+        {
+            HingeJoint joint = GetComponentInChildren<HingeJoint>();
+            JointLimits limits = joint.limits;
+            limits.max = angle;
+            joint.limits = limits;
+        }
     }
 }
 

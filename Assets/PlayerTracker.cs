@@ -8,25 +8,42 @@ namespace HandCode
 {
     public class PlayerTracker : MonoBehaviour
     {
-        public Transform p4TeleportPos;
-        public bool teleportedToPos4;
+        public Transform teleportPos4;
+        public Transform teleportPos2;
         public UnityEvent onTeleportedToPosition4;
+        public UnityEvent onTeleportedToPosition2;
+        public bool isTeleportedPos4 { get { return _isTeleportedPos4; } }
+        public bool isTeleportedPos2 { get { return _isTeleportedPos2; } }
+
+        private bool _isTeleportedPos4;
+        private bool _isTeleportedPos2;
+
+
 
         private void Start()
         {
-            p4TeleportPos = GameObject.Find("DestinationPoint_PaperGuide/Destination_Location").transform;
+            teleportPos4 = GameObject.Find("DestinationPoint_PaperGuide/Destination_Location").transform;
+            teleportPos2 = GameObject.Find("DestinationPoint_ArmConsole/Destination_Location").transform;
         }
 
         public void TrackPlayer()
         {
             Transform t = VRTK_DeviceFinder.PlayAreaTransform();
-            if (Vector3.Distance(t.position, p4TeleportPos.position) <= 1f)
+            if (Vector3.Distance(t.position, teleportPos4.position) <= 1f)
             {
-                teleportedToPos4 = true;
+                _isTeleportedPos4 = true;
                 onTeleportedToPosition4.Invoke();
             }
             else
-                teleportedToPos4 = false;
+                _isTeleportedPos4 = false;
+
+            if (Vector3.Distance(t.position, teleportPos2.position) <= 1f)
+            {
+                _isTeleportedPos2 = true;
+                onTeleportedToPosition2.Invoke();
+            }
+            else
+                _isTeleportedPos2 = false;
         }
 
     }
