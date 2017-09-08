@@ -23,6 +23,8 @@ namespace HandCode
         TELEPORT_POS_4,
         TELEPORT_POS_2,
         HANDLE_SPOOL,
+        RAISE_ARMS_WITH_POOL,
+        TELEPORT_POS_3,
 
         TEST,
     }
@@ -45,7 +47,6 @@ namespace HandCode
         public GameObject controlledObject; // the object or the machine part to be controlled.
         public Func<bool> completionCondition; // is specified and set in GameFlowManager script.
         public List<Task> dependencies; // the list of tasks needed to conteniously be checked during performing this task.
-        public GameFlowManager gameFlowManager;
 
         [Header("Voiceover Clips")]
         public AudioClip instructionAudio;
@@ -59,6 +60,7 @@ namespace HandCode
         public UnityEvent onCompleted;
         public UnityEvent onReset;
 
+        private GameFlowManager gameFlowManager;
         [SerializeField] // for test only! This field should not be modified from inspector.
         private TaskState _state = TaskState.PENDING;
 
