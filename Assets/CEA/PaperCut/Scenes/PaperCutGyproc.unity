@@ -1811,7 +1811,7 @@ Cloth:
   - maxDistance: 1
     collisionSphereDistance: 3.4028235e+38
   m_CapsuleColliders:
-  - {fileID: 1517375431}
+  - {fileID: 1187197560}
   - {fileID: 1713063200}
   - {fileID: 961801609}
   - {fileID: 355626702}
@@ -1859,7 +1859,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.50029075, y: 0.09002185, z: -0.00000166893}
+    m_Center: {x: -0.5002909, y: 0.09002185, z: -0.00000166893}
     m_Extent: {x: 0.50028896, y: 0.909981, z: 0.75000024}
   m_DirtyAABB: 0
 --- !u!114 &912769283
@@ -2073,6 +2073,11 @@ Transform:
 --- !u!4 &1051309745 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4229516837381778, guid: 5f49d70acc518da45a1cb478ebb30166,
+    type: 2}
+  m_PrefabInternal: {fileID: 74325811}
+--- !u!136 &1187197560 stripped
+CapsuleCollider:
+  m_PrefabParentObject: {fileID: 136972145417464402, guid: 5f49d70acc518da45a1cb478ebb30166,
     type: 2}
   m_PrefabInternal: {fileID: 74325811}
 --- !u!1 &1303858142
@@ -2647,8 +2652,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.990682, y: -0.31243318, z: -0.0000014305115}
-    m_Extent: {x: 0.009898186, y: 0.5075263, z: 0.7500003}
+    m_Center: {x: -0.9906819, y: -0.31243318, z: -0.0000014305115}
+    m_Extent: {x: 0.009897947, y: 0.5075263, z: 0.7500003}
   m_DirtyAABB: 0
 --- !u!114 &1356959905
 MonoBehaviour:
@@ -2702,11 +2707,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0491b1c6b0228441859701dadddc8c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!136 &1517375431 stripped
-CapsuleCollider:
-  m_PrefabParentObject: {fileID: 136283868255910580, guid: 5f49d70acc518da45a1cb478ebb30166,
-    type: 2}
-  m_PrefabInternal: {fileID: 74325811}
 --- !u!1 &1658323748
 GameObject:
   m_ObjectHideFlags: 0
