@@ -8,14 +8,14 @@ using UnityEngine;
 
 namespace HandCode
 {
-    public class CradleHologram : MonoBehaviour
+    public class Hologram : MonoBehaviour
     {
         /* fields & properties */
 
         [Range(0f, 1f)]
         public float speed = 0.5f;
         public Color color1, color2;
-        public Cradle cradle;
+        public GameObject obj;
 
         private Color lerpedColor;
         private Renderer[] rends;
@@ -26,33 +26,20 @@ namespace HandCode
 
         private void Start()
         {
-            // initialization
-            if (cradle == false)
-                cradle = GameObject.Find("Machine/Cradle").GetComponent<Cradle>();
-            if (cradle == false)
-                Debug.LogError(string.Format("{0}\nCradleHologram: Cradle object is missing!", Machine.GetPath(gameObject)));
-
+            if (obj == null)
+            {
+                Debug.LogError(string.Format("{0}\nHologram: Object reference is missing!", Machine.GetPath(gameObject)));
+                return;
+            }
             rends = GetComponentsInChildren<Renderer>();
         }
 
-        private void Update()
+        // general color lerp - make sure to call it from derrived methods!
+        internal virtual void Update()
         {
-            transform.Translate(Vector3.right * speed * Time.deltaTime);
             lerpedColor = Color.Lerp(color1, color2, Mathf.PingPong(Time.time * 2f, 1));
             foreach (Renderer rend in rends)
                 rend.material.color = lerpedColor;
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            if (other.tag == "CradleLimitRight")
-                transform.localPosition = cradle.transform.localPosition;
-        }
-
-        private void OnEnable()
-        {
-            if (cradle)
-                transform.localPosition = cradle.transform.localPosition;
         }
     }
 }

@@ -12,7 +12,9 @@ namespace HandCode
     {
         NONE,
         LEFT,
-        Right,
+        RIGHT,
+        UP,
+        Down,
     }
 
 
@@ -63,7 +65,7 @@ namespace HandCode
                     armRig_Left = rig;
                     continue;
                 }
-                if (rig.ID == Identifier.Right)
+                if (rig.ID == Identifier.RIGHT)
                 {
                     armRig_Right = rig;
                     continue;
@@ -78,7 +80,7 @@ namespace HandCode
                     spool_Left = spl;
                     continue;
                 }
-                if (spl.ID == Identifier.Right)
+                if (spl.ID == Identifier.RIGHT)
                 {
                     spool_Right = spl;
                     continue;
