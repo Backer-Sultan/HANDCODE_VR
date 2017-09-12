@@ -42,6 +42,11 @@ namespace HandCode
             completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.isArmsUp);
             completionConditions.Add(TaskID.MOVE_SPOOL, () => machine.spool_Right.isTargetReached);
             completionConditions.Add(TaskID.LOWER_ARMS, () => machine.armRig_Right.isArmsDown);
+            completionConditions.Add(TaskID.TELEPORT_POS_4, () => FindObjectOfType<PlayerTracker>().isTeleportedPos4);
+            completionConditions.Add(TaskID.TELEPORT_POS_2, () => FindObjectOfType<PlayerTracker>().isTeleportedPos2);
+            completionConditions.Add(TaskID.HANDLE_SPOOL, () => machine.spool_Right.isHandled);
+            completionConditions.Add(TaskID.RAISE_ARMS_WITH_POOL, () => machine.armRig_Right.isArmsUp); // is set according to the joint max limit.
+            completionConditions.Add(TaskID.TELEPORT_POS_3, () => FindObjectOfType<PlayerTracker>().isTeleportedPos3);
         }
 
         private void InitializeTasks()
@@ -65,6 +70,8 @@ namespace HandCode
 
         public void ManageSwitch()
         {
+            UpdateCompletionPercentage();
+
             if (_currentTask != null)
             {
                 _currentTask.onInterrupted.RemoveListener(GetControlBack);
@@ -83,7 +90,6 @@ namespace HandCode
                     break;
                 }
             }
-            UpdateCompletionPercentage();
             onCurrentTaskChanged.Invoke();
 
             // at this point, if `taskInProgress == false` that mean all tasks are complete

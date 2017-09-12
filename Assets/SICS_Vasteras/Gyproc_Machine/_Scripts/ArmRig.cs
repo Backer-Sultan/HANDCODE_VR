@@ -16,8 +16,8 @@ namespace HandCode
         public Transform mainHandle;
         public Arm arm_Left, arm_Right;
         public bool isArmsOpen { get { return arm_Left.armPos == Arm.ArmPosition.LEFT && arm_Right.armPos == Arm.ArmPosition.RIGHT; } }
-        public bool isArmsUp { get { return mainHandle.localEulerAngles.z >= 70f; } }
-        public bool isArmsDown { get { return mainHandle.localRotation.z <= 0f; } }
+        public bool isArmsUp { get { return GetSignedRotation(mainHandle.localEulerAngles.z) >= joint.limits.max; } }
+        public bool isArmsDown { get { return GetSignedRotation(mainHandle.localEulerAngles.z) <= joint.limits.min; } }
 
         private AudioSource audioSource;
         private HingeJoint joint;
@@ -114,6 +114,26 @@ namespace HandCode
             audioSource.Stop();
             audioSource.clip = clip;
             audioSource.Play();
+        }
+
+        public void SetRotationMaxLimit(float angle)
+        {
+            JointLimits limits = joint.limits;
+            limits.max = angle;
+            joint.limits = limits;
+        }
+
+        public void SetRotationMinLimit(float angle)
+        {
+            JointLimits limit = joint.limits;
+            limit.min = angle;
+            joint.limits = limit;
+        }
+
+        private float GetSignedRotation(float angle)
+        {
+            float signedAngle = (angle > 180f) ? angle - 360f : angle;
+            return signedAngle;
         }
     }
 }
