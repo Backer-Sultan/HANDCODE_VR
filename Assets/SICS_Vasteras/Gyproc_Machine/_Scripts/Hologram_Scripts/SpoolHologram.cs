@@ -8,20 +8,25 @@ using UnityEngine;
 
 namespace HandCode
 {
-    public class CradleHologram : Hologram
+    public class SpoolHologram : Hologram
     {
         /* methods & coroutines */
 
         internal override void Update()
         {
             base.Update();
-            transform.Translate(Vector3.right * speed * Time.deltaTime);
+            transform.Translate(Vector3.back * speed * Time.deltaTime);
+
+            if (transform.localPosition.z <= 0f)
+                ResetPosition();
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void FixedUpdate()
         {
-            if (other.tag == "CradleLimitRight")
+        if (transform.localPosition == Vector3.zero)
+            {
                 ResetPosition();
+            }
         }
 
         private void OnEnable()

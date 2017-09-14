@@ -15,22 +15,23 @@ namespace HandCode
         [Range(0f, 1f)]
         public float speed = 0.5f;
         public Color color1, color2;
-        public GameObject obj;
 
+        internal Vector3 initialPosition; // stored as local position
+        internal Vector3 initialRotation;
         private Color lerpedColor;
         private Renderer[] rends;
 
 
 
         /* methods & coroutines */
-
-        private void Start()
+        private void Awake()
         {
-            if (obj == null)
-            {
-                Debug.LogError(string.Format("{0}\nHologram: Object reference is missing!", Machine.GetPath(gameObject)));
-                return;
-            }
+            initialPosition = transform.localPosition;
+            initialRotation = transform.localEulerAngles;
+        }
+
+        internal virtual void Start()
+        {
             rends = GetComponentsInChildren<Renderer>();
         }
 
@@ -40,6 +41,16 @@ namespace HandCode
             lerpedColor = Color.Lerp(color1, color2, Mathf.PingPong(Time.time * 2f, 1));
             foreach (Renderer rend in rends)
                 rend.material.color = lerpedColor;
+        }
+
+        internal virtual void ResetPosition()
+        {
+            transform.localPosition = initialPosition;
+        }
+
+        internal virtual void ResetRotation()
+        {
+            transform.localEulerAngles = initialRotation;
         }
     }
 }
