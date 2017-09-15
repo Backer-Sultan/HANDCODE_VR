@@ -8,51 +8,49 @@ using UnityEngine;
 
 namespace HandCode
 {
-    public class CradleHologram : MonoBehaviour
+    public class Hologram : MonoBehaviour
     {
         /* fields & properties */
 
         [Range(0f, 1f)]
         public float speed = 0.5f;
         public Color color1, color2;
-        public Cradle cradle;
 
+        internal Vector3 initialPosition; // stored as local position
+        internal Vector3 initialRotation;
         private Color lerpedColor;
         private Renderer[] rends;
 
 
 
         /* methods & coroutines */
-
-        private void Start()
+        private void Awake()
         {
-            // initialization
-            if (cradle == false)
-                cradle = GameObject.Find("Machine/Cradle").GetComponent<Cradle>();
-            if (cradle == false)
-                Debug.LogError(string.Format("{0}\nCradleHologram: Cradle object is missing!", Machine.GetPath(gameObject)));
+            initialPosition = transform.localPosition;
+            initialRotation = transform.localEulerAngles;
+        }
 
+        internal virtual void Start()
+        {
             rends = GetComponentsInChildren<Renderer>();
         }
 
-        private void Update()
+        // general color lerp - make sure to call it from derrived methods!
+        internal virtual void Update()
         {
-            transform.Translate(Vector3.right * speed * Time.deltaTime);
             lerpedColor = Color.Lerp(color1, color2, Mathf.PingPong(Time.time * 2f, 1));
             foreach (Renderer rend in rends)
                 rend.material.color = lerpedColor;
         }
 
-        private void OnTriggerEnter(Collider other)
+        internal virtual void ResetPosition()
         {
-            if (other.tag == "CradleLimitRight")
-                transform.localPosition = cradle.transform.localPosition;
+            transform.localPosition = initialPosition;
         }
 
-        private void OnEnable()
+        internal virtual void ResetRotation()
         {
-            if (cradle)
-                transform.localPosition = cradle.transform.localPosition;
+            transform.localEulerAngles = initialRotation;
         }
     }
 }
