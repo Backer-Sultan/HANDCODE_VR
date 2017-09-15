@@ -47,6 +47,9 @@ namespace HandCode
             completionConditions.Add(TaskID.HANDLE_SPOOL, () => machine.spool_Right.isHandled);
             completionConditions.Add(TaskID.RAISE_ARMS_WITH_POOL, () => machine.armRig_Right.isArmsUp); // is set according to the joint max limit.
             completionConditions.Add(TaskID.TELEPORT_POS_3, () => FindObjectOfType<PlayerTracker>().isTeleportedPos3);
+            completionConditions.Add(TaskID.LOWER_PINSHER, () => machine.cradle.isPinsherLow);
+            completionConditions.Add(TaskID.DISCONNECT_BREAK, () => !machine.cradle.isBreakApplied);
+
         }
 
         private void InitializeTasks()
@@ -57,7 +60,7 @@ namespace HandCode
             Task[] taskArray = FindObjectsOfType<Task>();
             foreach (Task task in taskArray)
             {
-                if (completionConditions[task.ID] != null)
+                if (completionConditions.Keys.Contains(task.ID) && completionConditions[task.ID] != null)
                     task.completionCondition = completionConditions[task.ID];
                 else
                 {

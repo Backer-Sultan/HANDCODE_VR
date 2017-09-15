@@ -25,6 +25,9 @@ namespace HandCode
         HANDLE_SPOOL,
         RAISE_ARMS_WITH_POOL,
         TELEPORT_POS_3,
+        LOWER_PINSHER,
+        DISCONNECT_BREAK,
+        CUT_PAPER,
 
         TEST,
     }
