@@ -30,6 +30,8 @@ namespace HandCode
         public Spool spool_Left, spool_Right;
         [HideInInspector]
         public MainConsole mainConsole;
+        [HideInInspector]
+        public PaperCut paperCut;
         public bool isDoubleCommandActive { get { return _isDoubleCommandActive; } }
         public MachineButton lastPushedButton;
 
@@ -94,6 +96,10 @@ namespace HandCode
             mainConsole = GetComponentInChildren<MainConsole>();
             if(mainConsole == null)
                 Debug.LogError(string.Format("{0}\nMachine.cs: MainConsole script is missing!", GetPath(gameObject)));
+
+            paperCut = FindObjectOfType<PaperCut>();
+            if (paperCut == null)
+                Debug.LogError(string.Format("{0}\nMachine.cs: No PaperCut script is found!", GetPath(gameObject)));
         }
 
         public void OnDoubleCommandPushed()

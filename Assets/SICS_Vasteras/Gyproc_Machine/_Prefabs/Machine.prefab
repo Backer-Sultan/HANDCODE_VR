@@ -426,7 +426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1070930816634050
 GameObject:
   m_ObjectHideFlags: 1
@@ -2496,6 +2496,22 @@ GameObject:
   - component: {fileID: 4703791854685650}
   m_Layer: 0
   m_Name: Paper_Keypoint_38
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1308501100004518
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4007837468877324}
+  - component: {fileID: 114283299303731604}
+  m_Layer: 0
+  m_Name: PaperCut_ScriptHolder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9219,6 +9235,19 @@ Transform:
   m_Father: {fileID: 4962241403003592}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4007837468877324
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308501100004518}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4759687749784226}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4009721741013214
 Transform:
   m_ObjectHideFlags: 1
@@ -15139,6 +15168,7 @@ Transform:
   - {fileID: 4544591563099610}
   - {fileID: 4241147740484750}
   - {fileID: 4940818878965586}
+  - {fileID: 4007837468877324}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -25356,6 +25386,7 @@ MonoBehaviour:
   spool_Left: {fileID: 0}
   spool_Right: {fileID: 0}
   mainConsole: {fileID: 0}
+  paperCut: {fileID: 0}
   lastPushedButton: {fileID: 0}
 --- !u!114 &114233361203299290
 MonoBehaviour:
@@ -25607,6 +25638,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
+--- !u!114 &114283299303731604
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1308501100004518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3837d82c49dc8fd45950401fbdf6c188, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPaperCut: 0
 --- !u!114 &114298161303581902
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -27858,13 +27901,24 @@ MonoBehaviour:
   clothParent: {fileID: 183101057330062166}
   clothChild: {fileID: 183588692367616088}
   knife: {fileID: 0}
-  cuttingDistance: 0.1
+  cuttingDistance: 0.05
   disapearanceTime: 5
   EnableCutPlan1: {fileID: 0}
   EnableCutPlan2: {fileID: 0}
   OnJointCut:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 114283299303731604}
+        m_MethodName: SetPaperCut
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   OnHalfJointCut:

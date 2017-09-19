@@ -49,6 +49,7 @@ namespace HandCode
             completionConditions.Add(TaskID.TELEPORT_POS_3, () => FindObjectOfType<PlayerTracker>().isTeleportedPos3);
             completionConditions.Add(TaskID.LOWER_PINSHER, () => machine.cradle.isPinsherLow);
             completionConditions.Add(TaskID.DISCONNECT_BREAK, () => !machine.cradle.isBreakApplied);
+            completionConditions.Add(TaskID.CUT_PAPER, () => machine.paperCut.isPaperCut);
 
         }
 
