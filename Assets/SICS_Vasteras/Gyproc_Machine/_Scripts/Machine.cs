@@ -14,7 +14,7 @@ namespace HandCode
         LEFT,
         RIGHT,
         UP,
-        Down,
+        DOWN,
     }
 
 

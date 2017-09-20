@@ -12,8 +12,6 @@ namespace HandCode
     {
         /* fields & properties */
         public Identifier ID;
-        [Range(0f, 1f)]
-        public float rotationSpeed = 0.5f;
         public bool move;
         public bool rotate;
         public Identifier moveDirection;
@@ -50,7 +48,7 @@ namespace HandCode
                     direction = Vector3.back;
                 }
 
-                transform.Translate(direction * speed * Time.deltaTime);
+                transform.Translate(direction * moveSpeed * Time.deltaTime);
             }
 
             if (rotate)
@@ -61,9 +59,13 @@ namespace HandCode
                 {
                     axis = Vector3.forward; // +z rotation
                 }
-                else if (rotationDirection == Identifier.Down)
+                else if (rotationDirection == Identifier.DOWN)
                 {
                     axis = Vector3.back; // -z rotation
+                }
+                else
+                {
+                    Debug.LogError("Invalid direction!");
                 }
 
                 float upLimit = machine.armRig_Right.joint.limits.max;
@@ -72,11 +74,11 @@ namespace HandCode
                 if (GetSignedRotation(transform.localEulerAngles.z) < upLimit &&
                     GetSignedRotation(transform.localEulerAngles.z) > downLimit)
                 {
-                    transform.Rotate(axis, rotationSpeed);
+                    transform.Rotate(axis, rotateSpeed);
                 }
                 else
                 {
-                    ResetRotation();
+                    ResetRotationAfter(waitTime);
                 }
             }
         }
@@ -86,21 +88,9 @@ namespace HandCode
             if (ID == Identifier.LEFT && other.tag == "ArmLimitLeft" ||
                 ID == Identifier.RIGHT && other.tag == "ArmLimitRight")
             {
-                ResetPosition();
-                otherArm.ResetPosition();
+                ResetPositionAfter(waitTime);
+                otherArm.ResetPositionAfter(waitTime);
             }
-        }
-
-        private void OnEnable()
-        {
-            ResetPosition();
-            ResetRotation();
-        }
-
-        private float GetSignedRotation(float angle)
-        {
-            float signedAngle = (angle > 180f) ? angle - 360f : angle;
-            return signedAngle;
         }
     }
 }

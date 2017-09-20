@@ -15,23 +15,18 @@ namespace HandCode
         internal override void Update()
         {
             base.Update();
-            transform.Translate(Vector3.back * speed * Time.deltaTime);
+            transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
 
             if (transform.localPosition.z <= 0f)
-                ResetPosition();
+                ResetPositionAfter(waitTime);
         }
 
         private void FixedUpdate()
         {
         if (transform.localPosition == Vector3.zero)
             {
-                ResetPosition();
+                ResetPositionAfter(waitTime);
             }
-        }
-
-        private void OnEnable()
-        {
-            ResetPosition();
         }
     }
 }

@@ -15,6 +15,20 @@ namespace HandCode
         public ArmHologram right_arm_hologram;
         public ArmHologram left_arm_hologram;
 
+        internal override void Start()
+        {
+            base.Start();
+            AdjustArmsSpeed(); 
+        }
+       
+        private void AdjustArmsSpeed()
+        {
+            right_arm_hologram.initialMoveSpeed = moveSpeed;
+            left_arm_hologram.initialMoveSpeed = moveSpeed;
+            right_arm_hologram.initialRotateSpeed = rotateSpeed;
+            left_arm_hologram.initialRotateSpeed = rotateSpeed;
+        }
+
         public void OpenArmsHologram()
         {
             gameObject.SetActive(true);
@@ -39,8 +53,8 @@ namespace HandCode
         public void LowerArmsHologram()
         {
             gameObject.SetActive(true);
-            right_arm_hologram.rotationDirection = Identifier.Down;
-            left_arm_hologram.rotationDirection = Identifier.Down;
+            right_arm_hologram.rotationDirection = Identifier.DOWN;
+            left_arm_hologram.rotationDirection = Identifier.DOWN;
         }
 
         public void HideHologram()
@@ -48,6 +62,4 @@ namespace HandCode
             gameObject.SetActive(false);
         }
     }
-
-    
 }
