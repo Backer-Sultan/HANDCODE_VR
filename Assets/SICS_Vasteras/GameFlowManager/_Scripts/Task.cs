@@ -20,6 +20,14 @@ namespace HandCode
         RAISE_ARMS,
         MOVE_SPOOL,
         LOWER_ARMS,
+        TELEPORT_POS_4,
+        TELEPORT_POS_2,
+        HANDLE_SPOOL,
+        RAISE_ARMS_WITH_POOL,
+        TELEPORT_POS_3,
+        LOWER_PINSHER,
+        DISCONNECT_BREAK,
+        CUT_PAPER,
 
         TEST,
     }
@@ -55,6 +63,7 @@ namespace HandCode
         public UnityEvent onCompleted;
         public UnityEvent onReset;
 
+        private GameFlowManager gameFlowManager;
         [SerializeField] // for test only! This field should not be modified from inspector.
         private TaskState _state = TaskState.PENDING;
 
@@ -86,7 +95,10 @@ namespace HandCode
                     onCompleted.Invoke();
             }
             // the completion condition is broken from another task (while this task is not active)
-            else if (oldState == TaskState.COMPLETE)
+            // AND this task is in the current-task dependecies.
+            else if (gameFlowManager.currentTask!= null &&
+                     gameFlowManager.currentTask.dependencies.Contains(this) && 
+                     oldState == TaskState.COMPLETE)
             {
                 _state = TaskState.PENDING;
                 onReset.Invoke();
@@ -104,6 +116,11 @@ namespace HandCode
                     Interrupt();
                 }
             }
+        }
+
+        private void Start()
+        {
+            gameFlowManager = GameObject.FindObjectOfType<GameFlowManager>();
         }
 
         private void Update()

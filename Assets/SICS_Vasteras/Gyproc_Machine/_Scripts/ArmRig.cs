@@ -16,11 +16,12 @@ namespace HandCode
         public Transform mainHandle;
         public Arm arm_Left, arm_Right;
         public bool isArmsOpen { get { return arm_Left.armPos == Arm.ArmPosition.LEFT && arm_Right.armPos == Arm.ArmPosition.RIGHT; } }
-        public bool isArmsUp { get { return mainHandle.localEulerAngles.z >= 70f; } }
-        public bool isArmsDown { get { return mainHandle.localRotation.z <= 0f; } }
+        public bool isArmsUp { get { return GetSignedRotation(mainHandle.localEulerAngles.z) >= _joint.limits.max; } }
+        public bool isArmsDown { get { return GetSignedRotation(mainHandle.localEulerAngles.z) <= _joint.limits.min; } }
+        public HingeJoint joint { get { return _joint; } }
 
         private AudioSource audioSource;
-        private HingeJoint joint;
+        private HingeJoint _joint;
 
         /* methods & coroutines */
 
@@ -50,32 +51,32 @@ namespace HandCode
             if (audioSource == null)
                 Debug.LogError(string.Format("{0}\nArmRig.cs: Component `AudioSource` is missing!", Machine.GetPath(gameObject)));
 
-            joint = mainHandle.GetComponent<HingeJoint>();
-            if (joint == null)
+            _joint = mainHandle.GetComponent<HingeJoint>();
+            if (_joint == null)
                 Debug.LogError(string.Format("{0}\nArmRig.cs: Component `HingeJoint` is missing on Object `MainHandle`!", Machine.GetPath(gameObject)));
         }
 
         public void RotateUp()
         {
-            JointMotor motor = joint.motor;
+            JointMotor motor = _joint.motor;
             motor.targetVelocity = 10f;
-            joint.motor = motor;
+            _joint.motor = motor;
             PlaySound(MachineSounds.Instance.ArmRig_Rotating);
         }
 
         public void RotateDown()
         {
-            JointMotor motor = joint.motor;
+            JointMotor motor = _joint.motor;
             motor.targetVelocity = -10f;
-            joint.motor = motor;
+            _joint.motor = motor;
             PlaySound(MachineSounds.Instance.ArmRig_Rotating);
         }
 
         public void StopRotating()
         {
-            JointMotor motor = joint.motor;
+            JointMotor motor = _joint.motor;
             motor.targetVelocity = 0f;
-            joint.motor = motor;
+            _joint.motor = motor;
             PlaySound(MachineSounds.Instance.ArmRig_StopRotating);
         }
 
@@ -114,6 +115,26 @@ namespace HandCode
             audioSource.Stop();
             audioSource.clip = clip;
             audioSource.Play();
+        }
+
+        public void SetRotationMaxLimit(float angle)
+        {
+            JointLimits limits = _joint.limits;
+            limits.max = angle;
+            _joint.limits = limits;
+        }
+
+        public void SetRotationMinLimit(float angle)
+        {
+            JointLimits limit = _joint.limits;
+            limit.min = angle;
+            _joint.limits = limit;
+        }
+
+        private float GetSignedRotation(float angle)
+        {
+            float signedAngle = (angle > 180f) ? angle - 360f : angle;
+            return signedAngle;
         }
     }
 }

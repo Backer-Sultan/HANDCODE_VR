@@ -24,8 +24,8 @@ namespace HandCode
         public float speed = 0.5f;
         public Transform pinsherRotator;
         public bool isBreakApplied { get { return _isBreakApplied; } }
-        public bool isPinsherLow  { get { return _isPinsherLow; } }
         public bool isTargetReached { get { return _isTargetReached; } }
+        public bool isPinsherLow { get { return _isPinsherLow; } }
         [HideInInspector]
         public CradlePosition cradlePos = CradlePosition.MIDDLE;
         [Header("Events")]
