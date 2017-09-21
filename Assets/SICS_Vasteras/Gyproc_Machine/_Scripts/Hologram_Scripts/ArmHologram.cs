@@ -4,6 +4,7 @@
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
 
+using System.Collections;
 using UnityEngine;
 
 namespace HandCode
@@ -12,19 +13,15 @@ namespace HandCode
     {
         /* fields & properties */
         public Identifier ID;
-        [Range(0f, 1f)]
-        public float rotationSpeed = 0.5f;
         public bool move;
         public bool rotate;
         public Identifier moveDirection;
         public Identifier rotationDirection;
         public ArmHologram otherArm;
+        public Transform CloseStartsFrom;
 
         private Machine machine;
 
-
-
-        /* methods & coroutines */
 
         internal override void Start()
         {
@@ -49,8 +46,7 @@ namespace HandCode
                 {
                     direction = Vector3.back;
                 }
-
-                transform.Translate(direction * speed * Time.deltaTime);
+                transform.Translate(direction * moveSpeed * Time.deltaTime);
             }
 
             if (rotate)
@@ -61,9 +57,13 @@ namespace HandCode
                 {
                     axis = Vector3.forward; // +z rotation
                 }
-                else if (rotationDirection == Identifier.Down)
+                else if (rotationDirection == Identifier.DOWN)
                 {
                     axis = Vector3.back; // -z rotation
+                }
+                else
+                {
+                    Debug.LogError("Invalid direction!");
                 }
 
                 float upLimit = machine.armRig_Right.joint.limits.max;
@@ -72,35 +72,50 @@ namespace HandCode
                 if (GetSignedRotation(transform.localEulerAngles.z) < upLimit &&
                     GetSignedRotation(transform.localEulerAngles.z) > downLimit)
                 {
-                    transform.Rotate(axis, rotationSpeed);
+                    transform.Rotate(axis, rotateSpeed);
                 }
                 else
                 {
-                    ResetRotation();
+                    ResetRotationAfter(waitTime);
                 }
             }
         }
 
+        internal override void OnEnable()
+        {
+            base.OnEnable();
+            StartCoroutine(SetLimitForArmClose());
+        }
+
+
+        // setting limit for arms open
         private void OnTriggerEnter(Collider other)
         {
-            if (ID == Identifier.LEFT && other.tag == "ArmLimitLeft" ||
-                ID == Identifier.RIGHT && other.tag == "ArmLimitRight")
+            if (ID == Identifier.LEFT && moveDirection == Identifier.LEFT && other.tag == "ArmLimitLeft" ||
+                ID == Identifier.RIGHT && moveDirection == Identifier.RIGHT && other.tag == "ArmLimitRight")
             {
-                ResetPosition();
-                otherArm.ResetPosition();
+                ResetPositionAfter(waitTime);
+                otherArm.ResetPositionAfter(waitTime);
             }
         }
 
-        private void OnEnable()
+        // setting limit for arms close
+        private IEnumerator SetLimitForArmClose()
         {
-            ResetPosition();
-            ResetRotation();
-        }
-
-        private float GetSignedRotation(float angle)
-        {
-            float signedAngle = (angle > 180f) ? angle - 360f : angle;
-            return signedAngle;
+            while (true)
+            {
+                if (ID == Identifier.LEFT && moveDirection == Identifier.RIGHT && transform.localPosition.z > initialPosition.z)
+                {
+                    moveSpeed = 0f;
+                    otherArm.moveSpeed = 0f;
+                    yield return new WaitForSeconds(waitTime);
+                    transform.localPosition = CloseStartsFrom.localPosition;
+                    otherArm.transform.localPosition = otherArm.CloseStartsFrom.localPosition;
+                    moveSpeed = initialMoveSpeed;
+                    otherArm.moveSpeed = initialMoveSpeed;
+                }
+                yield return null;
+            }
         }
     }
 }
