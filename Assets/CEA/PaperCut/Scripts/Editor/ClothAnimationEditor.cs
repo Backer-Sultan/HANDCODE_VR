@@ -10,6 +10,7 @@ public class ClothAnimationEditor : Editor
   private SerializedProperty cloth;
   private SerializedProperty animationSpeed;
   private SerializedProperty keypoints;
+  private SerializedProperty constraintPoint;
 
   void OnEnable()
   {
@@ -17,6 +18,7 @@ public class ClothAnimationEditor : Editor
     cloth = serializedObject.FindProperty("cloth");
     keypoints = serializedObject.FindProperty("keypoints");
     animationSpeed = serializedObject.FindProperty("animationSpeed");
+    constraintPoint = serializedObject.FindProperty("constraintPoint");
   }
 
 
@@ -33,6 +35,8 @@ public class ClothAnimationEditor : Editor
     for (int i=0;i< keypoints.arraySize;i++)
       EditorGUILayout.PropertyField(keypoints.GetArrayElementAtIndex(i),true);
     EditorGUI.indentLevel--;
+
+    EditorGUILayout.PropertyField(constraintPoint, new GUIContent("Constraint point"));
 
     GUIContent labelLength = new GUIContent("Animation speed");
     EditorGUILayout.PropertyField(animationSpeed, labelLength);
