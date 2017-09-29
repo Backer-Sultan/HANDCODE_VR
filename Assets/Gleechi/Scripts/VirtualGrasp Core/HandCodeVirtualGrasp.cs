@@ -1,6 +1,6 @@
 ﻿// Copyright (C) 2014-2017 Gleechi AB. All rights reserved.
 
-//#define USE_STEAM_VR
+#define USE_STEAM_VR
 
 using UnityEngine;
 using System;
@@ -15,8 +15,6 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 {
 	// Check this if we want to use VR mode
 	public bool useVR = true;
-    // Which object selection pattern to use
-    public SelectionType m_selectionType = SelectionType.PUSH_GRASP_RAYCAST;
     // We have a scene with one specific avatar
     private int avatarID = 1;
 	// An array of the current VirtualGrasp hand status (since we use two hands, we have two elements)
@@ -95,7 +93,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		}
 
         // Hand the interface over to the ObjectSelection
-		pSelector = new HandCodeObjectSelection (m_selectionType);
+		pSelector = new HandCodeObjectSelection ();
 
 		pSensorMapper = GetComponent<VG_SensorConfiguration> ();
 		// Register the sensor configuration to the VirtualGrasp library and create the HandStatus arrays
@@ -150,7 +148,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		VG_Controller.Update();
 
         pSelector.Select(current);
-        pSelector.HighlightObjects(current);
+        pSelector.HighlightObjects(current, former);
 
         for (uint handID = 0; handID < 2; handID++)	
 		{
@@ -161,7 +159,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 				current [handID].hand.position = Vector3.zero;
 
 			// Check if we have no object selected and inform the library if this is the case.
-			if (current [handID].selectedObject == null) 
+			if (current [handID].selectedObject == null)
 			{
 				VG_Controller.SetNoObjectSelected (current[handID].side);
 				continue;
@@ -199,7 +197,6 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 					Rigidbody obj_rb = current[handID].selectedObject.GetComponent<Rigidbody> ();
 					if (obj_rb != null && current[handID].selectedObject.GetComponent<VG_Articulation>() == null)
 						obj_rb.useGravity = false;
-                    VG_Controller.GetObjectTransform(avatarID, current[handID].side, current[handID].selectedObject.gameObject);
                     break;
 				}
 			}
@@ -209,7 +206,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 			current[handID].grabVel = VG_Controller.GetGrabVelocity(current[handID].side);
         }
 
-        //VG_Controller.GetObjectTransforms();
+        VG_Controller.GetObjectTransforms();
     }
 
 	// Late update is only for debug canvas visualization
@@ -233,7 +230,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
                     text += "state value: " + System.Math.Round(VG_Controller.GetObjectState(current[handID].selectedObject), 4) + "\n";
 
                 Rigidbody obj_rb = current [handID].selectedObject.GetComponent<Rigidbody> ();
-				if (obj_rb != null && obj_rb.angularVelocity.magnitude > 0.001f) {
+				if (obj_rb != null && obj_rb.velocity.magnitude > 0.001f) {
 					text += "pvel: " + obj_rb.velocity.magnitude + "\n";
 					text += "rvel: " + obj_rb.angularVelocity.magnitude + "\n";
 					if (current [handID].mode != VG_InteractionMode.EMPTY &&
@@ -244,8 +241,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 						SteamVR_Controller.Input ((int)handID + 3).TriggerHapticPulse (500);
 #endif
 						obj_rb.isKinematic = true;
-                        //VG_Controller.GetObjectTransforms();
-                        VG_Controller.GetObjectTransform(avatarID, current[handID].side, current[handID].selectedObject.gameObject);
+                        VG_Controller.GetObjectTransforms();
                         obj_rb.isKinematic = false;
 					}
 				}
