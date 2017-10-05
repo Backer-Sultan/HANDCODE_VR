@@ -34,6 +34,7 @@ namespace HandCode
         public PaperCut paperCut;
         public bool isDoubleCommandActive { get { return _isDoubleCommandActive; } }
         public MachineButton lastPushedButton;
+        public bool isSpoolBreakApplied;
 
         private bool _isDoubleCommandActive; // Dubble kommando.
 
@@ -116,6 +117,11 @@ namespace HandCode
             {
                 lastPushedButton.onReleased.Invoke();
             }
+        }
+
+        public void SetSpoolBreak(bool state)
+        {
+            isSpoolBreakApplied = state;
         }
     }
 }

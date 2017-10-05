@@ -18,6 +18,7 @@ namespace HandCode
         public bool isArmsOpen { get { return arm_Left.armPos == Arm.ArmPosition.LEFT && arm_Right.armPos == Arm.ArmPosition.RIGHT; } }
         public bool isArmsUp { get { return GetSignedRotation(mainHandle.localEulerAngles.z) >= _joint.limits.max; } }
         public bool isArmsDown { get { return GetSignedRotation(mainHandle.localEulerAngles.z) <= _joint.limits.min; } }
+        public bool isArmsBelowZero { get { return GetSignedRotation(mainHandle.localEulerAngles.z) <= 0f; } }
         public HingeJoint joint { get { return _joint; } }
 
         private AudioSource audioSource;
