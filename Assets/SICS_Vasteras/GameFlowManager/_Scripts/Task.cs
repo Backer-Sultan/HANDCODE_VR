@@ -23,11 +23,15 @@ namespace HandCode
         TELEPORT_POS_4,
         TELEPORT_POS_2,
         HANDLE_SPOOL,
-        RAISE_ARMS_WITH_POOL,
+        RAISE_ARMS_WITH_SPOOL,
+        LOWER_ARMS_WITH_SPOOL,
         TELEPORT_POS_3,
         LOWER_PINSHER,
         DISCONNECT_BREAK,
         CUT_PAPER,
+        MOUNT_MIDDLE_TAPE,
+        MOUNT_RIGHT_TAPE,
+        MOUNT_LEFT_TAPE,
 
         TEST,
     }

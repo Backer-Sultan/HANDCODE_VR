@@ -99,25 +99,6 @@ namespace HandCode
             base.Update();
 
             SetStaticSpoolActive(enableSpoolHologram);
-
-            // test code:
-            if (Input.GetKeyDown(KeyCode.U))
-                RaiseArmsHologram();
-
-            if (Input.GetKeyDown(KeyCode.D))
-                LowerArmsHologram();
-
-            if (Input.GetKeyDown(KeyCode.O))
-                OpenArmsHologram();
-
-            if (Input.GetKeyDown(KeyCode.C))
-                CloseArmsHologram();
-
-            if (Input.GetKeyDown(KeyCode.S))
-                enableSpoolHologram = !enableSpoolHologram;
-
-            if (Input.GetKeyDown(KeyCode.H))
-                HideHologram();
         }
     }
 }
