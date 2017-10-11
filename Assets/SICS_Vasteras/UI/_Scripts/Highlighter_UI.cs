@@ -43,6 +43,11 @@ namespace HandCode
 
         private void Highlight()
         {
+            print("highlightActive!");
+            Animator animator = GetComponent<Animator>();
+            if (animator != null)
+                animator.enabled = false;
+
             if (images != null)
             {
                 for (int i = 0; i < images.Length; i++)
@@ -54,6 +59,10 @@ namespace HandCode
 
         private void Unhighlight()
         {
+            Animator animator = GetComponent<Animator>();
+            if (animator != null)
+                animator.enabled = true;
+
             if (images != null)
             {
                 for (int i = 0; i < images.Length; i++)

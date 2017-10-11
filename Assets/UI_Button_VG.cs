@@ -4,8 +4,20 @@ using UnityEngine;
 
 namespace HandCode
 {
-    public class HS_Button_VG : MonoBehaviour
+    public enum UI_Button_ID
     {
+        NONE,
+        INSTRUCTION,
+        CONTROLLER,
+        CONTROLLED,
+        EXPLANATION,
+    }
+
+    public class UI_Button_VG : MonoBehaviour
+    {
+
+        public UI_Button_ID ID; 
+
         Animator animator;
 
         private void Start()
@@ -13,18 +25,14 @@ namespace HandCode
             animator = GetComponentInChildren<Animator>();
         }
 
-        public void PlayClickAnimation()
+        public void SetActiveAnimation(bool state)
         {
-            animator.SetTrigger("Click");
+            animator.SetBool("Active", state);
         }
 
         public void PlaySlideAnimation()
         {
             animator.SetTrigger("Slide");
-        }
-        public void SetAudioAnimation(bool state)
-        {
-            animator.SetBool("Audio", state);
         }
     } 
 }
