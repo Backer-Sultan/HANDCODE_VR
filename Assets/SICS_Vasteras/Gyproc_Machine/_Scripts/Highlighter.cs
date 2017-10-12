@@ -17,26 +17,27 @@ namespace HandCode
 
         private Renderer[] renderers;
 
-        private void Start()
+        internal virtual void Start()
         {
             enabled = false;
         }
 
         /* methods & coroutines */
 
-        private void OnEnable()
+        internal virtual void OnEnable()
         {
             renderers = GetComponentsInChildren<Renderer>();
             StartCoroutine(HighlightRoutine());
         }
 
-        private void OnDisable()
+        internal virtual void OnDisable()
         {
             StopAllCoroutines();
             foreach (Renderer rend in renderers)
                 rend.material.SetColor("_EmissionColor", Color.black);
         }
 
+        // specific to 3D objects with `Renderer` components.
         private IEnumerator HighlightRoutine()
         {
             float emission;
