@@ -7,25 +7,32 @@ namespace HandCode
     public class HintSystem_VG : MonoBehaviour
     {
         public bool activeState;
-        public UI_Button_VG instruction, controller, controlled, explanation, powerButton, showMeButton;
+
+        public UI_Button_VG instruction, controller, controlled, explanation, power, showMe;
         public UI_Button_VG activeButton, lastClickedButton;
 
         private Animator animator;
-        private Animator powerButtonAnimator;
-        private Animator showMeButtonAnimator;
+        private Animator instructionAnimator, controllerAnimator, controlledAnimtor, explanationAnimator, powerAnimator, showMeAnimator;
+        private Animator[] buttonsAnimators;
         private AudioSource audioSource;
         private AudioClip currentClip;
+
         private GameFlowManager gameFlowManager;
+
         private bool showMeButtonState;
-
-
-
+        public Highlighter activeHighligher;
+        public Hologram activeHologram;
 
         private void Start()
         {
             animator = transform.Find("ProgressRadial_onHand").GetComponent<Animator>();
-            powerButtonAnimator = transform.Find("ProgressRadial_onHand/PowerButton").GetComponent<Animator>();
-            showMeButtonAnimator = transform.Find("ProgressRadial_onHand/White_Solid").GetComponent<Animator>();
+            instructionAnimator = transform.Find("ProgressRadial_onHand/Button_Instruction/Button").GetComponent<Animator>();
+            controllerAnimator = transform.Find("ProgressRadial_onHand/Button_Controller/Button").GetComponent<Animator>();
+            controlledAnimtor = transform.Find("ProgressRadial_onHand/Button_Controlled/Button").GetComponent<Animator>();
+            explanationAnimator = transform.Find("ProgressRadial_onHand/Button_Explanation/Button").GetComponent<Animator>();
+            buttonsAnimators = new Animator[] { instructionAnimator, controlledAnimtor, controllerAnimator, explanationAnimator };
+            powerAnimator = transform.Find("ProgressRadial_onHand/PowerButton").GetComponent<Animator>();
+            showMeAnimator = transform.Find("ProgressRadial_onHand/White_Solid").GetComponent<Animator>();
             audioSource = GetComponent<AudioSource>();
             gameFlowManager = FindObjectOfType<GameFlowManager>();
         }
@@ -35,6 +42,18 @@ namespace HandCode
             animator.SetBool("Active", state);
         }
 
+        private IEnumerator SlideButtonsRoutine(bool state)
+        {
+            WaitForSeconds waitTime = new WaitForSeconds(0.1f);
+            foreach (Animator a in buttonsAnimators)
+            {
+                if (state)
+                    a.SetTrigger("Slide");
+                else
+                    a.SetTrigger("Unslide");
+                yield return waitTime;
+            }
+        }
 
         public void ClickRequest(UI_Button_VG button)
         {
@@ -42,75 +61,58 @@ namespace HandCode
             // logic for power button
             if (button.ID == UI_Button_ID.POWER)
             {
-                powerButtonAnimator.SetTrigger("Click");
+                powerAnimator.SetTrigger("Click");
+                StartCoroutine(SlideButtonsRoutine(true));
                 return;
             }
 
             if (button.ID == UI_Button_ID.SHOW_ME)
-            {
-                if (lastClickedButton != null)
-                {
-                    switch (lastClickedButton.ID)
-                    {
-                        case UI_Button_ID.INSTRUCTION:
-                            Hint(gameFlowManager.currentTask.GetComponent<TaskHint>().instructionHologram);
-                            break;
-
-                        case UI_Button_ID.CONTROLLER:
-                            Hint(gameFlowManager.currentTask.GetComponent<TaskHint>().controllerHighlighter);
-                            break;
-
-                        case UI_Button_ID.CONTROLLED:
-                            Hint(gameFlowManager.currentTask.GetComponent<TaskHint>().controlledHighlighter);
-                            break;
-                    }
-                }
                 return;
-            }
 
-            // logic for the rest of buttons
-
-            // logic for `show me` button
             lastClickedButton = button;
             showMeButtonState = true;
-            showMeButtonAnimator.SetBool("Active", showMeButtonState);
+            showMeAnimator.SetBool("Active", showMeButtonState);
 
-
-            
+            // Swiching between buttons
 
             // no button is active
             if (activeButton == null)
             {
-                activeButton = button;
-                PlayAudioFor(activeButton);
-                activeButton.SetActiveAnimation(true);
+                ActivateButton(button);
                 StartCoroutine(DeactivateAudioAnimationRoutine(button, audioSource.clip.length));
             }
             // the clicked button is the same as the currently active clicked button
             else if (activeButton == button)
             {
                 StopAllCoroutines();
+                DeactivateCurrentHint();
                 StartCoroutine(DeactivateAudioAnimationRoutine(button, 0f));
             }
             // the clicked button is different from the currently active button
             else
             {
                 StopAllCoroutines();
+                DeactivateCurrentHint();
                 StartCoroutine(SwitchButtonRoutine(button));
             }
 
-            showMeButtonAnimator.SetBool("Active", true);
+            showMeAnimator.SetBool("Active", true);
+            ShowHintFor(button);
         }
 
-        private IEnumerator SwitchButtonRoutine(UI_Button_VG newButton)
+        private IEnumerator SwitchButtonRoutine(UI_Button_VG button)
         {
             yield return DeactivateAudioAnimationRoutine(activeButton, 0f);
-            activeButton = newButton;
-            PlayAudioFor(activeButton);
-            activeButton.SetActiveAnimation(true);
+            ActivateButton(button);
             StartCoroutine(DeactivateAudioAnimationRoutine(activeButton, audioSource.clip.length));
         }
 
+        private void ActivateButton(UI_Button_VG button)
+        {
+            activeButton = button;
+            PlayAudioFor(activeButton);
+            activeButton.SetActiveAnimation(true);
+        }
         private IEnumerator DeactivateAudioAnimationRoutine(UI_Button_VG button, float delay)
         {
             yield return new WaitForSeconds(delay);
@@ -119,6 +121,7 @@ namespace HandCode
             audioSource.Stop();
             currentClip = null;
             activeButton = null;
+            DeactivateCurrentHint(); ///////////////////should be reviewd!
         }
 
         private void PlayAudioFor(UI_Button_VG button)
@@ -144,17 +147,66 @@ namespace HandCode
             audioSource.Play();
         }
 
-        private void Hint(Highlighter highlighter)
+        private void ShowHintFor(UI_Button_VG button)
         {
-            highlighter.enabled = true;
+            DeactivateCurrentHint();
 
+            TaskHint taskHint = gameFlowManager.currentTask.GetComponent<TaskHint>();
+            switch (button.ID)
+            {
+                case UI_Button_ID.INSTRUCTION:
+                    StartCoroutine(HintRoutine(taskHint.instructionHologram));
+                    break;
+
+                case UI_Button_ID.CONTROLLER:
+                    StartCoroutine(HintRoutine(taskHint.controllerHighlighter, taskHint.ControllerAudio.length));
+                    break;
+
+                case UI_Button_ID.CONTROLLED:
+                    StartCoroutine(HintRoutine(taskHint.controlledHighlighter, taskHint.ControlledAudio.length));
+                    break;
+            }
         }
 
-        private void Hint(Hologram hologram)
-        {
-            hologram.gameObject.SetActive(true);
-        }
+
+        // Hint Methods and Routines used by method `ShowHintFor`, and should NOT used explicitely.
         
+        private IEnumerator HintRoutine(Highlighter highlighter, float period = 5f)
+        {
+            DeactivateCurrentHint();
+
+            activeHighligher = highlighter;
+            highlighter.enabled = true;
+            yield return new WaitForSeconds(period);
+            highlighter.enabled = false;
+            activeHighligher = null;
+        }
+        private IEnumerator HintRoutine(Hologram hologram, float period = 5f)
+        {
+            DeactivateCurrentHint();
+
+            activeHologram = hologram;
+            hologram.gameObject.SetActive(true);
+            yield return new WaitForSeconds(period);
+            hologram.gameObject.SetActive(false);
+            activeHologram = null;
+        }
+
+
+        private void DeactivateCurrentHint()
+        {
+            if (activeHologram != null)
+            {
+                activeHologram.gameObject.SetActive(false);
+                activeHologram = null;
+            }
+            if (activeHighligher != null)
+            {
+                activeHighligher.enabled = false;
+                activeHighligher = null;
+            }
+        }
+
         /* ********************************************************
          * should have another override for the line renderer hint.
          * ********************************************************/
