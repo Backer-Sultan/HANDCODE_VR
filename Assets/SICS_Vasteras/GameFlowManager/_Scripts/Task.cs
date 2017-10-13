@@ -50,16 +50,8 @@ namespace HandCode
 
         public TaskID ID;
         public TaskState state { get { CheckState(); return _state; } }
-        public GameObject controllerObject; // the position/console that the operator interacts with the machine from.
-        public GameObject controlledObject; // the object or the machine part to be controlled.
         public Func<bool> completionCondition; // is specified and set in GameFlowManager script.
         public List<Task> dependencies; // the list of tasks needed to conteniously be checked during performing this task.
-
-        [Header("Voiceover Clips")]
-        public AudioClip instructionAudio;
-        public AudioClip explanationAudio;
-        public AudioClip ControllerAudio;
-        public AudioClip ControlledAudio;
 
         [Header("Evetns")]
         public UnityEvent onStarted;
