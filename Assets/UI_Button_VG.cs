@@ -12,6 +12,7 @@ namespace HandCode
         CONTROLLED,
         EXPLANATION,
         POWER,
+        SHOW_ME,
     }
 
     public class UI_Button_VG : MonoBehaviour

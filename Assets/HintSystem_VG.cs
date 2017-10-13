@@ -7,8 +7,8 @@ namespace HandCode
     public class HintSystem_VG : MonoBehaviour
     {
         public bool activeState;
-        public UI_Button_VG instruction, controller, controlled, explanation, powerButton;
-        public UI_Button_VG activeButton;
+        public UI_Button_VG instruction, controller, controlled, explanation, powerButton, showMeButton;
+        public UI_Button_VG activeButton, lastClickedButton;
 
         private Animator animator;
         private Animator powerButtonAnimator;
@@ -16,6 +16,8 @@ namespace HandCode
         private AudioSource audioSource;
         private AudioClip currentClip;
         private GameFlowManager gameFlowManager;
+        private bool showMeButtonState;
+
 
 
 
@@ -44,7 +46,37 @@ namespace HandCode
                 return;
             }
 
-            // logice for the rest of buttons
+            if (button.ID == UI_Button_ID.SHOW_ME)
+            {
+                if (lastClickedButton != null)
+                {
+                    switch (lastClickedButton.ID)
+                    {
+                        case UI_Button_ID.INSTRUCTION:
+                            Hint(gameFlowManager.currentTask.GetComponent<TaskHint>().instructionHologram);
+                            break;
+
+                        case UI_Button_ID.CONTROLLER:
+                            Hint(gameFlowManager.currentTask.GetComponent<TaskHint>().controllerHighlighter);
+                            break;
+
+                        case UI_Button_ID.CONTROLLED:
+                            Hint(gameFlowManager.currentTask.GetComponent<TaskHint>().controlledHighlighter);
+                            break;
+                    }
+                }
+                return;
+            }
+
+            // logic for the rest of buttons
+
+            // logic for `show me` button
+            lastClickedButton = button;
+            showMeButtonState = true;
+            showMeButtonAnimator.SetBool("Active", showMeButtonState);
+
+
+            
 
             // no button is active
             if (activeButton == null)
@@ -54,17 +86,22 @@ namespace HandCode
                 activeButton.SetActiveAnimation(true);
                 StartCoroutine(DeactivateAudioAnimationRoutine(button, audioSource.clip.length));
             }
+            // the clicked button is the same as the currently active clicked button
             else if (activeButton == button)
             {
                 StopAllCoroutines();
                 StartCoroutine(DeactivateAudioAnimationRoutine(button, 0f));
             }
+            // the clicked button is different from the currently active button
             else
             {
                 StopAllCoroutines();
                 StartCoroutine(SwitchButtonRoutine(button));
             }
+
+            showMeButtonAnimator.SetBool("Active", true);
         }
+
         private IEnumerator SwitchButtonRoutine(UI_Button_VG newButton)
         {
             yield return DeactivateAudioAnimationRoutine(activeButton, 0f);
@@ -107,6 +144,19 @@ namespace HandCode
             audioSource.Play();
         }
 
+        private void Hint(Highlighter highlighter)
+        {
+            highlighter.enabled = true;
 
+        }
+
+        private void Hint(Hologram hologram)
+        {
+            hologram.gameObject.SetActive(true);
+        }
+        
+        /* ********************************************************
+         * should have another override for the line renderer hint.
+         * ********************************************************/
     }
 }
