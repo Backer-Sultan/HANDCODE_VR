@@ -67,7 +67,6 @@ namespace HandCode
 
         private void Update()
         {
-            print("Spool damaged: " + _isDamaged);
             if (isMoving && !_isDamaged)
             {
                 _isTargetReached = Vector3.Distance(transform.localPosition, Vector3.zero) <= Vector3.kEpsilon;
