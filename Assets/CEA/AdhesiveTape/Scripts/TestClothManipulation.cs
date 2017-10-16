@@ -5,6 +5,7 @@ using UnityEngine;
 public class TestClothManipulation : MonoBehaviour {
 
   public ClothManipulation clothManipulation;
+  public ClothSnapping clothSnapping;
 
   // Use this for initialization
   void Start () {
@@ -15,10 +16,15 @@ public class TestClothManipulation : MonoBehaviour {
 	void Update () {
 		if(Input.GetKeyDown(KeyCode.Space))
     {
-      if(clothManipulation.IsTargetAttach(0))
+      if(clothManipulation.IsTargetAttached(0))
         clothManipulation.DetachTarget(0);
       else
         clothManipulation.AttachTarget(0);
     }
-	}
+    else if(Input.GetKeyDown(KeyCode.R))
+    {
+      clothSnapping.Reinitialize();
+    }
+
+  }
 }

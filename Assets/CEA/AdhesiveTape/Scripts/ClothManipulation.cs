@@ -7,8 +7,12 @@ public class ClothManipulation : MonoBehaviour
 {
 
   public Cloth cloth;
+
   public Transform[] targetPoints = new Transform[2];
-  private int[] manipulatedPoints = new int[2];
+  private int[] manipulatedPoints;
+
+
+
   private Mesh mesh;
   private Vector3[] initialVertices;
 
@@ -37,10 +41,11 @@ public class ClothManipulation : MonoBehaviour
     for (int i = 0; i < coefficients.Length; i++)
       coefficients[i].maxDistance = 0;
 
+    manipulatedPoints = new int[targetPoints.Length];
     for (int i = 0; i < manipulatedPoints.Length; i++)
       manipulatedPoints[i] = -1;
 
-      cloth.coefficients = coefficients;
+    cloth.coefficients = coefficients;
   }
 
   // Update is called once per frame
@@ -51,8 +56,10 @@ public class ClothManipulation : MonoBehaviour
       Vector3[] vertices = mesh.vertices;
       for (int i = 0; i < manipulatedPoints.Length; i++)
       {
-        if(manipulatedPoints[i]!=-1)
+        if (manipulatedPoints[i] != -1)
+        {
           vertices[manipulatedPoints[i]] = cloth.transform.InverseTransformPoint(targetPoints[i].position);
+        }
       }
 
       mesh.vertices = vertices;
@@ -96,12 +103,23 @@ public class ClothManipulation : MonoBehaviour
     }
   }
 
-  public bool IsTargetAttach(int targetId)
+  public bool IsTargetAttached(int targetId)
   {
     if (manipulatedPoints.Length > targetId &&  manipulatedPoints[targetId] > -1)
       return true;
     else
       return false;
+  }
+
+  public bool IsAttached()
+  {
+    bool attached = false;
+    for (int i = 0; i < manipulatedPoints.Length; i++)
+    {
+      if (manipulatedPoints[i] > -1)
+        attached = true;
+    }
+    return attached;
   }
 
   public void DetachTarget(int targetId)
@@ -114,32 +132,37 @@ public class ClothManipulation : MonoBehaviour
       manipulatedPoints[targetId] = -1;
 
       //Checking if no attachment remains 
-      bool noTarget = true;
-      for (int i = 0; i < manipulatedPoints.Length; i++)
+      bool freeze = true;
+      for (int i = 0; i < coefficients.Length; i++)
       {
-        if (manipulatedPoints[targetId] > -1)
+        if (coefficients[i].maxDistance == 0 && i != manipulatedPoints[targetId])
         {
-          noTarget = false;
+          freeze = false;
           break;
         }
       }
 
-      //if no attachment remains then the cloth is freezed
-      if (noTarget)
+
+      if (freeze)
       {
+        //if no attachment remains then the cloth is freezed
 
         for (int i = 0; i < coefficients.Length; i++)
           coefficients[i].maxDistance = 0;
 
         Vector3[] vertices = mesh.vertices;
         for (int i = 0; i < cloth.vertices.Length; i++)
-        {
-           vertices[i] = cloth.vertices[i];
-        }
+          vertices[i] = cloth.vertices[i];
+
         mesh.vertices = vertices;
       }
+
       cloth.coefficients = coefficients;
     }
   }
 
+  public int GetManipulatedPoint(int id)
+  {
+    return manipulatedPoints[id];
+  }
 }
