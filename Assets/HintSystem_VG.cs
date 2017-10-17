@@ -31,8 +31,8 @@ namespace HandCode
             controlledAnimtor = transform.Find("ProgressRadial_onHand/Button_Controlled/Button").GetComponent<Animator>();
             explanationAnimator = transform.Find("ProgressRadial_onHand/Button_Explanation/Button").GetComponent<Animator>();
             buttonsAnimators = new Animator[] { instructionAnimator, controlledAnimtor, controllerAnimator, explanationAnimator };
-            powerAnimator = transform.Find("ProgressRadial_onHand/PowerButton").GetComponent<Animator>();
-            showMeAnimator = transform.Find("ProgressRadial_onHand/White_Solid").GetComponent<Animator>();
+            powerAnimator = transform.Find("ProgressRadial_onHand/Button_Power").GetComponent<Animator>();
+            showMeAnimator = transform.Find("ProgressRadial_onHand/Button_ShowMe").GetComponent<Animator>();
             audioSource = GetComponent<AudioSource>();
             gameFlowManager = FindObjectOfType<GameFlowManager>();
         }
@@ -55,14 +55,29 @@ namespace HandCode
             }
         }
 
+        public void SlideButtons()
+        {
+            //instruction.gameObject.SetActive(true);
+            //controller.gameObject.SetActive(true);
+            //controlled.gameObject.SetActive(true);
+            //explanation.gameObject.SetActive(true);
+            //showMe.gameObject.SetActive(true);
+            StartCoroutine(SlideButtonsRoutine(true));
+        }
+
+        public void SlideBackButtons()
+        {
+            StartCoroutine(SlideButtonsRoutine(false));
+        }
+
         public void ClickRequest(UI_Button_VG button)
         {
             print("clicked!");
+            animator.SetBool("Active", true);
             // logic for power button
             if (button.ID == UI_Button_ID.POWER)
             {
                 powerAnimator.SetTrigger("Click");
-                StartCoroutine(SlideButtonsRoutine(true));
                 return;
             }
 
