@@ -18,10 +18,13 @@ namespace HandCode
         private AudioClip currentClip;
 
         private GameFlowManager gameFlowManager;
+        private BezierLaserBeam hintLine;
 
         private bool showMeButtonState;
-        public Highlighter activeHighligher;
-        public Hologram activeHologram;
+        private Highlighter activeHighligher;
+        private Hologram activeHologram;
+
+
 
         private void Start()
         {
@@ -33,6 +36,10 @@ namespace HandCode
             buttonsAnimators = new Animator[] { instructionAnimator, controlledAnimtor, controllerAnimator, explanationAnimator };
             powerAnimator = transform.Find("ProgressRadial_onHand/Button_Power").GetComponent<Animator>();
             showMeAnimator = transform.Find("ProgressRadial_onHand/Button_ShowMe").GetComponent<Animator>();
+
+            hintLine = GameObject.FindObjectOfType<BezierLaserBeam>();
+            hintLine.gameObject.SetActive(false);
+
             audioSource = GetComponent<AudioSource>();
             gameFlowManager = FindObjectOfType<GameFlowManager>();
         }
@@ -175,10 +182,12 @@ namespace HandCode
 
                 case UI_Button_ID.CONTROLLER:
                     StartCoroutine(HintRoutine(taskHint.controllerHighlighter, taskHint.ControllerAudio.length));
+                    ShowHintLine(taskHint.controllerHighlighter.gameObject);
                     break;
 
                 case UI_Button_ID.CONTROLLED:
                     StartCoroutine(HintRoutine(taskHint.controlledHighlighter, taskHint.ControlledAudio.length));
+                    ShowHintLine(taskHint.controlledHighlighter.gameObject);
                     break;
             }
         }
@@ -221,6 +230,27 @@ namespace HandCode
                 activeHighligher = null;
             }
         }
+
+        private void ShowHintLine(GameObject obj)
+        {
+            Transform lineDestination = obj.transform.Find("LineDestination");
+            if(lineDestination == null)
+            {
+                lineDestination = obj.transform;
+            }
+
+            hintLine.destination = lineDestination;
+            hintLine.gameObject.SetActive(true);
+
+        }
+
+        private void HideHintLine()
+        {
+            hintLine.destination = null;
+            hintLine.gameObject.SetActive(false);
+        }
+
+
 
         /* ********************************************************
          * should have another override for the line renderer hint.
