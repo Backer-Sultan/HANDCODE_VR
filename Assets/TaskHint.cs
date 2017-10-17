@@ -6,6 +6,7 @@ namespace HandCode
 {
     public class TaskHint : MonoBehaviour
     {
+        public Transform controlButton; // the but that should be pushed on the controller to move the controlled object.
         public Highlighter controllerHighlighter; // the position/console that the operator interacts with the machine from.
         public Highlighter controlledHighlighter; // the object or the machine part to be controlled.
         public Hologram instructionHologram;

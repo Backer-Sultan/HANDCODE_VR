@@ -182,12 +182,12 @@ namespace HandCode
 
                 case UI_Button_ID.CONTROLLER:
                     StartCoroutine(HintRoutine(taskHint.controllerHighlighter, taskHint.ControllerAudio.length));
-                    ShowHintLine(taskHint.controllerHighlighter.gameObject);
+                    ShowHintLine(taskHint.controlButton);
                     break;
 
                 case UI_Button_ID.CONTROLLED:
                     StartCoroutine(HintRoutine(taskHint.controlledHighlighter, taskHint.ControlledAudio.length));
-                    ShowHintLine(taskHint.controlledHighlighter.gameObject);
+                    ShowHintLine(taskHint.controlledHighlighter.transform);
                     break;
             }
         }
@@ -229,14 +229,16 @@ namespace HandCode
                 activeHighligher.enabled = false;
                 activeHighligher = null;
             }
+            if (hintLine != null)
+                HideHintLine();
         }
 
-        private void ShowHintLine(GameObject obj)
+        private void ShowHintLine(Transform destination)
         {
-            Transform lineDestination = obj.transform.Find("LineDestination");
+            Transform lineDestination = destination.Find("LineDestination");
             if(lineDestination == null)
             {
-                lineDestination = obj.transform;
+                lineDestination = destination.transform;
             }
 
             hintLine.destination = lineDestination;
