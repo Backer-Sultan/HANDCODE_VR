@@ -25,7 +25,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1088048360212386
 GameObject:
   m_ObjectHideFlags: 0
@@ -51,6 +51,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4496601892690182}
   - component: {fileID: 114800882377692980}
+  - component: {fileID: 114219330429053190}
   m_Layer: 0
   m_Name: Open_Arms
   m_TagString: Untagged
@@ -120,7 +121,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1390992274133992
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,8 +240,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4285095500666508}
+  - component: {fileID: 114316337903995134}
   m_Layer: 0
-  m_Name: Paste_Middle_Tape_Piece (not implemented)
+  m_Name: Paste_Middle_Tape_Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,8 +256,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4720098547855070}
+  - component: {fileID: 114439968164212958}
   m_Layer: 0
-  m_Name: Paste_Right_Tape_Piece (not implemented)
+  m_Name: Paste_Right_Tape_Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -269,8 +272,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4216825759178068}
+  - component: {fileID: 114496536899971344}
   m_Layer: 0
-  m_Name: Paste_Left_Tape_Piece (not implemented)
+  m_Name: Paste_Left_Tape_Piece
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -316,6 +320,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4216545321653008}
   - component: {fileID: 114416377647817318}
+  - component: {fileID: 114383259236248410}
   m_Layer: 0
   m_Name: Move_Cradle_Right
   m_TagString: Untagged
@@ -444,7 +449,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4293017405494356}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4293017405494356
 Transform:
@@ -470,8 +475,8 @@ Transform:
   - {fileID: 4532977406798716}
   - {fileID: 4522623480239542}
   - {fileID: 4944639727333566}
-  - {fileID: 4720098547855070}
   - {fileID: 4285095500666508}
+  - {fileID: 4720098547855070}
   - {fileID: 4048783120609518}
   - {fileID: 4216825759178068}
   - {fileID: 4315773814060700}
@@ -582,7 +587,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4293017405494356}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4826155034895404
 Transform:
@@ -701,13 +706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 7
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
   dependencies: []
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -729,6 +728,24 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   _state: 0
+--- !u!114 &114219330429053190
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1139332568790632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a20fbac879667047ac0725798345a22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllerHighlighter: {fileID: 0}
+  controlledHighlighter: {fileID: 0}
+  instructionHologram: {fileID: 0}
+  instructionAudio: {fileID: 0}
+  explanationAudio: {fileID: 0}
+  ControllerAudio: {fileID: 0}
+  ControlledAudio: {fileID: 0}
 --- !u!114 &114224753728338292
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -741,14 +758,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 5
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
   dependencies:
   - {fileID: 114522301829180880}
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -781,30 +792,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae179e24effed2a42b7fba384ed5c95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 13
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
+  ID: 14
   dependencies:
   - {fileID: 114416377647817318}
   - {fileID: 114718238285345372}
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 0}
         m_MethodName: PlayAnimation
         m_Mode: 1
@@ -846,15 +840,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 3
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
   dependencies:
   - {fileID: 114416377647817318}
   - {fileID: 114800882377692980}
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -887,6 +875,58 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   _state: 0
+--- !u!114 &114316337903995134
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1798734329264604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae179e24effed2a42b7fba384ed5c95d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 15
+  dependencies: []
+  onStarted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onInterrupted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReset:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  _state: 0
+--- !u!114 &114383259236248410
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1924703201299026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a20fbac879667047ac0725798345a22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllerHighlighter: {fileID: 0}
+  controlledHighlighter: {fileID: 0}
+  instructionHologram: {fileID: 0}
+  instructionAudio: {fileID: 8300000, guid: 0408590eb77dd094abc45a1c206d91dd, type: 3}
+  explanationAudio: {fileID: 8300000, guid: 8515cc03dbef03f479eb0e6880bffef7, type: 3}
+  ControllerAudio: {fileID: 8300000, guid: 23f3a0c140ecf2848abac757cd301659, type: 3}
+  ControlledAudio: {fileID: 8300000, guid: ad0a012ad92589d4fa7afaca80edc3e8, type: 3}
 --- !u!114 &114401615157725824
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -898,14 +938,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae179e24effed2a42b7fba384ed5c95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 10
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
+  ID: 11
   dependencies: []
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -939,13 +973,75 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 1
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
   dependencies: []
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
+  onStarted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onInterrupted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReset:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  _state: 0
+--- !u!114 &114439968164212958
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1820628503251426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae179e24effed2a42b7fba384ed5c95d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 16
+  dependencies: []
+  onStarted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onInterrupted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  onReset:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  _state: 0
+--- !u!114 &114496536899971344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1840803964237626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae179e24effed2a42b7fba384ed5c95d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 17
+  dependencies: []
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -979,16 +1075,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 4
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
   dependencies:
   - {fileID: 114416377647817318}
   - {fileID: 114800882377692980}
   - {fileID: 114280423017815608}
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -1022,14 +1112,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 9
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
   dependencies:
   - {fileID: 114845387017638924}
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -1050,7 +1134,7 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
-          m_FloatArgument: 3
+          m_FloatArgument: 0.01
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -1073,14 +1157,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae179e24effed2a42b7fba384ed5c95d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ID: 11
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
+  ID: 12
   dependencies: []
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -1093,7 +1171,18 @@ MonoBehaviour:
       PublicKeyToken=null
   onCompleted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
   onReset:
@@ -1114,14 +1203,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 2
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
   dependencies:
   - {fileID: 114416377647817318}
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -1155,13 +1238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 8
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
   dependencies: []
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -1206,14 +1283,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 6
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
   dependencies:
   - {fileID: 114224753728338292}
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
@@ -1247,14 +1318,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ID: 10
-  controllerObject: {fileID: 0}
-  controlledObject: {fileID: 0}
   dependencies:
   - {fileID: 114845387017638924}
-  instructionAudio: {fileID: 0}
-  explanationAudio: {fileID: 0}
-  ControllerAudio: {fileID: 0}
-  ControlledAudio: {fileID: 0}
   onStarted:
     m_PersistentCalls:
       m_Calls: []
