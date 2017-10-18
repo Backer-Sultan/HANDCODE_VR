@@ -25,6 +25,7 @@ namespace HandCode
         internal Vector3 initialRotation; // stored as Eular angle
         internal float initialMoveSpeed;
         internal float initialRotateSpeed;
+        internal Transform[] children;
         private Color lerpedColor;
         private Renderer[] rends;
         private bool resetPositionRoutineFlag;
@@ -34,18 +35,21 @@ namespace HandCode
 
         /* methods & coroutines */
 
-        internal float GetSignedRotation(float angle)
+        protected float GetSignedRotation(float angle)
         {
             float signedAngle = (angle > 180f) ? angle - 360f : angle;
             return signedAngle;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             initialPosition = transform.localPosition;
             initialRotation = transform.localEulerAngles;
             initialMoveSpeed = moveSpeed;
             initialRotateSpeed = rotateSpeed;
+
+            rends = GetComponentsInChildren<Renderer>(true);
+            children = GetComponentsInChildren<Transform>(true);
         }
 
         // make sure to call it from derived methods!
@@ -64,13 +68,20 @@ namespace HandCode
 
         internal virtual void OnEnable()
         {
+            foreach (Transform t in children)
+                t.gameObject.SetActive(true);
             ResetPosition();
             ResetRotation();
         }
 
         internal virtual void OnDisable()
         {
-            StopAllCoroutines();
+            foreach (Transform t in children)
+            {
+                if (t == transform)
+                    continue;
+                t.gameObject.SetActive(false);
+            } StopAllCoroutines();
         }
 
         internal virtual void ResetPosition()

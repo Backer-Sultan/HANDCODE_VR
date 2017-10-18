@@ -21,8 +21,17 @@ namespace HandCode
         internal override void Start()
         {
             base.Start();
-            GetInitialSpeedValues();
+            //GetInitialSpeedValues();
         }
+
+        internal override void OnEnable()
+        {
+            base.OnEnable();
+
+            GetInitialSpeedValues();
+
+        }
+
 
         private void GetInitialSpeedValues()
         {
