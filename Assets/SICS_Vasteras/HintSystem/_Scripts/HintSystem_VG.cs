@@ -180,6 +180,13 @@ namespace HandCode
             DeactivateCurrentHint();
 
             TaskHint taskHint = gameFlowManager.currentTask.GetComponent<TaskHint>();
+
+            if (taskHint == null)
+            {
+                print(string.Format("TaskHint for task {0} is not found!", gameFlowManager.currentTask.ID));
+                return;
+            }
+
             switch (button.ID)
             {
                 case UI_Button_ID.INSTRUCTION:
@@ -200,7 +207,6 @@ namespace HandCode
                     break;
             }
         }
-
 
         // Hint Methods and Routines used by method `ShowHintFor`, and should NOT used explicitely.
 
@@ -230,7 +236,7 @@ namespace HandCode
         {
             if (activeHologram != null)
             {
-                activeHologram.gameObject.SetActive(false);
+                activeHologram.enabled = false;
                 activeHologram = null;
             }
             if (activeHighligher != null)
