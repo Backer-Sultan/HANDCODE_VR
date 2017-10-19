@@ -18,28 +18,23 @@ namespace HandCode
         public bool enableSpoolHologram;
 
 
-        internal override void Start()
-        {
-            base.Start();
-            //GetInitialSpeedValues();
-        }
 
-        internal override void OnEnable()
-        {
-            base.OnEnable();
+        //protected override void OnEnable()
+        //{
+        //    base.OnEnable();
 
-            GetInitialSpeedValues();
+        //    GetInitialSpeedValues();
 
-        }
+        //}
 
 
-        private void GetInitialSpeedValues()
-        {
-            right_arm_hologram.initialMoveSpeed = moveSpeed;
-            left_arm_hologram.initialMoveSpeed = moveSpeed;
-            right_arm_hologram.initialRotateSpeed = rotateSpeed;
-            left_arm_hologram.initialRotateSpeed = rotateSpeed;
-        }
+        //private void GetInitialSpeedValues()
+        //{
+        //    right_arm_hologram.initialMoveSpeed = moveSpeed;
+        //    left_arm_hologram.initialMoveSpeed = moveSpeed;
+        //    right_arm_hologram.initialRotateSpeed = rotateSpeed;
+        //    left_arm_hologram.initialRotateSpeed = rotateSpeed;
+        //}
 
         public void OpenArmsHologram()
         {
@@ -103,7 +98,7 @@ namespace HandCode
             staticSpoolHologram.SetActive(value);
         }
 
-        internal override void Update()
+        protected override void Update()
         {
             base.Update();
 

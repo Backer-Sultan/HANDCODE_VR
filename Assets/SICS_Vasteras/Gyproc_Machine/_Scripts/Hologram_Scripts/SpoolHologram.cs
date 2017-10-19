@@ -12,7 +12,7 @@ namespace HandCode
     {
         /* methods & coroutines */
 
-        internal override void Update()
+        protected override void Update()
         {
             base.Update();
             transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);

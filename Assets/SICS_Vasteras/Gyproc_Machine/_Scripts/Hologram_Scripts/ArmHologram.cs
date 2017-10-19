@@ -23,14 +23,9 @@ namespace HandCode
         private Machine machine;
 
 
-        internal override void Start()
-        {
-            base.Start();
+        
 
-            machine = GameObject.FindObjectOfType<Machine>();
-        }
-
-        internal override void Update()
+        protected override void Update()
         {
             base.Update();
 
@@ -81,7 +76,7 @@ namespace HandCode
             }
         }
 
-        internal override void OnEnable()
+        protected override void OnEnable()
         {
             base.OnEnable();
             StartCoroutine(SetLimitForArmClose());
