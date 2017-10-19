@@ -25,6 +25,8 @@ public class ClothAnimation : MonoBehaviour
 
   public float T { get { return t; } }
 
+  private bool paperAnimPlayed;
+
   // Use this for initialization
   void Awake()
   {
@@ -248,6 +250,18 @@ public class ClothAnimation : MonoBehaviour
       }
       else if (freeAfterReinit > 0)
         freeAfterReinit--;
+    }
+
+    /* playing the animation in `OnEnable` doesn't work for some reason!
+     * I suppose that Unity runs `OnEnable` and `Update` on different threads, so 
+     * `OnEnable` is trying to play the animation while it's not fully initialized.
+     * Running it once in Update once solves the problem.
+     */
+
+    if(!paperAnimPlayed)
+    {
+      PlayAnimation();
+      paperAnimPlayed = true;
     }
   }
 
