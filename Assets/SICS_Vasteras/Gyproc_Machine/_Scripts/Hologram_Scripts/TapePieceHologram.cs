@@ -16,7 +16,7 @@ namespace HandCode
             }
         }
 
-        internal override void OnEnable()
+        protected override void OnEnable()
         {
             base.OnEnable();
             transform.position = TapePiece.position;
