@@ -14,6 +14,7 @@ namespace HandCode
     {
         /* fields & properties */
 
+        public Renderer renderer;
 
 
         /* methods & coroutines */
@@ -21,7 +22,10 @@ namespace HandCode
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "ArmCone")
+            {
                 SendMessageUpwards("ApplyDamage", SendMessageOptions.RequireReceiver);
+                renderer.material.color = Color.red;
+            }
         }
     } 
 }

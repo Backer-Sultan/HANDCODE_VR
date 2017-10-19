@@ -18,19 +18,23 @@ namespace HandCode
         public bool enableSpoolHologram;
 
 
-        internal override void Start()
-        {
-            base.Start();
-            GetInitialSpeedValues();
-        }
 
-        private void GetInitialSpeedValues()
-        {
-            right_arm_hologram.initialMoveSpeed = moveSpeed;
-            left_arm_hologram.initialMoveSpeed = moveSpeed;
-            right_arm_hologram.initialRotateSpeed = rotateSpeed;
-            left_arm_hologram.initialRotateSpeed = rotateSpeed;
-        }
+        //protected override void OnEnable()
+        //{
+        //    base.OnEnable();
+
+        //    GetInitialSpeedValues();
+
+        //}
+
+
+        //private void GetInitialSpeedValues()
+        //{
+        //    right_arm_hologram.initialMoveSpeed = moveSpeed;
+        //    left_arm_hologram.initialMoveSpeed = moveSpeed;
+        //    right_arm_hologram.initialRotateSpeed = rotateSpeed;
+        //    left_arm_hologram.initialRotateSpeed = rotateSpeed;
+        //}
 
         public void OpenArmsHologram()
         {
@@ -94,30 +98,11 @@ namespace HandCode
             staticSpoolHologram.SetActive(value);
         }
 
-        internal override void Update()
+        protected override void Update()
         {
             base.Update();
 
             SetStaticSpoolActive(enableSpoolHologram);
-
-            // test code:
-            if (Input.GetKeyDown(KeyCode.U))
-                RaiseArmsHologram();
-
-            if (Input.GetKeyDown(KeyCode.D))
-                LowerArmsHologram();
-
-            if (Input.GetKeyDown(KeyCode.O))
-                OpenArmsHologram();
-
-            if (Input.GetKeyDown(KeyCode.C))
-                CloseArmsHologram();
-
-            if (Input.GetKeyDown(KeyCode.S))
-                enableSpoolHologram = !enableSpoolHologram;
-
-            if (Input.GetKeyDown(KeyCode.H))
-                HideHologram();
         }
     }
 }

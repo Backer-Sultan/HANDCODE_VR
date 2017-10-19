@@ -34,7 +34,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 	void Awake()
 	{
 #if USE_STEAM_VR
-		if (useVR) VRSettings.LoadDeviceByName ("OpenVR");
+		if (useVR) UnityEngine.XR.XRSettings.LoadDeviceByName ("OpenVR");
 #endif
 	}
 
@@ -44,7 +44,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		GameObject cam2D = GameObject.Find("Camera (noVR)");
 		GameObject cam3D = GameObject.Find("Camera (head)");
 
-		VRSettings.enabled = useVR;
+		UnityEngine.XR.XRSettings.enabled = useVR;
 
 #if USE_STEAM_VR
 		GameObject viveRig = GameObject.Find("[CameraRig]");

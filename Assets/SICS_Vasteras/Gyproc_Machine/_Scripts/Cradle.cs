@@ -3,9 +3,10 @@
  * Author:  Backer Sultan                    *
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
-
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using VirtualGrasp;
 
 namespace HandCode
 {
@@ -23,10 +24,16 @@ namespace HandCode
         [Range(0f, 1f)]
         public float speed = 0.5f;
         public Transform pinsherRotator;
+        public Transform pinsherModelToLock;
         public bool isBreakApplied { get { return _isBreakApplied; } }
         public bool isTargetReached { get { return _isTargetReached; } }
         public bool isPinsherLow { get { return _isPinsherLow; } }
-        [HideInInspector]
+        //[HideInInspector]
+        [Header("Tape Pieces")]
+        public TapePiece tapePiece_right;
+        public TapePiece tapePiece_middle;
+        public TapePiece tapePiece_left;
+
         public CradlePosition cradlePos = CradlePosition.MIDDLE;
         [Header("Events")]
         public UnityEvent onTargetReached;
@@ -96,6 +103,19 @@ namespace HandCode
             _isPinsherLow = true;
             pinsherAnimator.SetBool("LowerPinsher", _isPinsherLow);
             onPinsherLowered.Invoke();
+            //StartCoroutine(LowerPinsherRoutine());
+
+        }
+
+        private IEnumerator LowerPinsherRoutine()
+        {
+            while(GetSignedRotation(pinsherRotator.localEulerAngles.z) >-130f)
+            {
+                pinsherRotator.localEulerAngles += Vector3.back * Time.deltaTime * 3f;
+                yield return null;
+            }
+            _isPinsherLow = true;
+            onPinsherLowered.Invoke();
         }
 
         public void RaisePinsher()
@@ -135,14 +155,16 @@ namespace HandCode
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.tag == "CradleLimitRight")
-            {
-                Stop();
-                cradlePos = CradlePosition.RIGHT;
-                _isTargetReached = true;
-                onTargetReached.Invoke();
-                return;
-            }
+            // moved to a new script to fix the trigger exit problem when rotating the pinsher.
+
+            //if (other.tag == "CradleLimitRight")
+            //{
+            //    Stop();
+            //    cradlePos = CradlePosition.RIGHT;
+            //    _isTargetReached = true;
+            //    onTargetReached.Invoke();
+            //    return;
+            //}
             if (other.tag == "CradleLimitLeft")
             {
                 Stop();
@@ -152,10 +174,59 @@ namespace HandCode
 
         private void OnTriggerExit(Collider other)
         {
-            if (cradlePos == CradlePosition.RIGHT)
-                _isTargetReached = false;
-                onTargetLeft.Invoke();
+            //if (cradlePos == CradlePosition.RIGHT)
+            //    _isTargetReached = false;
+            //onTargetLeft.Invoke();
+            //cradlePos = CradlePosition.MIDDLE;
+            if(other.tag == "CradleLimitLeft")
+            {
+                cradlePos = CradlePosition.MIDDLE;
+            }
+        }
+
+        public void MarkReachedTarget()
+        {
+            Stop();
+            cradlePos = CradlePosition.RIGHT;
+            _isTargetReached = true;
+            onTargetReached.Invoke();
+            return;
+        }
+
+        public void MarkLeftTarget()
+        {
             cradlePos = CradlePosition.MIDDLE;
+            onTargetLeft.Invoke();
+        }
+
+        
+
+        private void Update()
+        {
+            if (GetSignedRotation(pinsherRotator.localEulerAngles.z) <= -130f)
+            {
+                _isPinsherLow = true;
+            }
+            else
+            {
+                _isPinsherLow = false;
+            }
+
+           
+
+            // teset
+
+            if (Input.GetKeyDown(KeyCode.Alpha8))
+                LowerPinsher();
+
+            if (Input.GetKeyDown(KeyCode.Alpha9))
+                print(GetSignedRotation(pinsherRotator.localEulerAngles.z));
+        }
+
+        private float GetSignedRotation(float angle)
+        {
+            float signedAngle = (angle > 180f) ? angle - 360f : angle;
+            return signedAngle;
         }
     } 
 }

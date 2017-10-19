@@ -41,15 +41,19 @@ namespace HandCode
             completionConditions.Add(TaskID.OPEN_ARMS, () => machine.armRig_Right.isArmsOpen);
             completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.isArmsUp);
             completionConditions.Add(TaskID.MOVE_SPOOL, () => machine.spool_Right.isTargetReached);
-            completionConditions.Add(TaskID.LOWER_ARMS, () => machine.armRig_Right.isArmsDown);
+            completionConditions.Add(TaskID.LOWER_ARMS, () => machine.armRig_Right.isArmsBelowZero);
             completionConditions.Add(TaskID.TELEPORT_POS_4, () => FindObjectOfType<PlayerTracker>().isTeleportedPos4);
             completionConditions.Add(TaskID.TELEPORT_POS_2, () => FindObjectOfType<PlayerTracker>().isTeleportedPos2);
             completionConditions.Add(TaskID.HANDLE_SPOOL, () => machine.spool_Right.isHandled);
-            completionConditions.Add(TaskID.RAISE_ARMS_WITH_POOL, () => machine.armRig_Right.isArmsUp); // is set according to the joint max limit.
+            completionConditions.Add(TaskID.RAISE_ARMS_WITH_SPOOL, () => machine.armRig_Right.isArmsUp); // is set according to the joint max limit.
+            completionConditions.Add(TaskID.LOWER_ARMS_WITH_SPOOL, () => machine.armRig_Right.isArmsDown);
             completionConditions.Add(TaskID.TELEPORT_POS_3, () => FindObjectOfType<PlayerTracker>().isTeleportedPos3);
             completionConditions.Add(TaskID.LOWER_PINSHER, () => machine.cradle.isPinsherLow);
             completionConditions.Add(TaskID.DISCONNECT_BREAK, () => !machine.cradle.isBreakApplied);
             completionConditions.Add(TaskID.CUT_PAPER, () => machine.paperCut.isPaperCut);
+            completionConditions.Add(TaskID.MOUNT_MIDDLE_TAPE, () => machine.cradle.tapePiece_middle.isMounted);
+            completionConditions.Add(TaskID.MOUNT_RIGHT_TAPE, () => machine.cradle.tapePiece_right.isMounted);
+            completionConditions.Add(TaskID.MOUNT_LEFT_TAPE, () => machine.cradle.tapePiece_left.isMounted);
 
         }
 
@@ -132,5 +136,6 @@ namespace HandCode
                 ManageSwitch();
             }
         }
+        
     }
 }

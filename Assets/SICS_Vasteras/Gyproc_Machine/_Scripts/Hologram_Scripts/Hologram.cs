@@ -25,6 +25,8 @@ namespace HandCode
         internal Vector3 initialRotation; // stored as Eular angle
         internal float initialMoveSpeed;
         internal float initialRotateSpeed;
+        protected Transform[] children;
+        
         private Color lerpedColor;
         private Renderer[] rends;
         private bool resetPositionRoutineFlag;
@@ -34,65 +36,74 @@ namespace HandCode
 
         /* methods & coroutines */
 
-        internal float GetSignedRotation(float angle)
+        protected float GetSignedRotation(float angle)
         {
             float signedAngle = (angle > 180f) ? angle - 360f : angle;
             return signedAngle;
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
+            // getting initial values for position, rotation and speed
             initialPosition = transform.localPosition;
             initialRotation = transform.localEulerAngles;
             initialMoveSpeed = moveSpeed;
             initialRotateSpeed = rotateSpeed;
-        }
 
-        // make sure to call it from derived methods!
-        internal virtual void Start()
-        {
-            rends = GetComponentsInChildren<Renderer>();
+            // getting referenced to children
+            rends = GetComponentsInChildren<Renderer>(true);
+            children = GetComponentsInChildren<Transform>(true);
         }
 
         // general color lerp - make sure to call it from derived methods!
-        internal virtual void Update()
+        protected virtual void Update()
         {
             lerpedColor = Color.Lerp(color1, color2, Mathf.PingPong(Time.time * 2f, 1));
             foreach (Renderer rend in rends)
                 rend.material.color = lerpedColor;
         }
 
-        internal virtual void OnEnable()
+        protected virtual void OnEnable()
         {
+            foreach (Transform t in children)
+                t.gameObject.SetActive(true);
+            
             ResetPosition();
             ResetRotation();
         }
 
-        internal virtual void OnDisable()
+        protected virtual void OnDisable()
         {
+            foreach (Transform t in children)
+            {
+                if (t == transform)
+                    continue;
+
+                t.gameObject.SetActive(false);
+            }
             StopAllCoroutines();
         }
 
-        internal virtual void ResetPosition()
+        protected virtual void ResetPosition()
         {
             moveSpeed = initialMoveSpeed;
             transform.localPosition = initialPosition;
         }
 
-        internal virtual void ResetRotation()
+        protected virtual void ResetRotation()
         {
             rotateSpeed = initialRotateSpeed;
             transform.localEulerAngles = initialRotation;
         }
 
-        internal virtual void ResetPositionAfter(float seconds)
+        protected virtual void ResetPositionAfter(float seconds)
         {
             // making sure to start one instanse of the coroutine `ResetPositionRoutine`
             if (!resetPositionRoutineFlag)
                 StartCoroutine(ResetPositionRoutine(seconds));
         }
 
-        internal virtual void ResetRotationAfter(float seconds)
+        protected virtual void ResetRotationAfter(float seconds)
         {
             // making sure to start one instanse of the coroutine `ResetRotationRoutine`
             if (!resetRotationRoutineFlag)

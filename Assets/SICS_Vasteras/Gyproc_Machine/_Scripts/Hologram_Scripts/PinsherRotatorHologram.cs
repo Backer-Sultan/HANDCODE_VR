@@ -20,7 +20,7 @@ namespace HandCode
 
         /* methods & coroutines */
 
-        internal override void Update()
+        protected override void Update()
         {
             base.Update();
 
