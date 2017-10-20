@@ -26,7 +26,8 @@ namespace HandCode
         public Transform pinsherRotator;
         public Transform pinsherModelToLock;
         public bool isBreakApplied { get { return _isBreakApplied; } }
-        public bool isTargetReached { get { return _isTargetReached; } }
+        public bool isRightTargetReached { get { return _isRightTargetReached; } }
+        public bool isMiddleTargetReached { get { return _isMiddleTargetReached; } }
         public bool isPinsherLow { get { return _isPinsherLow; } }
         //[HideInInspector]
         [Header("Tape Pieces")]
@@ -47,7 +48,8 @@ namespace HandCode
         private Animator pinsherAnimator;
         private bool _isBreakApplied = true;
         private bool _isPinsherLow = false;
-        private bool _isTargetReached = false;
+        private bool _isRightTargetReached = false;
+        private bool _isMiddleTargetReached = false;
         private bool isMoving = false;
         private Vector3 direction = Vector3.zero;
 
@@ -149,7 +151,12 @@ namespace HandCode
                 transform.Translate(direction * speed * Time.deltaTime, Space.Self);
                 // stopping when reaching the middle position (aproximately (0,0,0)).
                 if (Vector3.Distance(transform.localPosition, Vector3.zero) <= Vector3.kEpsilon)
+                {
+                    _isMiddleTargetReached = true;
                     Stop();
+                }
+                else
+                    _isMiddleTargetReached = false;
             }
         }
 
@@ -188,7 +195,7 @@ namespace HandCode
         {
             Stop();
             cradlePos = CradlePosition.RIGHT;
-            _isTargetReached = true;
+            _isRightTargetReached = true;
             onTargetReached.Invoke();
             return;
         }
@@ -196,6 +203,7 @@ namespace HandCode
         public void MarkLeftTarget()
         {
             cradlePos = CradlePosition.MIDDLE;
+            _isRightTargetReached = false;
             onTargetLeft.Invoke();
         }
 
