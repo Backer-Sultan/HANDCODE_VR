@@ -37,7 +37,7 @@ namespace HandCode
         private void InitializeCompletionConditions()
         {
             completionConditions = new SortedList<TaskID, Func<bool>>();
-            completionConditions.Add(TaskID.MOVE_CRADLE_RIGHT, () => machine.cradle.isTargetReached);
+            completionConditions.Add(TaskID.MOVE_CRADLE_RIGHT, () => machine.cradle.isRightTargetReached);
             completionConditions.Add(TaskID.OPEN_ARMS, () => machine.armRig_Right.isArmsOpen);
             completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.isArmsUp);
             completionConditions.Add(TaskID.MOVE_SPOOL, () => machine.spool_Right.isTargetReached);
@@ -54,7 +54,7 @@ namespace HandCode
             completionConditions.Add(TaskID.MOUNT_MIDDLE_TAPE, () => machine.cradle.tapePiece_middle.isMounted);
             completionConditions.Add(TaskID.MOUNT_RIGHT_TAPE, () => machine.cradle.tapePiece_right.isMounted);
             completionConditions.Add(TaskID.MOUNT_LEFT_TAPE, () => machine.cradle.tapePiece_left.isMounted);
-
+            completionConditions.Add(TaskID.MOVE_CRADLE_MIDDLE, () => machine.cradle.isMiddleTargetReached);
         }
 
         private void InitializeTasks()
@@ -135,6 +135,12 @@ namespace HandCode
             {
                 ManageSwitch();
             }
+        }
+
+        // test
+        public void PrintCurrentTask()
+        {
+            print(string.Format("Current task: {0}", currentTask.ID));
         }
         
     }

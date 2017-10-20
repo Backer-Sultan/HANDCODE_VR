@@ -10,10 +10,10 @@ namespace HandCode
         public Vector3 positionOffset;
         public Vector3 rotationOffset;
 
-        bool a;
+        public bool activateTracking;
         private void Update()
         {
-            if (a)
+            if (activateTracking)
             {
                 transform.position = pointToFollow.position + positionOffset;
                 transform.rotation = pointToFollow.rotation * Quaternion.Euler(rotationOffset);
@@ -21,7 +21,7 @@ namespace HandCode
 
             if(Input.GetKeyDown(KeyCode.A))
             {
-                a = !a;
+                activateTracking = !activateTracking;
             }
 
             if(Input.GetKeyDown(KeyCode.F))
