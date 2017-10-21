@@ -806,7 +806,8 @@ MonoBehaviour:
         m_MethodName: PlayOneShot
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 8300000, guid: 03833664f12a6ee4f85516268d93d693,
+            type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -1189,25 +1190,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   _state: 0
---- !u!114 &114366724446930206
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1820628503251426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a20fbac879667047ac0725798345a22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controlButton: {fileID: 0}
-  controllerHighlighter: {fileID: 0}
-  controlledHighlighter: {fileID: 0}
-  instructionHologram: {fileID: 0}
-  instructionAudio: {fileID: 8300000, guid: 27a7739f53ed0af4f80a72d959a9fd30, type: 3}
-  explanationAudio: {fileID: 8300000, guid: 9b6b81388dbda3c46b2b3d2633fc1a8a, type: 3}
-  ControllerAudio: {fileID: 8300000, guid: f13f39c08b46ce44bba1011871bfba9b, type: 3}
-  ControlledAudio: {fileID: 8300000, guid: 67ab8862d6ea0f146b0294518a3b82da, type: 3}
 --- !u!114 &114383259236248410
 MonoBehaviour:
   m_ObjectHideFlags: 1
