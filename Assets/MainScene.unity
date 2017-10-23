@@ -609,7 +609,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &280718798
 GameObject:
@@ -1290,7 +1290,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 653225579}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 390.53006, y: 194.94121, z: -9.208864}
+  m_LocalPosition: {x: 629.53, y: 295.44122, z: -9.208864}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1810207544}
@@ -1901,11 +1901,6 @@ Prefab:
       objectReference: {fileID: 1878705350}
     - target: {fileID: 114219330429053190, guid: 4b3dac61de229bd47b42097fed99ebe3,
         type: 2}
-      propertyPath: controlButton
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 114219330429053190, guid: 4b3dac61de229bd47b42097fed99ebe3,
-        type: 2}
       propertyPath: controllerHighlighter
       value: 
       objectReference: {fileID: 247740355}
@@ -1979,6 +1974,11 @@ Prefab:
       propertyPath: controlledHighlighter
       value: 
       objectReference: {fileID: 309320046}
+    - target: {fileID: 114015250876587236, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
+      propertyPath: onCurrentTaskChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1949302579}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b3dac61de229bd47b42097fed99ebe3, type: 2}
   m_IsPrefabParent: 0
@@ -2066,7 +2066,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4882712823317960, guid: a7a2460c016be55478e35c5915e59fad, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 33625075626338280, guid: a7a2460c016be55478e35c5915e59fad,
         type: 2}
@@ -3021,7 +3021,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4759687749784226, guid: 5f49d70acc518da45a1cb478ebb30166, type: 2}
       propertyPath: m_RootOrder
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 114712537349293832, guid: 5f49d70acc518da45a1cb478ebb30166,
         type: 2}
@@ -3831,15 +3831,10 @@ Prefab:
       propertyPath: pointToFollow
       value: 
       objectReference: {fileID: 440855794}
-    - target: {fileID: 95730952854032584, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 114378141057075446, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
         type: 2}
-      propertyPath: m_Enabled
-      value: 0
+      propertyPath: activateTracking
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c5578f7fdd57e84d9537a4732c54ffa, type: 2}
@@ -4132,7 +4127,7 @@ Transform:
   - {fileID: 111676606}
   - {fileID: 98856749}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1874625471
 GameObject:
@@ -4290,6 +4285,12 @@ Transform:
   m_Father: {fileID: 290195709}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1949302579 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114980651658183656, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
+    type: 2}
+  m_PrefabInternal: {fileID: 1750281736}
+  m_Script: {fileID: 11500000, guid: d92a9791a646abd4e8bd4d937bed0698, type: 3}
 --- !u!1 &1950317417
 GameObject:
   m_ObjectHideFlags: 0
