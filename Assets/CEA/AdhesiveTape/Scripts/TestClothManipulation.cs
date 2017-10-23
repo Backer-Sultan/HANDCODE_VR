@@ -14,17 +14,25 @@ public class TestClothManipulation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(KeyCode.Space))
-    {
-      if(clothManipulation.IsTargetAttached(0))
-        clothManipulation.DetachTarget(0);
-      else
-        clothManipulation.AttachTarget(0);
-    }
-    else if(Input.GetKeyDown(KeyCode.R))
-    {
-      clothSnapping.Reinitialize();
-    }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (clothManipulation.IsTargetAttached(0))
+            {
+                clothManipulation.DetachTarget(0);
+                clothManipulation.DetachTarget(1);
+                clothManipulation.DetachTarget(2);
+            }
+            else
+            {
+                clothManipulation.DetachTarget(0);
+                clothManipulation.AttachTarget(1);
+                clothManipulation.AttachTarget(2);
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            clothSnapping.Reinitialize();
+        }
 
   }
 }

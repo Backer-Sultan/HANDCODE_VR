@@ -46,10 +46,53 @@ public class ClothManipulation : MonoBehaviour
       manipulatedPoints[i] = -1;
 
     cloth.coefficients = coefficients;
+
+    InitPointers();
   }
 
-  // Update is called once per frame
-  void Update()
+    GameObject leftPointer = null;
+    GameObject rightPointer = null;
+    void InitPointers()
+    {
+        leftPointer = GameObject.Find("TapeEnd1");
+        if (leftPointer == null) leftPointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        leftPointer.name = "LeftPointer";
+        GameObject.DestroyImmediate(leftPointer.GetComponent<Collider>());
+        leftPointer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+
+        rightPointer = GameObject.Find("TapeEnd2");
+        if (rightPointer == null) rightPointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        rightPointer.name = "RightPointer";
+        GameObject.DestroyImmediate(rightPointer.GetComponent<Collider>());
+        rightPointer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+    }
+
+    void CheckPointer(VirtualGrasp.VG_HandSide side)
+    {
+        float dist, next_dist = float.MaxValue;
+        int next_id = -1;
+        int iid; Vector3 p; Quaternion q;
+        VirtualGrasp.VG_Controller.GetBone(1, side, VirtualGrasp.VG_BoneType.APPROACH, out iid, out p, out q);
+        for (int i = 0; i < cloth.vertices.Length; i++)
+        {
+            dist = Vector3.Distance(transform.position + transform.rotation * cloth.vertices[i], p);
+            if (dist < next_dist)
+            {
+                next_dist = dist;
+                next_id = i;
+            }
+        }
+
+        if (next_id >= 0)
+        {
+            if (side == VirtualGrasp.VG_HandSide.LEFT) leftPointer.transform.position = transform.position + transform.rotation * cloth.vertices[2];
+            else if (side == VirtualGrasp.VG_HandSide.RIGHT) rightPointer.transform.position = transform.position + transform.rotation * cloth.vertices[90];
+        }
+    }
+
+    // Update is called once per frame
+
+    void Update()
   {
     if (cloth)
     {
@@ -59,11 +102,16 @@ public class ClothManipulation : MonoBehaviour
         if (manipulatedPoints[i] != -1)
         {
           vertices[manipulatedPoints[i]] = cloth.transform.InverseTransformPoint(targetPoints[i].position);
+          
         }
-      }
-
-      mesh.vertices = vertices;
-    }
+            }
+            mesh.vertices = vertices;
+            
+            if (leftPointer != null)
+                leftPointer.transform.position = transform.position + transform.rotation * cloth.vertices[2];
+            if (rightPointer != null)
+                rightPointer.transform.position = transform.position + transform.rotation * cloth.vertices[90];
+        }
   }
 
   public void OnApplicationQuit()

@@ -139,8 +139,13 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		if (obj_rb != null && !obj_rb.useGravity && current[handID].selectedObject.GetComponent<VG_Articulation>() == null)
 			obj_rb.useGravity = true;
 	}
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.F2))
+            pSelector.toggleHints();
+    }
 
-	void FixedUpdate()
+    void FixedUpdate()
 	{
 		if (!VG_Controller.IsEnabled()) return;
 

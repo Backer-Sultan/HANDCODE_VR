@@ -43,6 +43,7 @@ public class HandCodeObjectSelection
     private Dictionary<VG_HandSide, Transform> m_highlightedObjects = new Dictionary<VG_HandSide, Transform>();
     // Dictionary to initialize different interaction parameters for multi-raycast object selection.
     static private Dictionary<string, SelectionParams> m_selectionParameters = new Dictionary<string, SelectionParams>();
+    private bool show_hints = false;
     // Cached list of interactable objects
     private List<Transform> m_objects = new List<Transform>();
     private SelectionType m_selectionType = SelectionType.SPHERE;
@@ -64,6 +65,11 @@ public class HandCodeObjectSelection
             theta = goldenRatio * k;
             seedPts.Add(new KeyValuePair<Vector3, float>(new Vector3(r2 * Mathf.Cos(theta), r2 * Mathf.Sin(theta), 1).normalized, 1 - r1));
         }
+    }
+
+    public void toggleHints()
+    {
+        show_hints = !show_hints;
     }
 
     public HandCodeObjectSelection()
@@ -99,7 +105,7 @@ public class HandCodeObjectSelection
                     pointer.name = "Pointer";
 
                     GameObject.DestroyImmediate(pointer.GetComponent<Collider>());
-                    pointer.GetComponent<Renderer>().enabled = false;
+                    //pointer.GetComponent<Renderer>().enabled = false;
                     pointer.transform.SetParent(h.hand);
                     pointer.transform.rotation = q;
                     pointer.transform.position = p + q * new Vector3(0, 0, 0.02f);
@@ -418,7 +424,10 @@ public class HandCodeObjectSelection
 
             // De/Activate the selection pointer
             Transform pointer = hand.hand.Find("Pointer");
-            if (pointer != null) pointer.gameObject.SetActive(hand.mode == VG_InteractionMode.EMPTY);
+            if (pointer != null)
+            {
+                pointer.gameObject.SetActive(show_hints && hand.mode == VG_InteractionMode.EMPTY);
+            }
 
             // If the hand is anything but empty, keep the current selection
             if (hand.mode != VG_InteractionMode.EMPTY)
