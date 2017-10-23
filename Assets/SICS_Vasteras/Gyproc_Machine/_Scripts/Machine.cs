@@ -5,6 +5,7 @@
  * *******************************************/
 
 using UnityEngine;
+using VRTK;
 
 namespace HandCode
 {
@@ -122,6 +123,22 @@ namespace HandCode
         public void SetSpoolBreak(bool state)
         {
             isSpoolBreakApplied = state;
+        }
+
+        // used to trigger haptics on machine buttons.
+        public void TriggerHaptics()
+        {
+            VRTK_ControllerHaptics.TriggerHapticPulse(VRTK_ControllerReference.GetControllerReference(SDK_BaseController.ControllerHand.Left), 1f);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                print("haptics");
+                TriggerHaptics();
+            }
+               
         }
     }
 }
