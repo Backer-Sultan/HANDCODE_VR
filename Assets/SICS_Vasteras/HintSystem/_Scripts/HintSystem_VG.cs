@@ -200,7 +200,10 @@ namespace HandCode
                 case UI_Button_ID.CONTROLLER:
                     if (taskHint.controllerHighlighter != null)
                         StartCoroutine(HintRoutine(taskHint.controllerHighlighter, taskHint.ControllerAudio.length));
-                    ShowHintLine(taskHint.controlButton);
+                    if (taskHint.controlButton != null)
+                        ShowHintLine(taskHint.controlButton);
+                    else
+                        ShowHintLine(taskHint.controllerHighlighter.transform);
                     break;
 
                 case UI_Button_ID.CONTROLLED:
@@ -236,11 +239,12 @@ namespace HandCode
         /* Show/Hide line rednerer */
         private void ShowHintLine(Transform destination)
         {
-            Transform lineDestination = destination.Find("LineDestination");
-            if (lineDestination == null)
-            {
+            Transform lineDestination;
+            if (destination != null)
+                lineDestination = destination.Find("LineDestination");
+            else
                 lineDestination = destination.transform;
-            }
+            
 
             hintLine.destination = lineDestination;
             hintLine.gameObject.SetActive(true);
