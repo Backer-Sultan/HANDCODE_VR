@@ -461,7 +461,11 @@ public class HandCodeObjectSelection
 
             // If we have a selected object, check the affordance
             if (m_triggerPattern == TriggerPattern.TRIGGER_ONLY && hand.selectedObject != null)
+            {
+                VG_Controller.MakeGesture(hand.side, affordance == VG_Affordance.PUSHABLE ? VG_Gesture.INDEX_POINTING : VG_Gesture.NO_GESTURE);
                 VG_Controller.SetIndexPushInteraction(hand.side, affordance == VG_Affordance.PUSHABLE);
+            }
+            else VG_Controller.MakeGesture(hand.side, VG_Gesture.NO_GESTURE);
         }
     }
 }
