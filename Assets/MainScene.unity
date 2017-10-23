@@ -1290,7 +1290,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 653225579}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 390.53006, y: 194.94121, z: -9.208864}
+  m_LocalPosition: {x: 629.53, y: 295.44122, z: -9.208864}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1810207544}
@@ -1370,12 +1370,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &664289986 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114231760034990374, guid: 5f49d70acc518da45a1cb478ebb30166,
-    type: 2}
-  m_PrefabInternal: {fileID: 1354283690}
-  m_Script: {fileID: 11500000, guid: 44c9f784f6c72224cbf54f6217af9250, type: 3}
 --- !u!1 &681050093
 GameObject:
   m_ObjectHideFlags: 0
@@ -2997,11 +2991,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114522010278465888, guid: 5f49d70acc518da45a1cb478ebb30166,
-        type: 2}
-      propertyPath: onPushed.m_PersistentCalls.m_Calls.Array.size
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 4759687749784226, guid: 5f49d70acc518da45a1cb478ebb30166, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3039,31 +3028,6 @@ Prefab:
       propertyPath: knife
       value: 
       objectReference: {fileID: 2054083152}
-    - target: {fileID: 114522010278465888, guid: 5f49d70acc518da45a1cb478ebb30166,
-        type: 2}
-      propertyPath: onPushed.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114522010278465888, guid: 5f49d70acc518da45a1cb478ebb30166,
-        type: 2}
-      propertyPath: onPushed.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 114522010278465888, guid: 5f49d70acc518da45a1cb478ebb30166,
-        type: 2}
-      propertyPath: onPushed.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 664289986}
-    - target: {fileID: 114522010278465888, guid: 5f49d70acc518da45a1cb478ebb30166,
-        type: 2}
-      propertyPath: onPushed.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: TriggerHaptics
-      objectReference: {fileID: 0}
-    - target: {fileID: 114522010278465888, guid: 5f49d70acc518da45a1cb478ebb30166,
-        type: 2}
-      propertyPath: onPushed.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5f49d70acc518da45a1cb478ebb30166, type: 2}
   m_IsPrefabParent: 0
@@ -3867,6 +3831,11 @@ Prefab:
       propertyPath: pointToFollow
       value: 
       objectReference: {fileID: 440855794}
+    - target: {fileID: 114378141057075446, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
+        type: 2}
+      propertyPath: activateTracking
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c5578f7fdd57e84d9537a4732c54ffa, type: 2}
   m_IsPrefabParent: 0
