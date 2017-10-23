@@ -31,6 +31,15 @@
 [Y] Move arms to left (continious press & not used during the precess)
 
 
+## Hint System:
+
+[G] Pushes the power button.
+[H] Pushes the instruction button.
+[J] Pushes the Controlled (machine part) button.
+[K] Pushes the Controller (controler part) button.
+[L] Pushes the Explanation button.
+
+
 -------------------------------------------------------------------------
 
 ## Interaction in VR notes:
