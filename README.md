@@ -6,19 +6,30 @@
 ### The Cradle:
 
 [1] Moves cradle to left
+
 [2] Moves cradle to right
+
 [3] Stops cradle in place
-[4] Lowers the pinsher 
+
+[4] Lowers the pinsher
+
 [5] Raises the pinsher
 
 
 ### The Arms:
+
 [Q] Open arms  (continious press)
+
 [W] Close arms (continious press)
+
 [E] Rotates arms up   (continious press)
+
 [R] Rotates arms down (continious press)
+
 [T] Move arms to right (continious press & not used during the process)
+
 [Y] Move arms to left (continious press & not used during the precess)
+
 
 -------------------------------------------------------------------------
 
