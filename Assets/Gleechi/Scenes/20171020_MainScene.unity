@@ -1496,7 +1496,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &653225580
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1505,7 +1505,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 653225579}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 396.03006, y: 237.44121, z: -9.208864}
+  m_LocalPosition: {x: 0, y: 0, z: -9.208864}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1810207544}
@@ -2305,7 +2305,7 @@ MonoBehaviour:
   - {fileID: 2059394499}
   m_settings:
     m_controlledHandsMode: 0
-    m_fingerControlBySensor: 1
+    m_fingerControlType: 1
     m_transitionDuration: 10
     m_interactionType: 0
     m_useGraspSpeedThreshold: 0
