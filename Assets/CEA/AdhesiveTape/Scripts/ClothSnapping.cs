@@ -120,9 +120,4 @@ public class ClothSnapping : MonoBehaviour
       initialConfig = true;
     }
   }
-
-  public void OnApplicationQuit()
-  {
-
-  }
 }
