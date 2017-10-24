@@ -151,13 +151,8 @@ public class ClothManipulation : MonoBehaviour
         for (int i = 0; i < coefficients.Length; i++)
           coefficients[i].maxDistance = float.MaxValue;
 
-<<<<<<< HEAD
-        for (int i = 0; i < manipulatedPoints.Length; i++)
-          if (manipulatedPoints[i] > -1)
-=======
         for(int i = 0;i< manipulatedPoints.Length; i++)
           if(manipulatedPoints[i]!=-1)
->>>>>>> ee2e4a689bdcd01e18b53f0ff5ea8dce5f98bbaa
             coefficients[manipulatedPoints[i]].maxDistance = 0;
 
         cloth.coefficients = coefficients;
