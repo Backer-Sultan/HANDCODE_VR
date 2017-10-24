@@ -50,49 +50,49 @@ public class ClothManipulation : MonoBehaviour
     InitPointers();
   }
 
-    GameObject leftPointer = null;
-    GameObject rightPointer = null;
-    void InitPointers()
-    {
-        leftPointer = GameObject.Find("TapeEnd1");
-        if (leftPointer == null) leftPointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        leftPointer.name = "LeftPointer";
-        GameObject.DestroyImmediate(leftPointer.GetComponent<Collider>());
-        leftPointer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+  GameObject leftPointer = null;
+  GameObject rightPointer = null;
+  void InitPointers()
+  {
+    leftPointer = GameObject.Find("TapeEnd1");
+    if (leftPointer == null) leftPointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+    leftPointer.name = "LeftPointer";
+    GameObject.DestroyImmediate(leftPointer.GetComponent<Collider>());
+    leftPointer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 
-        rightPointer = GameObject.Find("TapeEnd2");
-        if (rightPointer == null) rightPointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-        rightPointer.name = "RightPointer";
-        GameObject.DestroyImmediate(rightPointer.GetComponent<Collider>());
-        rightPointer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+    rightPointer = GameObject.Find("TapeEnd2");
+    if (rightPointer == null) rightPointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+    rightPointer.name = "RightPointer";
+    GameObject.DestroyImmediate(rightPointer.GetComponent<Collider>());
+    rightPointer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+  }
+
+  void CheckPointer(VirtualGrasp.VG_HandSide side)
+  {
+    float dist, next_dist = float.MaxValue;
+    int next_id = -1;
+    int iid; Vector3 p; Quaternion q;
+    VirtualGrasp.VG_Controller.GetBone(1, side, VirtualGrasp.VG_BoneType.APPROACH, out iid, out p, out q);
+    for (int i = 0; i < cloth.vertices.Length; i++)
+    {
+      dist = Vector3.Distance(transform.position + transform.rotation * cloth.vertices[i], p);
+      if (dist < next_dist)
+      {
+        next_dist = dist;
+        next_id = i;
+      }
     }
 
-    void CheckPointer(VirtualGrasp.VG_HandSide side)
+    if (next_id >= 0)
     {
-        float dist, next_dist = float.MaxValue;
-        int next_id = -1;
-        int iid; Vector3 p; Quaternion q;
-        VirtualGrasp.VG_Controller.GetBone(1, side, VirtualGrasp.VG_BoneType.APPROACH, out iid, out p, out q);
-        for (int i = 0; i < cloth.vertices.Length; i++)
-        {
-            dist = Vector3.Distance(transform.position + transform.rotation * cloth.vertices[i], p);
-            if (dist < next_dist)
-            {
-                next_dist = dist;
-                next_id = i;
-            }
-        }
-
-        if (next_id >= 0)
-        {
-            if (side == VirtualGrasp.VG_HandSide.LEFT) leftPointer.transform.position = transform.position + transform.rotation * cloth.vertices[2];
-            else if (side == VirtualGrasp.VG_HandSide.RIGHT) rightPointer.transform.position = transform.position + transform.rotation * cloth.vertices[90];
-        }
+      if (side == VirtualGrasp.VG_HandSide.LEFT) leftPointer.transform.position = transform.position + transform.rotation * cloth.vertices[2];
+      else if (side == VirtualGrasp.VG_HandSide.RIGHT) rightPointer.transform.position = transform.position + transform.rotation * cloth.vertices[90];
     }
+  }
 
-    // Update is called once per frame
+  // Update is called once per frame
 
-    void Update()
+  void Update()
   {
     if (cloth)
     {
@@ -102,16 +102,17 @@ public class ClothManipulation : MonoBehaviour
         if (manipulatedPoints[i] != -1)
         {
           vertices[manipulatedPoints[i]] = cloth.transform.InverseTransformPoint(targetPoints[i].position);
-          
+
         }
-            }
-            mesh.vertices = vertices;
-            
-            if (leftPointer != null)
-                leftPointer.transform.position = transform.position + transform.rotation * cloth.vertices[2];
-            if (rightPointer != null)
-                rightPointer.transform.position = transform.position + transform.rotation * cloth.vertices[90];
-        }
+      }
+      mesh.vertices = vertices;
+
+      //Not good
+      /*if (leftPointer != null)
+        leftPointer.transform.position = transform.position + transform.rotation * cloth.vertices[2];
+      if (rightPointer != null)
+        rightPointer.transform.position = transform.position + transform.rotation * cloth.vertices[90];*/
+    }
   }
 
   public void OnApplicationQuit()
@@ -121,6 +122,11 @@ public class ClothManipulation : MonoBehaviour
 
   public void AttachTarget(int targetId)
   {
+    if (leftPointer != null)
+      leftPointer.transform.position = transform.position + transform.rotation * cloth.vertices[2];
+    if (rightPointer != null)
+      rightPointer.transform.position = transform.position + transform.rotation * cloth.vertices[90];
+
     if (targetPoints.Length > targetId && targetPoints[targetId] != null)
     {
       ClothSkinningCoefficient[] coefficients = cloth.coefficients;
@@ -145,7 +151,10 @@ public class ClothManipulation : MonoBehaviour
         for (int i = 0; i < coefficients.Length; i++)
           coefficients[i].maxDistance = float.MaxValue;
 
-        coefficients[manipulatedPoints[targetId]].maxDistance = 0;
+        for (int i = 0; i < manipulatedPoints.Length; i++)
+          if (manipulatedPoints[i] > -1)
+            coefficients[manipulatedPoints[i]].maxDistance = 0;
+
         cloth.coefficients = coefficients;
       }
     }
@@ -153,7 +162,7 @@ public class ClothManipulation : MonoBehaviour
 
   public bool IsTargetAttached(int targetId)
   {
-    if (manipulatedPoints.Length > targetId &&  manipulatedPoints[targetId] > -1)
+    if (manipulatedPoints.Length > targetId && manipulatedPoints[targetId] > -1)
       return true;
     else
       return false;

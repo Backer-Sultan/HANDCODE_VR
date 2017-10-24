@@ -20,13 +20,11 @@ public class TestClothManipulation : MonoBehaviour {
             {
                 clothManipulation.DetachTarget(0);
                 clothManipulation.DetachTarget(1);
-                clothManipulation.DetachTarget(2);
             }
             else
             {
-                clothManipulation.DetachTarget(0);
+                clothManipulation.AttachTarget(0);
                 clothManipulation.AttachTarget(1);
-                clothManipulation.AttachTarget(2);
             }
         }
         else if (Input.GetKeyDown(KeyCode.R))
