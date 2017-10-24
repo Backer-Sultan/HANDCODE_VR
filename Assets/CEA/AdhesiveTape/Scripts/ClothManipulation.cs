@@ -97,11 +97,16 @@ public class ClothManipulation : MonoBehaviour
         for (int i = 0; i < coefficients.Length; i++)
           coefficients[i].maxDistance = float.MaxValue;
 
-        coefficients[manipulatedPoints[targetId]].maxDistance = 0;
+        for(int i = 0;i< manipulatedPoints.Length; i++)
+          if(manipulatedPoints[i]!=-1)
+            coefficients[manipulatedPoints[i]].maxDistance = 0;
+
         cloth.coefficients = coefficients;
       }
     }
   }
+
+
 
   public bool IsTargetAttached(int targetId)
   {
@@ -142,7 +147,6 @@ public class ClothManipulation : MonoBehaviour
         }
       }
 
-
       if (freeze)
       {
         //if no attachment remains then the cloth is freezed
@@ -156,7 +160,6 @@ public class ClothManipulation : MonoBehaviour
 
         mesh.vertices = vertices;
       }
-
       cloth.coefficients = coefficients;
     }
   }
