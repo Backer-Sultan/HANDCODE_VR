@@ -1901,6 +1901,11 @@ Prefab:
       objectReference: {fileID: 1878705350}
     - target: {fileID: 114219330429053190, guid: 4b3dac61de229bd47b42097fed99ebe3,
         type: 2}
+      propertyPath: controlButton
+      value: 
+      objectReference: {fileID: 2048213855}
+    - target: {fileID: 114219330429053190, guid: 4b3dac61de229bd47b42097fed99ebe3,
+        type: 2}
       propertyPath: controllerHighlighter
       value: 
       objectReference: {fileID: 247740355}
@@ -1976,7 +1981,7 @@ Prefab:
       objectReference: {fileID: 309320046}
     - target: {fileID: 114015250876587236, guid: 4b3dac61de229bd47b42097fed99ebe3,
         type: 2}
-      propertyPath: onCurrentTaskChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      propertyPath: controllerHighlighter
       value: 
       objectReference: {fileID: 1949302579}
     m_RemovedComponents: []
@@ -3836,6 +3841,32 @@ Prefab:
       propertyPath: activateTracking
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 224832386930053598, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
+        type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.1499939
+      objectReference: {fileID: 0}
+    - target: {fileID: 224832386930053598, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4951167983448322, guid: 0c5578f7fdd57e84d9537a4732c54ffa, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.028
+      objectReference: {fileID: 0}
+    - target: {fileID: 4951167983448322, guid: 0c5578f7fdd57e84d9537a4732c54ffa, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.028
+      objectReference: {fileID: 0}
+    - target: {fileID: 4951167983448322, guid: 0c5578f7fdd57e84d9537a4732c54ffa, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.028
+      objectReference: {fileID: 0}
+    - target: {fileID: 1630326502857144, guid: 0c5578f7fdd57e84d9537a4732c54ffa, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c5578f7fdd57e84d9537a4732c54ffa, type: 2}
   m_IsPrefabParent: 0
@@ -4468,6 +4499,11 @@ Prefab:
     - {fileID: 9500000, guid: 9ab6b09c1734316448c87fc98ea08631, type: 3}
   m_ParentPrefab: {fileID: 100100000, guid: 9ab6b09c1734316448c87fc98ea08631, type: 3}
   m_IsPrefabParent: 0
+--- !u!4 &2048213855 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4774958486264482, guid: 5f49d70acc518da45a1cb478ebb30166,
+    type: 2}
+  m_PrefabInternal: {fileID: 1354283690}
 --- !u!1 &2054083151
 GameObject:
   m_ObjectHideFlags: 0
