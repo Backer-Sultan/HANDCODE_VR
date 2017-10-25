@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public class ClothAnimation : MonoBehaviour
@@ -12,12 +13,14 @@ public class ClothAnimation : MonoBehaviour
 
   public float animationSpeed = 1; //animation speed in meter/sec
 
+  public EventTrigger.TriggerEvent animationEnd;
+
   private Mesh mesh;
   private Vector3[] initialVertices;
   private int[] animatedPointsId;
   private int[] constrainedPointsId;
   private int[] fixedPointsId;
-  private int freeAfterReinit = -1;
+  private int fixAfterReinit = -1;
   private float t = 0;
   private CubicBezierCurve curve;
   private int playAnimation = 0;
@@ -99,6 +102,9 @@ public class ClothAnimation : MonoBehaviour
     ClothSkinningCoefficient[] coefficients;
     coefficients = cloth.coefficients;
 
+    for (int i = 0; i < coefficients.Length; i++)
+      coefficients[i].maxDistance = 0;
+
     for (int i = 0; i < animatedPointsId.Length; i++)
       coefficients[animatedPointsId[i]].maxDistance = float.MaxValue;
 
@@ -168,7 +174,7 @@ public class ClothAnimation : MonoBehaviour
             for (int i = 0; i < animatedPointsId.Length; i++)
               coefficients[animatedPointsId[i]].maxDistance = float.MaxValue;
 
-            if (constraintPoint != null)
+            if (constraintPoint != null) //Unless there is a constraint to apply
             {
               for (int i = 0; i < constrainedPointsId.Length; i++)
                 coefficients[constrainedPointsId[i]].maxDistance = 0;
@@ -184,7 +190,7 @@ public class ClothAnimation : MonoBehaviour
 
             cloth.coefficients = coefficients;
           }
-          else
+          else //playing animation forward or backward
           {
             Vector3 point = curve.GetCurvePoint(t);
 
@@ -202,7 +208,7 @@ public class ClothAnimation : MonoBehaviour
       {
         if (constraintPoint != null)
         {
-          if (animationPlayed ==1 )
+          if (animationPlayed ==1 ) //Attracting the vertices toward the contraint point progressively
           {
             Vector3[] vertices = mesh.vertices;
             for (int i = 0; i < constrainedPointsId.Length; i++)
@@ -212,7 +218,12 @@ public class ClothAnimation : MonoBehaviour
               float distance = Vector3.Distance(vertex, vertexTarget);
               float k = (animationSpeed / distance) * Time.deltaTime;
               if (k >= 1)
+              {
+                if(animationPlayed == 1)
+                  animationEnd.Invoke(new BaseEventData(EventSystem.current));
+
                 animationPlayed++;
+              }
               else
                 vertices[constrainedPointsId[i]] = cloth.transform.InverseTransformPoint(Vector3.Lerp(vertex, vertexTarget, k));
             }
@@ -233,23 +244,27 @@ public class ClothAnimation : MonoBehaviour
       }
       
       
-      if (freeAfterReinit == 0)
+       if (fixAfterReinit == 0) //repositionning every vertex at it initial position
       {
+        Vector3[] vertices = mesh.vertices;
+
+        for (int i = 0; i < vertices.Length; i++)
+        {
+          vertices[i] = initialVertices[i];
+        }
+        mesh.vertices = vertices;
+
         ClothSkinningCoefficient[] coefficients = cloth.coefficients;
-
         for (int i = 0; i < coefficients.Length; i++)
-          coefficients[i].maxDistance = float.MaxValue;
-
-        for (int i = 0; i < fixedPointsId.Length; i++)
-          coefficients[fixedPointsId[i]].maxDistance = 0;
+          coefficients[i].maxDistance = 0;
 
         cloth.coefficients = coefficients;
 
-        freeAfterReinit = -1;
+        fixAfterReinit = -1;
         animationPlayed = 0;
       }
-      else if (freeAfterReinit > 0)
-        freeAfterReinit--;
+      else if (fixAfterReinit > 0)
+        fixAfterReinit--;
     }
 
     /* playing the animation in `OnEnable` doesn't work for some reason!
@@ -258,11 +273,11 @@ public class ClothAnimation : MonoBehaviour
      * Running it once in Update once solves the problem.
      */
 
-    if(!paperAnimPlayed)
+    /*if(!paperAnimPlayed)
     {
       PlayAnimation();
       paperAnimPlayed = true;
-    }
+    }*/
   }
 
   public void OnApplicationQuit()
@@ -276,6 +291,12 @@ public class ClothAnimation : MonoBehaviour
     t = 0;
 
     ClothSkinningCoefficient[] coefficients = cloth.coefficients;
+    for (int i = 0; i < coefficients.Length; i++)
+      coefficients[i].maxDistance = float.MaxValue;
+
+    for (int i = 0; i < fixedPointsId.Length; i++)
+      coefficients[fixedPointsId[i]].maxDistance = 0;
+
     for (int i = 0; i < animatedPointsId.Length; i++)
       coefficients[animatedPointsId[i]].maxDistance = 0;
 
@@ -300,19 +321,17 @@ public class ClothAnimation : MonoBehaviour
 
   public void Reinitialize()
   {
-    Vector3[] vertices = mesh.vertices;
-
-    for (int i = 0; i < vertices.Length; i++)
-      vertices[i] = initialVertices[i];
-
-    mesh.vertices = vertices;
-
+    //Free all before teleporting
     ClothSkinningCoefficient[] coefficients = cloth.coefficients;
-    for (int i = 0; i < coefficients.Length; i++)
-      coefficients[i].maxDistance = 0;
+    for (int i = 0; i < constrainedPointsId.Length; i++)
+      coefficients[constrainedPointsId[i]].maxDistance = float.MaxValue;
+
+    for (int i = 0; i < animatedPointsId.Length; i++)
+      coefficients[animatedPointsId[i]].maxDistance = float.MaxValue;
+    cloth.coefficients = coefficients;
 
     cloth.coefficients = coefficients;
-    freeAfterReinit = (int)(1 / Time.deltaTime);
+    fixAfterReinit = (int)(0.1f / Time.deltaTime);//Free all before teleporting
     playAnimation = 0;
     t = 0;
   }

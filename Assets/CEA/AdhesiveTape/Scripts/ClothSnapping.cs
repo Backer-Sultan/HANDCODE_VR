@@ -114,7 +114,6 @@ public class ClothSnapping : MonoBehaviour
       {
         vertices[i] = rotation * vertices[i];
         vertices[i] +=  translation;
-
       }
       mesh.vertices = vertices;
       initialConfig = true;

@@ -18,7 +18,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
     // We have a scene with one specific avatar
     private int avatarID = 1;
 	// An array of the current VirtualGrasp hand status (since we use two hands, we have two elements)
-	private VG_HandStatus[] current = new VG_HandStatus[2];
+	public VG_HandStatus[] current = new VG_HandStatus[2];
 	// An array of the former VirtualGrasp hand status (since we use two hands, we have two elements)
 	private VG_HandStatus[] former  = new VG_HandStatus[2];
 	// A reference to an object selector
@@ -139,6 +139,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 		if (obj_rb != null && !obj_rb.useGravity && current[handID].selectedObject.GetComponent<VG_Articulation>() == null)
 			obj_rb.useGravity = true;
 	}
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.F2))

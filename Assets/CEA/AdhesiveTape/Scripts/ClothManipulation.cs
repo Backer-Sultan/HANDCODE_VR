@@ -12,10 +12,12 @@ public class ClothManipulation : MonoBehaviour
   private int[] manipulatedPoints;
 
 
+  private HandCodeVirtualGrasp virtualGrasp = null;
 
   private Mesh mesh;
   private Vector3[] initialVertices;
 
+  private GameObject leftPointer, rightPointer;
 
   // Use this for initialization
   void Awake()
@@ -47,24 +49,7 @@ public class ClothManipulation : MonoBehaviour
 
     cloth.coefficients = coefficients;
 
-    InitPointers();
-  }
-
-  GameObject leftPointer = null;
-  GameObject rightPointer = null;
-  void InitPointers()
-  {
-    leftPointer = GameObject.Find("TapeEnd1");
-    if (leftPointer == null) leftPointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-    leftPointer.name = "LeftPointer";
-    GameObject.DestroyImmediate(leftPointer.GetComponent<Collider>());
-    leftPointer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
-
-    rightPointer = GameObject.Find("TapeEnd2");
-    if (rightPointer == null) rightPointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-    rightPointer.name = "RightPointer";
-    GameObject.DestroyImmediate(rightPointer.GetComponent<Collider>());
-    rightPointer.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+    virtualGrasp = GameObject.FindObjectOfType<HandCodeVirtualGrasp>();
   }
 
   void CheckPointer(VirtualGrasp.VG_HandSide side)
@@ -85,8 +70,8 @@ public class ClothManipulation : MonoBehaviour
 
     if (next_id >= 0)
     {
-      if (side == VirtualGrasp.VG_HandSide.LEFT) leftPointer.transform.position = transform.position + transform.rotation * cloth.vertices[2];
-      else if (side == VirtualGrasp.VG_HandSide.RIGHT) rightPointer.transform.position = transform.position + transform.rotation * cloth.vertices[90];
+      if (side == VirtualGrasp.VG_HandSide.LEFT) targetPoints[0].position = transform.position + transform.rotation * cloth.vertices[next_id];
+      else if (side == VirtualGrasp.VG_HandSide.RIGHT) targetPoints[1].position = transform.position + transform.rotation * cloth.vertices[next_id];
     }
   }
 
@@ -96,16 +81,38 @@ public class ClothManipulation : MonoBehaviour
   {
     if (cloth)
     {
+
+      for (uint handID = 0; handID < 2; handID++)
+      {
+        if (virtualGrasp.current[handID].selectedObject == targetPoints[handID])
+        {
+          if (manipulatedPoints[handID] == -1 && virtualGrasp.current[handID].mode  == VirtualGrasp.VG_InteractionMode.HOLD)
+            AttachTarget((int)handID);
+        }
+        else if (manipulatedPoints[handID] != -1)
+        {
+          DetachTarget((int)handID);
+        }
+      }
+
       Vector3[] vertices = mesh.vertices;
       for (int i = 0; i < manipulatedPoints.Length; i++)
       {
         if (manipulatedPoints[i] != -1)
         {
           vertices[manipulatedPoints[i]] = cloth.transform.InverseTransformPoint(targetPoints[i].position);
-
+        }
+        else
+        {
+          if (i == 0)
+            CheckPointer(VirtualGrasp.VG_HandSide.LEFT);
+          else if (i == 1)
+            CheckPointer(VirtualGrasp.VG_HandSide.RIGHT);
         }
       }
       mesh.vertices = vertices;
+
+
 
       //Not good
       /*if (leftPointer != null)
@@ -122,10 +129,10 @@ public class ClothManipulation : MonoBehaviour
 
   public void AttachTarget(int targetId)
   {
-    if (leftPointer != null)
-      leftPointer.transform.position = transform.position + transform.rotation * cloth.vertices[2];
-    if (rightPointer != null)
-      rightPointer.transform.position = transform.position + transform.rotation * cloth.vertices[90];
+    /*if (targetPoints[0] != null)
+      targetPoints[0].position = transform.position + transform.rotation * cloth.vertices[2];
+    if (targetPoints[1] != null)
+      targetPoints[1].position = transform.position + transform.rotation * cloth.vertices[90];*/
 
     if (targetPoints.Length > targetId && targetPoints[targetId] != null)
     {
