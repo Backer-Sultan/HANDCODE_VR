@@ -22,12 +22,12 @@ public class TestClothManipulation : MonoBehaviour
       if (clothManipulation.IsTargetAttached(0))
       {
         clothManipulation.DetachTarget(0);
-        clothManipulation.DetachTarget(1);
+        //clothManipulation.DetachTarget(1);
       }
       else
       {
         clothManipulation.AttachTarget(0);
-        clothManipulation.AttachTarget(1);
+        //clothManipulation.AttachTarget(1);
       }
     }
     else if (Input.GetKeyDown(KeyCode.R))

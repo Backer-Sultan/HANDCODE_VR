@@ -15883,6 +15883,11 @@ MonoBehaviour:
   - {fileID: 760548108}
   constraintPoint: {fileID: 1936550340}
   animationSpeed: 0.25
+  animationEnd:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!1 &914259471
 GameObject:
   m_ObjectHideFlags: 0
@@ -24781,18 +24786,11 @@ MonoBehaviour:
   spawnPoint: {fileID: 584983544}
   clothManipulation: {fileID: 1382847878}
   snappingDistance: 0.03
---- !u!114 &1382847877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1382847872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0491b1c6b0228441859701dadddc8c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BackFaceMaterial: {fileID: 0}
+  clothSnapped:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &1382847878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24807,7 +24805,6 @@ MonoBehaviour:
   cloth: {fileID: 1382847873}
   targetPoints:
   - {fileID: 1667786245}
-  - {fileID: 553250707}
 --- !u!4 &1382847879 stripped
 Transform:
   m_PrefabParentObject: {fileID: 400000, guid: cc4e47bb070b33b49b02c190cda868c9, type: 3}

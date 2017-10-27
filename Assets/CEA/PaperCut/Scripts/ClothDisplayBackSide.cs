@@ -11,7 +11,7 @@ public class ClothDisplayBackSide : MonoBehaviour
 	Mesh mesh;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		cloth = GetComponent<Cloth>();
 		clothBackSide = new GameObject("ClothBackSide");
 		clothBackSide.transform.SetParent(transform);

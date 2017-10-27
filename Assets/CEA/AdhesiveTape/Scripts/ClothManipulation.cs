@@ -11,13 +11,9 @@ public class ClothManipulation : MonoBehaviour
   public Transform[] targetPoints = new Transform[2];
   private int[] manipulatedPoints;
 
-
-  private HandCodeVirtualGrasp virtualGrasp = null;
-
   private Mesh mesh;
   private Vector3[] initialVertices;
-
-  private GameObject leftPointer, rightPointer;
+  private HandCodeVirtualGrasp virtualGrasp;
 
   // Use this for initialization
   void Awake()
@@ -31,25 +27,27 @@ public class ClothManipulation : MonoBehaviour
 
       mesh = cloth.GetComponent<SkinnedMeshRenderer>().sharedMesh;
       coefficients = cloth.coefficients;
+      virtualGrasp = FindObjectOfType<HandCodeVirtualGrasp>();
     }
   }
 
   void Start()
   {
-    //identification of the parent cloth vertex jointset them free
-    ClothSkinningCoefficient[] coefficients;
-    coefficients = cloth.coefficients;
+    if (cloth)
+    {
+      //identification of the parent cloth vertex jointset them free
+      ClothSkinningCoefficient[] coefficients;
+      coefficients = cloth.coefficients;
 
-    for (int i = 0; i < coefficients.Length; i++)
-      coefficients[i].maxDistance = 0;
+      for (int i = 0; i < coefficients.Length; i++)
+        coefficients[i].maxDistance = 0;
 
-    manipulatedPoints = new int[targetPoints.Length];
-    for (int i = 0; i < manipulatedPoints.Length; i++)
-      manipulatedPoints[i] = -1;
+      manipulatedPoints = new int[targetPoints.Length];
+      for (int i = 0; i < manipulatedPoints.Length; i++)
+        manipulatedPoints[i] = -1;
 
-    cloth.coefficients = coefficients;
-
-    virtualGrasp = GameObject.FindObjectOfType<HandCodeVirtualGrasp>();
+      cloth.coefficients = coefficients;
+    }
   }
 
   void CheckPointer(VirtualGrasp.VG_HandSide side)
@@ -81,17 +79,19 @@ public class ClothManipulation : MonoBehaviour
   {
     if (cloth)
     {
-
-      for (uint handID = 0; handID < 2; handID++)
+      if (virtualGrasp)
       {
-        if (virtualGrasp.current[handID].selectedObject == targetPoints[handID])
+        for (uint handID = 0; handID < 2; handID++)
         {
-          if (manipulatedPoints[handID] == -1 && virtualGrasp.current[handID].mode  == VirtualGrasp.VG_InteractionMode.HOLD)
-            AttachTarget((int)handID);
-        }
-        else if (manipulatedPoints[handID] != -1)
-        {
-          DetachTarget((int)handID);
+          if (virtualGrasp.GetCurrentSelection(handID) == targetPoints[handID])
+          {
+            if (manipulatedPoints[handID] == -1 && virtualGrasp.GetCurrentMode(handID) == VirtualGrasp.VG_InteractionMode.HOLD)
+              AttachTarget((int)handID);
+          }
+          else if (manipulatedPoints[handID] != -1)
+          {
+            DetachTarget((int)handID);
+          }
         }
       }
 
@@ -111,14 +111,6 @@ public class ClothManipulation : MonoBehaviour
         }
       }
       mesh.vertices = vertices;
-
-
-
-      //Not good
-      /*if (leftPointer != null)
-        leftPointer.transform.position = transform.position + transform.rotation * cloth.vertices[2];
-      if (rightPointer != null)
-        rightPointer.transform.position = transform.position + transform.rotation * cloth.vertices[90];*/
     }
   }
 
@@ -129,11 +121,6 @@ public class ClothManipulation : MonoBehaviour
 
   public void AttachTarget(int targetId)
   {
-    /*if (targetPoints[0] != null)
-      targetPoints[0].position = transform.position + transform.rotation * cloth.vertices[2];
-    if (targetPoints[1] != null)
-      targetPoints[1].position = transform.position + transform.rotation * cloth.vertices[90];*/
-
     if (targetPoints.Length > targetId && targetPoints[targetId] != null)
     {
       ClothSkinningCoefficient[] coefficients = cloth.coefficients;
@@ -166,8 +153,6 @@ public class ClothManipulation : MonoBehaviour
       }
     }
   }
-
-
 
   public bool IsTargetAttached(int targetId)
   {
@@ -225,8 +210,11 @@ public class ClothManipulation : MonoBehaviour
     }
   }
 
-  public int GetManipulatedPoint(int id)
+  public int GetManipulatedPoint(uint id)
   {
-    return manipulatedPoints[id];
+    if (id < manipulatedPoints.Length)
+      return manipulatedPoints[id];
+    else
+      return -1;
   }
 }
