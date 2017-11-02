@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ClothDisplayBackSide : MonoBehaviour {
+public class ClothDisplayBackSide : MonoBehaviour
+{
+  public Material BackFaceMaterial;
 
-	Cloth cloth;
+  Cloth cloth;
 	GameObject clothBackSide;
 	Mesh mesh;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		cloth = GetComponent<Cloth>();
 		clothBackSide = new GameObject("ClothBackSide");
 		clothBackSide.transform.SetParent(transform);
@@ -39,9 +41,12 @@ public class ClothDisplayBackSide : MonoBehaviour {
 			mesh.SetTriangles(triangles, m);
 		}
 		MeshRenderer mr = clothBackSide.AddComponent<MeshRenderer>();
-		mr.material = GetComponent<SkinnedMeshRenderer>().material;
 
-	}
+    if (BackFaceMaterial == null)
+      mr.material = GetComponent<SkinnedMeshRenderer>().material;
+    else
+      mr.material = BackFaceMaterial;
+  }
 	
 	// Update is called once per frame
 	void Update () {

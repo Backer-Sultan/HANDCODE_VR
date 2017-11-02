@@ -1,0 +1,82 @@
+# HANDCODE_VR
+
+
+## Interaction from keyboard:
+
+### The Cradle:
+
+[1] Moves cradle to left
+
+[2] Moves cradle to right
+
+[3] Stops cradle in place
+
+[4] Lowers the pinsher
+
+[5] Raises the pinsher
+
+
+### The Arms:
+
+[Q] Open arms  (continious press)
+
+[W] Close arms (continious press)
+
+[E] Rotates arms up   (continious press)
+
+[R] Rotates arms down (continious press)
+
+[T] Move arms to right (continious press & not used during the process)
+
+[Y] Move arms to left (continious press & not used during the precess)
+
+
+## Hint System:
+
+[G] Pushes the power button.
+[H] Pushes the instruction button.
+[J] Pushes the Controlled (machine part) button.
+[K] Pushes the Controller (controler part) button.
+[L] Pushes the Explanation button.
+
+
+-------------------------------------------------------------------------
+
+## Interaction in VR notes:
+
+Most of the buttons on the main console are double-command. It's required to keep pushing the button in the upper middle while pushing other buttons.
+The buttons "move cradle right", "move cradle left", "stop cradle" and "rotate rig up" doesn't require double-command, all other buttons does.
+
+------------------------------------------------------------------------
+
+### Tasks:
+
+1. Move the cradle to the most right!
+
+2. Open the arms to the max range! (moveing the cradle will break this task and send you back to task 1).
+
+3. Raise the arms to the max range! (moveing the cradle will break this task and send you back to task 1).
+
+4. Move the spool to its position! (is triggered automatically for now, until we have the controller fully functional. Moving the arms or the cradle while the spool is moving will break this task and send you back to the violated).
+
+5. Lower arms at least to below the spool middle hall (to grab it later).
+
+6. Teleport to position 4 where the paper guide is.
+
+7. Handle the spool! by moving the arm cones to the hall without touching the spool. Touching the spool will trigger "game over". (interaction is done from the small console on the arm).
+
+8. Raise the arms with the spool to its max up range to check its allignment. (the max up range is automatically reset so its impossible to damage the running paper).
+
+9. Lower the arms with the spool to its max down range. (the max down range is automatically reset so its impossible to damage the spool by touching the floor).
+
+10. Teleport to poisition 3 (on the stairs).
+
+11. Lower the pinsher. (interaction is done from the small console on the left inner side of the cradle).
+
+12. Cut the paper using the knife that is located on your right! (the paper will be automatically activated and the paper-mount animation is played when starting this task. You need to wait for the paper animation to finish before starting to cut it).
+
+13. paste the tape pieces. should start with the middle one, then the right one and finally the left one. (but it goes well if you pasted them in a random order).
+
+14. Raise the pinsher. (interaction is done from the small console on the left inner side of the cradle. This one requires double-command "the upper standing-alone button").
+
+15. Move the cradle to the middle! (interaction is done from the console right over your head).

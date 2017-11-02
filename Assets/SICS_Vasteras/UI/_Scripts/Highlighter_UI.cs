@@ -43,7 +43,6 @@ namespace HandCode
 
         private void Highlight()
         {
-            print("highlightActive!");
             Animator animator = GetComponent<Animator>();
             if (animator != null)
                 animator.enabled = false;

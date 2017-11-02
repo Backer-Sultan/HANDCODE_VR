@@ -32,7 +32,8 @@ namespace HandCode
         MOUNT_MIDDLE_TAPE,
         MOUNT_RIGHT_TAPE,
         MOUNT_LEFT_TAPE,
-
+        RAISE_PINSHER,
+        MOVE_CRADLE_MIDDLE,
         TEST,
     }
 

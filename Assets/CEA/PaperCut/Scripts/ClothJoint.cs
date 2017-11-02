@@ -21,6 +21,8 @@ public class ClothJoint : MonoBehaviour
   public float cuttingDistance = 0.02f;
   public float disapearanceTime = 1;
   private float cutTime = 0;
+  private int displayAfterJoint = -1;
+  private float alphaCutOff; // 
 
   //The forward axis and the position of the EnableCutPlan transform define the plan above which the points can be cut.
   public Transform EnableCutPlan1, EnableCutPlan2;
@@ -176,41 +178,36 @@ public class ClothJoint : MonoBehaviour
       for (int i = indexCut; i < jointCutId.Length; i++)
         jointCutId[i] = -1;
 
-      //constrained the child vertex joints
-      /*for (int i = 0; i < jointPointsIdChild.Length; i++)
-        if (jointPointsIdChild[i] != -1)
-          coefficients[jointPointsIdChild[i]].maxDistance = 0;
 
-      clothChild.coefficients = coefficients;*/
-
+      Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
+      if (material != null)
+        alphaCutOff = material.GetFloat("_Cutoff");
+      material.SetFloat("_Cutoff", 0);
     }
   }
 
   void Start()
   {
     //Set free the parent vertices 
-    ClothSkinningCoefficient[] coefficients = clothParent.coefficients;
+    /*ClothSkinningCoefficient[] coefficients = clothParent.coefficients;
     for (int i = 0; i < jointPointsIdParent.Length; i++)
       coefficients[jointPointsIdParent[i]].maxDistance = float.MaxValue;
 
-    clothParent.coefficients = coefficients;
+    clothParent.coefficients = coefficients;*/
 
-    //constrained the child vertex joints
-    coefficients = clothChild.coefficients;
-    for (int i = 0; i < jointPointsIdChild.Length; i++)
-      if (jointPointsIdChild[i] != -1)
-        coefficients[jointPointsIdChild[i]].maxDistance = 0;
-
-    clothChild.coefficients = coefficients;
+    RebuildJoint();
   }
 
   // Update is called once per frame
   void Update()
   {
-    JointUpdate();
     KnifeCut();
+
+    //Event 
     JointCutEvent();
     JointPointCutEvent();
+
+
     if (jointCut)
     {
       if (clothChild.GetComponent<SkinnedMeshRenderer>().enabled)
@@ -223,6 +220,34 @@ public class ClothJoint : MonoBehaviour
         }
       }
     }
+    else
+    {
+      if (displayAfterJoint == 0)
+      {
+        displayAfterJoint--;
+         MatchParentCloth();
+
+         ClothSkinningCoefficient[] coefficients = clothChild.coefficients;
+         for (int i = 0; i < coefficients.Length; i++)
+           coefficients[i].maxDistance = float.MaxValue;
+
+         for (int i = 0; i < jointCutId.Length; i++)
+           if (jointCutId[i] != -1)
+             coefficients[jointCutId[i]].maxDistance = 0;
+
+         clothChild.coefficients = coefficients;
+      }
+      else
+      {
+        if (displayAfterJoint >= -1)
+        {
+          MatchParentCloth();
+          displayAfterJoint--;
+        }
+      }
+      if(clothChild.GetComponent<SkinnedMeshRenderer>().enabled)
+        MatchJointCloth();
+    }
   }
 
   public void OnApplicationQuit()
@@ -230,7 +255,28 @@ public class ClothJoint : MonoBehaviour
     meshChild.vertices = initialVertices;
   }
 
-  private void JointUpdate()
+  public void ActiveJoint()
+  {
+    ClothSkinningCoefficient[]  coefficients = clothChild.coefficients;
+    for (int i = 0; i < coefficients.Length; i++)
+        coefficients[i].maxDistance = 0;
+
+    /* for (int i = 0; i < jointCutId.Length; i++)
+       if (jointCutId[i] != -1)
+         coefficients[jointCutId[i]].maxDistance = 0;*/
+
+    clothChild.GetComponent<SkinnedMeshRenderer>().enabled = true;
+    GetComponentInChildren<MeshRenderer>().enabled = true;
+    Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
+    if (material != null)
+      material.SetFloat("_Cutoff", alphaCutOff);
+
+    clothChild.coefficients = coefficients;
+
+    displayAfterJoint = (int)(0.15f / Time.deltaTime);
+  }
+
+  private void MatchParentCloth()
   {
     if (clothParent && clothChild)
     {
@@ -244,6 +290,31 @@ public class ClothJoint : MonoBehaviour
           v = clothParent.transform.TransformPoint(v); //local parent to world
           v = clothChild.transform.InverseTransformPoint(v); //world to local child
           vertices[jointPointsIdChild[i]] = v;
+        }
+      }
+      meshChild.vertices = vertices;
+    }
+  }
+
+  private void MatchJointCloth()
+  {
+    if (clothParent && clothChild)
+    {
+      //Joint update
+      Vector3[] vertices = meshChild.vertices;
+      for (int i = 0; i < jointCutId.Length; i++)
+      {
+        int parentId = -1;
+        for (int j = 0; j < jointPointsIdChild.Length; j++)
+          if (jointPointsIdChild[j] == jointCutId[i])
+            parentId = jointPointsIdParent[j];
+
+        if (jointCutId[i] != -1 && parentId != -1)
+        {
+          Vector3 v = clothParent.vertices[parentId];
+          v = clothParent.transform.TransformPoint(v); //local parent to world
+          v = clothChild.transform.InverseTransformPoint(v); //world to local child
+          vertices[jointCutId[i]] = v;
         }
       }
       meshChild.vertices = vertices;
@@ -282,31 +353,34 @@ public class ClothJoint : MonoBehaviour
         {
           if (jointCutId[i] != -1)
           {
-            bool cutEnable = true;
-            if (localPosEnableCut1 != Vector3.zero)
+            if (coefficients[jointCutId[i]].maxDistance < float.MaxValue)
             {
-              float d = Vector3.Dot(localDirEnableCut1, clothChild.vertices[jointCutId[i]]) - Vector3.Dot(localDirEnableCut1, localPosEnableCut1);
-              if (d < 0)
-                cutEnable = false;
-            }
-
-            if (localPosEnableCut2 != Vector3.zero)
-            {
-              float d = Vector3.Dot(localDirEnableCut2, clothChild.vertices[jointCutId[i]]) - Vector3.Dot(localDirEnableCut2, localPosEnableCut2);
-              if (d < 0)
-                cutEnable = false;
-            }
-
-            if (cutEnable)
-            {
-              float dist = Vector3.Distance(clothChild.vertices[jointCutId[i]], localKnife);
-              if (dist < cuttingDistance)
+              bool cutEnable = true;
+              if (localPosEnableCut1 != Vector3.zero)
               {
-                coefficients[jointCutId[i]].maxDistance = float.MaxValue;
+                float d = Vector3.Dot(localDirEnableCut1, clothChild.vertices[jointCutId[i]]) - Vector3.Dot(localDirEnableCut1, localPosEnableCut1);
+                if (d < 0)
+                  cutEnable = false;
+              }
 
-                if (jointCutLinkId[i] != null)
-                  for (int j = 0; j < jointCutLinkId[i].Count; j++)
-                    coefficients[jointCutLinkId[i][j]].maxDistance = float.MaxValue;
+              if (localPosEnableCut2 != Vector3.zero)
+              {
+                float d = Vector3.Dot(localDirEnableCut2, clothChild.vertices[jointCutId[i]]) - Vector3.Dot(localDirEnableCut2, localPosEnableCut2);
+                if (d < 0)
+                  cutEnable = false;
+              }
+
+              if (cutEnable)
+              {
+                float dist = Vector3.Distance(clothChild.vertices[jointCutId[i]], localKnife);
+                if (dist < cuttingDistance)
+                {
+                  coefficients[jointCutId[i]].maxDistance = float.MaxValue;
+
+                  if (jointCutLinkId[i] != null)
+                    for (int j = 0; j < jointCutLinkId[i].Count; j++)
+                      coefficients[jointCutLinkId[i][j]].maxDistance = float.MaxValue;
+                }
               }
             }
           }
@@ -341,12 +415,20 @@ public class ClothJoint : MonoBehaviour
   public void RebuildJoint()
   {
     ClothSkinningCoefficient[] coefficients = clothChild.coefficients;
-    //setting free the child vertex joints
+    //freeze the child vertex joints
     for (int i = 0; i < jointPointsIdChild.Length; i++)
       if (jointPointsIdChild[i] != -1)
         coefficients[jointPointsIdChild[i]].maxDistance = 0;
 
+
     clothChild.coefficients = coefficients;
+
+    //Hidding child cloth
+    if (clothChild.GetComponent<SkinnedMeshRenderer>().enabled)
+    {
+      clothChild.GetComponent<SkinnedMeshRenderer>().enabled = false;
+      GetComponentInChildren<MeshRenderer>().enabled = false;
+    }
 
     jointCut = jointHalfCut = false;
     cutPointsCount = 0;
@@ -354,8 +436,10 @@ public class ClothJoint : MonoBehaviour
 
   public void ShowCutCloth()
   {
-    clothChild.GetComponent<SkinnedMeshRenderer>().enabled = true;
-    GetComponentInChildren<MeshRenderer>().enabled = true;
+    //Showing parent cloth
+    Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
+    if (material != null)
+      material.SetFloat("_Cutoff", 0);
   }
 
   private void JointCutEvent()

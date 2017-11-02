@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
+
 
 [System.Serializable]
 public class ClothSnapping : MonoBehaviour
@@ -11,10 +11,13 @@ public class ClothSnapping : MonoBehaviour
   public ClothManipulation clothManipulation;
   public float snappingDistance = 0.01f;
 
+  public EventTrigger.TriggerEvent clothSnapped;
+
   private Mesh mesh;
   private Vector3[] initialVertices;
   private int snappingSide = 0;
   private bool initialConfig = true;
+  private bool snapped = false;
 
   // Use this for initialization
   void Awake()
@@ -43,10 +46,12 @@ public class ClothSnapping : MonoBehaviour
         if(clothManipulation.IsAttached())
           initialConfig = false;
       }
-      else
+      else if (!snapped)
       {
         Vector3[] vertices = mesh.vertices;
         ClothSkinningCoefficient[] coefficients = cloth.coefficients;
+        bool allSnapped = true;
+
         for (int i = 0; i < cloth.vertices.Length; i++)
         {
           int manipulatedVertex = -1;
@@ -89,7 +94,13 @@ public class ClothSnapping : MonoBehaviour
                 vertices[i].Scale(new Vector3(1, 1, snappingSide));
               }
             }
+            allSnapped = false;
           }
+        }
+        if(allSnapped)
+        {
+          snapped = true;
+          clothSnapped.Invoke(new BaseEventData(EventSystem.current));
         }
         cloth.coefficients = coefficients;
         mesh.vertices = vertices;
@@ -114,15 +125,10 @@ public class ClothSnapping : MonoBehaviour
       {
         vertices[i] = rotation * vertices[i];
         vertices[i] +=  translation;
-
       }
       mesh.vertices = vertices;
       initialConfig = true;
+      snapped = false;
     }
-  }
-
-  public void OnApplicationQuit()
-  {
-
   }
 }

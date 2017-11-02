@@ -114,14 +114,18 @@ namespace HandCode
             stack = 0f;
             if (bar.fillAmount == 1f)
             {
-                greenExpander.gameObject.SetActive(true);
-                checkmark.gameObject.SetActive(true);
+                // greenExpander.gameObject.SetActive(true);
+                // checkmark.gameObject.SetActive(true);
+                greenExpander.SetBool("Expand", true);
+                checkmark.SetBool("Expand", true);
                 OnFilled.Invoke();
             }
             else
             {
-                greenExpander.gameObject.SetActive(false);
-                checkmark.gameObject.SetActive(false);
+                // greenExpander.gameObject.SetActive(false);
+                // checkmark.gameObject.SetActive(false);
+                greenExpander.SetBool("Expand", false);
+                checkmark.SetBool("Expand", false);
             }
         }
 
@@ -131,7 +135,7 @@ namespace HandCode
             audioSource.Play();
         }
 
-        public void GameFlowSystemListener()
+        public void ListenToGameFlowManager()
         {
             GameFlowManager gfm = GameObject.FindObjectOfType<GameFlowManager>();
             if(gfm == null)
