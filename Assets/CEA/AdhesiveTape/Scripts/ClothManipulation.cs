@@ -68,8 +68,10 @@ public class ClothManipulation : MonoBehaviour
 
     if (next_id >= 0)
     {
-      if (side == VirtualGrasp.VG_HandSide.LEFT) targetPoints[0].position = transform.position + transform.rotation * cloth.vertices[next_id];
-      else if (side == VirtualGrasp.VG_HandSide.RIGHT) targetPoints[1].position = transform.position + transform.rotation * cloth.vertices[next_id];
+      if (side == VirtualGrasp.VG_HandSide.LEFT && targetPoints[0] != null)
+          targetPoints[0].position = transform.position + transform.rotation * cloth.vertices[next_id];
+      else if (side == VirtualGrasp.VG_HandSide.RIGHT && targetPoints[1] != null)
+        targetPoints[1].position = transform.position + transform.rotation * cloth.vertices[next_id];
     }
   }
 
