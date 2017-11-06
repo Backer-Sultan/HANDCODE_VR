@@ -2507,20 +2507,6 @@ MonoBehaviour:
     m_translationThreshold: 10
     m_grabFilter: {x: 0, y: 0, z: 0}
     m_positionFilter: {x: 0, y: 0, z: 0}
-  - m_sensor: 0
-    m_usePosition: 0
-    m_useRotation: 0
-    m_useFingers: 0
-    m_useGrasp: 0
-    m_origin: {fileID: 0}
-    m_dynamicOrigin: 0
-    m_offset: {x: 0, y: 0, z: 0}
-    m_dynamicOffset: 0
-    m_closeThreshold: 0
-    m_openThreshold: 0
-    m_translationThreshold: 0
-    m_grabFilter: {x: 0, y: 0, z: 0}
-    m_positionFilter: {x: 0, y: 0, z: 0}
 --- !u!114 &992096437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3898,7 +3884,7 @@ Prefab:
     - target: {fileID: 114378141057075446, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224832386930053598, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
         type: 2}

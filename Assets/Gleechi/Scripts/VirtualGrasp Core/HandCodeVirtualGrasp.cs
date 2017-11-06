@@ -128,11 +128,12 @@ public class HandCodeVirtualGrasp : MonoBehaviour
       }
     }
 
+
     VG_Controller.Update();
     pSelector.InitFromHands(current);
   }
 
-  void ReleaseObject(uint handID)
+    void ReleaseObject(uint handID)
   {
     Rigidbody obj_rb = former[handID].selectedObject != null ? former[handID].selectedObject.GetComponent<Rigidbody>() :
       current[handID].selectedObject.GetComponent<Rigidbody>();
@@ -149,14 +150,14 @@ public class HandCodeVirtualGrasp : MonoBehaviour
   void FixedUpdate()
   {
     if (!VG_Controller.IsEnabled()) return;
-
+        
     // Update the VG library, including controllers, avatars, etc.
     VG_Controller.Update();
 
     pSelector.Select(current);
     pSelector.HighlightObjects(current, former);
-
-    for (uint handID = 0; handID < 2; handID++)
+        
+    for (uint handID = 0; handID < current.Length; handID++)
     {
       // Check if hand is valid
       if (current[handID] == null) continue;

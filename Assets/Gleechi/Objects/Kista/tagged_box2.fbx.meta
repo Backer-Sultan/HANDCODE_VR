@@ -1,22 +1,47 @@
 fileFormatVersion: 2
-guid: 006b95f8dbc2e49b2be5c39157cce06b
-timeCreated: 1508162984
+guid: c720dbabba3902d428789f04acecef87
+timeCreated: 1509700276
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: MSH_Screwdriver
-    9500000: //RootNode
+    100000: barcode
+    100002: //RootNode
+    100004: Camera
+    100006: Cube
+    100008: Lamp
+    400000: barcode
+    400002: //RootNode
+    400004: Camera
+    400006: Cube
+    400008: Lamp
+    2000000: Camera
+    2300000: barcode
+    2300002: //RootNode
+    2300004: Cube
+    3300000: barcode
+    3300002: //RootNode
+    3300004: Cube
+    4300000: tagged_box2
+    4300002: barcode
+    4300004: Cube
+    10800000: Lamp
   externalObjects:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: M_OldTools
-    second: {fileID: 2100000, guid: 545ba75525c424a8c9145ad0b814c069, type: 2}
+      name: Material
+    second: {fileID: 2100000, guid: 32ad7e7cb3119a849859b67b2ddb60ce, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: handcode_barcode
+    second: {fileID: 2100000, guid: 60daa6a963aa4c14b91aba1a03647a86, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: material_1
+    second: {fileID: 2100000, guid: 17c56c9057362834ea96b86e4bc87fc1, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
@@ -46,7 +71,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.7
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
@@ -88,7 +113,7 @@ ModelImporter:
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

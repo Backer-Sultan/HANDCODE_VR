@@ -123,8 +123,9 @@ public class HandCodeObjectSelection
         // Got no object, got no highlight
         if (hand.selectedObject == null)
             return;
-
-	    if (hand.selectedObject == m_highlightedObjects[hand.side])
+        if (!m_highlightedObjects.ContainsKey(hand.side))
+            return;
+        if (hand.selectedObject == m_highlightedObjects[hand.side])
             return;
         if (hand.selectedObject == m_highlightedObjects[hand.side == VG_HandSide.LEFT ? VG_HandSide.RIGHT : VG_HandSide.LEFT])
             return;
@@ -143,6 +144,9 @@ public class HandCodeObjectSelection
     // Unhighlight the object that is held by a hand.
     public void Unhighlight(VG_HandStatus hand)
     {
+        if (!m_highlightedObjects.ContainsKey(hand.side))
+            return;
+
         // Got no object (or the same object as before), got no unhighlight
         Transform highlightedObject = m_highlightedObjects[hand.side];
         if (highlightedObject == hand.selectedObject || highlightedObject == null)
@@ -162,29 +166,36 @@ public class HandCodeObjectSelection
     // Logic to highlight objects based on all current hands.
     public void HighlightObjects(VG_HandStatus[] current, VG_HandStatus[] former)
     {
-        if (current[0] == null || current[1] == null)
-            return;
+        bool highlighted = false;
 
-        if (current[0].graspStatus == VG_ReturnCode.SUCCESS &&
-            current[1].graspStatus == VG_ReturnCode.SUCCESS &&
-            current[0].selectedObject != null &&
-            current[0].selectedObject == current[1].selectedObject)
+        if (current.Length == 2)
         {
-            if (current[0].mode == VG_InteractionMode.EMPTY && current[1].mode == VG_InteractionMode.EMPTY)
+            if (current[0] == null || current[1] == null)
+                return;
+
+            if (current[0].graspStatus == VG_ReturnCode.SUCCESS &&
+                current[1].graspStatus == VG_ReturnCode.SUCCESS &&
+                current[0].selectedObject != null &&
+                current[0].selectedObject == current[1].selectedObject)
             {
-                if (current[0].distance >= 0 && current[0].distance < current[1].distance)
+                if (current[0].mode == VG_InteractionMode.EMPTY && current[1].mode == VG_InteractionMode.EMPTY)
+                {
+                    if (current[0].distance >= 0 && current[0].distance < current[1].distance)
+                        Highlight(current[0]);
+                    else
+                        Highlight(current[1]);
+                }
+                else if (current[0].mode == VG_InteractionMode.EMPTY)
                     Highlight(current[0]);
-                else
+                else if (current[1].mode == VG_InteractionMode.EMPTY)
                     Highlight(current[1]);
+                highlighted = true;
             }
-            else if (current[0].mode == VG_InteractionMode.EMPTY)
-                Highlight(current[0]);
-            else if (current[1].mode == VG_InteractionMode.EMPTY)
-                Highlight(current[1]);
         }
-        else
+
+        if (!highlighted)
         {
-            for (int i = 0; i < current.Length; i++)
+            for (int i = 0; i < Math.Min(current.Length, former.Length); i++)
             {
                 // Switch off highlight for former selected object if it switched
                 Unhighlight(former[i]);
@@ -441,6 +452,7 @@ public class HandCodeObjectSelection
             switch (m_selectionType)
             {
                 case SelectionType.SPHERE:
+                    if (pointer == null) continue;
                     SelectObjectByInBounds(pointer.position, out hand.selectedObject);
                     if (hand.selectedObject == null)
                         SelectObjectByClosestBound(pointer.position, out hand.selectedObject);
