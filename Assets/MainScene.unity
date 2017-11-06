@@ -1469,6 +1469,24 @@ Prefab:
       propertyPath: m_Name
       value: Machine
       objectReference: {fileID: 0}
+    - target: {fileID: 4655128208221918, guid: 615ae5ac2e222474da299745ba793a00, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655128208221918, guid: 615ae5ac2e222474da299745ba793a00, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114374699809713752, guid: 615ae5ac2e222474da299745ba793a00,
+        type: 2}
+      propertyPath: m_pivot
+      value: 
+      objectReference: {fileID: 808285995}
+    - target: {fileID: 95798446383712360, guid: 615ae5ac2e222474da299745ba793a00,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 615ae5ac2e222474da299745ba793a00, type: 2}
   m_IsPrefabParent: 0
@@ -2227,6 +2245,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b3dac61de229bd47b42097fed99ebe3, type: 2}
   m_IsPrefabParent: 0
+--- !u!4 &808285995 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4655128208221918, guid: 615ae5ac2e222474da299745ba793a00,
+    type: 2}
+  m_PrefabInternal: {fileID: 617188477}
 --- !u!4 &831175754 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4178427692079494, guid: 615ae5ac2e222474da299745ba793a00,
