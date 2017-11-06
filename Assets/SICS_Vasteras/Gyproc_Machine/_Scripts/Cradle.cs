@@ -23,6 +23,8 @@ namespace HandCode
 
         [Range(0f, 1f)]
         public float speed = 0.5f;
+        [Range(1f, 10f)]
+        public float pinsherRotationSpeed = 5f;
         public Transform pinsherRotator;
         public Transform pinsherModelToLock;
         public bool isBreakApplied { get { return _isBreakApplied; } }
@@ -46,6 +48,7 @@ namespace HandCode
 
         private AudioSource audioSource;
         private Animator pinsherAnimator;
+        private Transform pinsherModel;
         private bool _isBreakApplied = true;
         private bool _isPinsherLow = false;
         private bool _isRightTargetReached = false;
@@ -68,6 +71,10 @@ namespace HandCode
             pinsherAnimator = pinsherRotator.GetComponent<Animator>();
             if (pinsherAnimator == null)
                 Debug.LogError(string.Format("{0}\nCrale.cs: Component `Animator` is missing on object `PinsherRotator`!", Machine.GetPath(gameObject)));
+
+            pinsherModel = pinsherRotator.Find("Pinsher_05");
+            if (pinsherModel == null)
+                Debug.LogError(string.Format("{0}\nCradle.cs: No object with name 'Pinsher_05' is found under object 'PinsherRotator'!", Machine.GetPath(gameObject)));
 
             audioSource = GetComponentInChildren<AudioSource>();
             if (audioSource == null)
@@ -103,17 +110,16 @@ namespace HandCode
         public void LowerPinsher()
         {
             _isPinsherLow = true;
-            pinsherAnimator.SetBool("LowerPinsher", _isPinsherLow);
+            StopAllCoroutines();
+            StartCoroutine(LowerPinsherRoutine());
             onPinsherLowered.Invoke();
-            //StartCoroutine(LowerPinsherRoutine());
-
         }
 
         private IEnumerator LowerPinsherRoutine()
         {
-            while(GetSignedRotation(pinsherRotator.localEulerAngles.z) >-130f)
+            while(GetSignedRotation(pinsherModel.localEulerAngles.z) > -130f)
             {
-                pinsherRotator.localEulerAngles += Vector3.back * Time.deltaTime * 3f;
+                pinsherModel.localEulerAngles += Vector3.back * Time.deltaTime * pinsherRotationSpeed;
                 yield return null;
             }
             _isPinsherLow = true;
@@ -123,7 +129,19 @@ namespace HandCode
         public void RaisePinsher()
         {
             _isPinsherLow = false;
-            pinsherAnimator.SetBool("LowerPinsher", _isPinsherLow);
+            StopAllCoroutines();
+            StartCoroutine(RaisePinsherRoutine());
+            onPinsherRaised.Invoke();
+        }
+
+        private IEnumerator RaisePinsherRoutine()
+        {
+            while(GetSignedRotation(pinsherModel.localEulerAngles.z) < 0f)
+            {
+                pinsherModel.localEulerAngles -= Vector3.back * Time.deltaTime * pinsherRotationSpeed;
+                yield return null;
+            }
+            _isPinsherLow = false;
             onPinsherRaised.Invoke();
         }
 
