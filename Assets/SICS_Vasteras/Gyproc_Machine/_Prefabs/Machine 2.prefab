@@ -537,7 +537,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4564046733665616}
-  - component: {fileID: 95798446383712360}
   - component: {fileID: 114022942837526092}
   m_Layer: 0
   m_Name: PinsherRotator
@@ -5580,6 +5579,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4703184615385636}
   - component: {fileID: 114849637765820244}
+  - component: {fileID: 114875404549019422}
   m_Layer: 0
   m_Name: PaperCut_ScriptHolder
   m_TagString: Untagged
@@ -15564,7 +15564,7 @@ Transform:
   m_Children:
   - {fileID: 4515351964989914}
   - {fileID: 4680585387557666}
-  - {fileID: 4655128208221918}
+  - {fileID: 4715979261189470}
   - {fileID: 4681021059226270}
   m_Father: {fileID: 4308752015435986}
   m_RootOrder: 1
@@ -16420,14 +16420,13 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1799404173960176}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.9740001}
+  m_LocalPosition: {x: 0.06, y: 2.485, z: 2.558}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4581899388671068}
   - {fileID: 4709185503967612}
-  - {fileID: 4715979261189470}
-  m_Father: {fileID: 4564046733665616}
-  m_RootOrder: 2
+  m_Father: {fileID: 4715979261189470}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4657162590897922
 Transform:
@@ -17062,7 +17061,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1876296206596184}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.06, y: -2.485, z: -2.558}
+  m_LocalPosition: {x: -0.06, y: -2.485, z: -1.584}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4304153530456730}
@@ -17073,7 +17072,8 @@ Transform:
   - {fileID: 4130871797741622}
   - {fileID: 4051057605788218}
   - {fileID: 4334103414601042}
-  m_Father: {fileID: 4655128208221918}
+  - {fileID: 4655128208221918}
+  m_Father: {fileID: 4564046733665616}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4716149256120948
@@ -28193,23 +28193,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &95798446383712360
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1054440096405898}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d540b2351c2436a4aac8e5ffeb5cb21b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95846226276933408
 Animator:
   serializedVersion: 3
@@ -30223,7 +30206,7 @@ MonoBehaviour:
   m_min: 0
   m_max: 0
   m_discreteStates: []
-  m_pivot: {fileID: 4655128208221918}
+  m_pivot: {fileID: 4554781508863922}
 --- !u!114 &114379477469059228
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -32597,6 +32580,18 @@ MonoBehaviour:
   targetPoints:
   - {fileID: 0}
   - {fileID: 0}
+--- !u!114 &114875404549019422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1506726429865952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fea714448da1a4c8aaece832ca6674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSapped: 0
 --- !u!114 &114877530087769006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -33818,7 +33813,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.00000008940697, y: -0.00000023841858, z: 0}
+    m_Center: {x: 0.00000008940697, y: 0, z: 0}
     m_Extent: {x: 0.0047628945, y: 0.02450424, z: 0.75}
   m_DirtyAABB: 0
 --- !u!183 &183165904005796592

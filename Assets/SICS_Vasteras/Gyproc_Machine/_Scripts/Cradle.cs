@@ -47,7 +47,6 @@ namespace HandCode
         public UnityEvent onBreakDisabled;
 
         private AudioSource audioSource;
-        private Animator pinsherAnimator;
         private Transform pinsherModel;
         private bool _isBreakApplied = true;
         private bool _isPinsherLow = false;
@@ -68,11 +67,7 @@ namespace HandCode
             if (pinsherRotator == null)
                 Debug.LogError(string.Format("{0}\nCradle.cs: Object `PinsherRotator` is missing!", Machine.GetPath(gameObject)));
 
-            pinsherAnimator = pinsherRotator.GetComponent<Animator>();
-            if (pinsherAnimator == null)
-                Debug.LogError(string.Format("{0}\nCrale.cs: Component `Animator` is missing on object `PinsherRotator`!", Machine.GetPath(gameObject)));
-
-            pinsherModel = pinsherRotator.Find("Pinsher_05");
+            pinsherModel = pinsherRotator.Find("Spindle_03/Pinsher_05");
             if (pinsherModel == null)
                 Debug.LogError(string.Format("{0}\nCradle.cs: No object with name 'Pinsher_05' is found under object 'PinsherRotator'!", Machine.GetPath(gameObject)));
 
