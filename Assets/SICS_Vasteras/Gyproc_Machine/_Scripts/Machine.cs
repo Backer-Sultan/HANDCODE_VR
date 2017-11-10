@@ -33,7 +33,7 @@ namespace HandCode
         public MainConsole mainConsole;
         [HideInInspector]
         public PaperCut paperCut;
-        public AdhesiveTaopHandler adhesiveTapeHandler;
+        public AdhesiveTape adhesiveTapeHandler;
         public bool isDoubleCommandActive { get { return _isDoubleCommandActive; } }
         public MachineButton lastPushedButton;
         public bool isSpoolBreakApplied;
@@ -104,7 +104,7 @@ namespace HandCode
             if (paperCut == null)
                 Debug.LogError(string.Format("{0}\nMachine.cs: No PaperCut script is found!", GetPath(gameObject)));
 
-            adhesiveTapeHandler = FindObjectOfType<AdhesiveTaopHandler>();
+            adhesiveTapeHandler = FindObjectOfType<AdhesiveTape>();
             if (adhesiveTapeHandler == null)
                 Debug.LogError(string.Format("{0}\nMahcine.cs: No AdhesiveTapeHandler script is found!", GetPath(gameObject)));
         }

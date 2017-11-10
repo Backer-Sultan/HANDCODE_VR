@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace HandCode
 {
-    public class AdhesiveTaopHandler : MonoBehaviour
+    public class AdhesiveTape : MonoBehaviour
     {
         public bool isSapped = false;
 

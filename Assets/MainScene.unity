@@ -2635,9 +2635,9 @@ MonoBehaviour:
   m_Script: {fileID: 526520841, guid: 1205999a58fc5f94eaa322d2d8908630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targets:
-  - {fileID: 440855794}
-  - {fileID: 2059394499}
+  m_targets:
+  - {fileID: 0}
+  - {fileID: 0}
   m_settings:
     m_controlledHandsMode: 0
     m_fingerControlType: 1
@@ -4909,6 +4909,23 @@ Transform:
   m_Father: {fileID: 1353455611}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: -90}
+--- !u!1 &2090487475 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1506726429865952, guid: 615ae5ac2e222474da299745ba793a00,
+    type: 2}
+  m_PrefabInternal: {fileID: 617188477}
+--- !u!114 &2090487478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2090487475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49fea714448da1a4c8aaece832ca6674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSapped: 0
 --- !u!1 &2097002549
 GameObject:
   m_ObjectHideFlags: 0
