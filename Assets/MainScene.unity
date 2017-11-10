@@ -339,6 +339,11 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: VRTK.UnityEventHelper.VRTK_BasicTeleport_UnityEvents+TeleportEvent,
       Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!4 &92109472 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4581684120382982, guid: 6be4b542bee62ea41a341b4e62a89553,
+    type: 2}
+  m_PrefabInternal: {fileID: 2135287806}
 --- !u!4 &98856749 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4231728398853006, guid: 2db5fdd8237b53342b6d3c2cb6b61ff9,
@@ -1561,6 +1566,11 @@ Transform:
   m_Father: {fileID: 1418065551}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &688848819 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4360895070417720, guid: 6be4b542bee62ea41a341b4e62a89553,
+    type: 2}
+  m_PrefabInternal: {fileID: 2135287806}
 --- !u!1 &702550052
 GameObject:
   m_ObjectHideFlags: 0
@@ -3395,6 +3405,16 @@ Prefab:
       propertyPath: m_pivot
       value: 
       objectReference: {fileID: 1356313842}
+    - target: {fileID: 114874481127512266, guid: 615ae5ac2e222474da299745ba793a00,
+        type: 2}
+      propertyPath: targetPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 688848819}
+    - target: {fileID: 114874481127512266, guid: 615ae5ac2e222474da299745ba793a00,
+        type: 2}
+      propertyPath: targetPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 92109472}
     m_RemovedComponents:
     - {fileID: 114224365853443516, guid: 615ae5ac2e222474da299745ba793a00, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 615ae5ac2e222474da299745ba793a00, type: 2}
