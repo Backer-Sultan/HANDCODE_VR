@@ -181,8 +181,15 @@ public class ClothJoint : MonoBehaviour
 
       Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
       if (material != null)
-        alphaCutOff = material.GetFloat("_Cutoff");
+        alphaCutOff = material.GetFloat("Left");
       material.SetFloat("_Cutoff", 0);
+
+      Transform backside = clothParent.transform.Find("ClothBackSide");
+      if (backside != null)
+      {
+        material =  backside.GetComponent<MeshRenderer>().material;
+        material.SetFloat("_Cutoff", 0);
+      }
     }
   }
 
@@ -261,15 +268,22 @@ public class ClothJoint : MonoBehaviour
     for (int i = 0; i < coefficients.Length; i++)
         coefficients[i].maxDistance = 0;
 
-    /* for (int i = 0; i < jointCutId.Length; i++)
-       if (jointCutId[i] != -1)
-         coefficients[jointCutId[i]].maxDistance = 0;*/
-
+    //Display the removable part of paper
     clothChild.GetComponent<SkinnedMeshRenderer>().enabled = true;
     GetComponentInChildren<MeshRenderer>().enabled = true;
+
+    //Hide the removable part of paper on the parent paper
     Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
     if (material != null)
       material.SetFloat("_Cutoff", alphaCutOff);
+
+    //Hide the removable part of paper on the parent back face
+    Transform backside = clothParent.transform.Find("ClothBackSide");
+    if (backside != null)
+    {
+      material = backside.GetComponent<MeshRenderer>().material;
+      material.SetFloat("_Cutoff", 0);
+    }
 
     clothChild.coefficients = coefficients;
 
@@ -440,6 +454,14 @@ public class ClothJoint : MonoBehaviour
     Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
     if (material != null)
       material.SetFloat("_Cutoff", 0);
+
+    //Showing parent cloth back side
+    Transform backside = clothParent.transform.Find("ClothBackSide");
+    if (backside != null)
+    {
+      material = backside.GetComponent<MeshRenderer>().material;
+      material.SetFloat("_Cutoff", 0);
+    }
   }
 
   private void JointCutEvent()
