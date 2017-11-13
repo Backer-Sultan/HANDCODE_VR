@@ -3376,6 +3376,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 114874481127512266, guid: 615ae5ac2e222474da299745ba793a00,
+        type: 2}
+      propertyPath: targetPoints.Array.data[0]
+      value: 
+      objectReference: {fileID: 688848819}
+    - target: {fileID: 114874481127512266, guid: 615ae5ac2e222474da299745ba793a00,
+        type: 2}
+      propertyPath: targetPoints.Array.data[1]
+      value: 
+      objectReference: {fileID: 92109472}
     - target: {fileID: 114810713734120130, guid: 615ae5ac2e222474da299745ba793a00,
         type: 2}
       propertyPath: spawnPoint
@@ -3390,40 +3400,9 @@ Prefab:
       propertyPath: m_Name
       value: Machine
       objectReference: {fileID: 0}
-    - target: {fileID: 114374699809713752, guid: 615ae5ac2e222474da299745ba793a00,
-        type: 2}
-      propertyPath: m_type
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114374699809713752, guid: 615ae5ac2e222474da299745ba793a00,
-        type: 2}
-      propertyPath: m_max
-      value: 2.28
-      objectReference: {fileID: 0}
-    - target: {fileID: 114374699809713752, guid: 615ae5ac2e222474da299745ba793a00,
-        type: 2}
-      propertyPath: m_pivot
-      value: 
-      objectReference: {fileID: 1356313842}
-    - target: {fileID: 114874481127512266, guid: 615ae5ac2e222474da299745ba793a00,
-        type: 2}
-      propertyPath: targetPoints.Array.data[0]
-      value: 
-      objectReference: {fileID: 688848819}
-    - target: {fileID: 114874481127512266, guid: 615ae5ac2e222474da299745ba793a00,
-        type: 2}
-      propertyPath: targetPoints.Array.data[1]
-      value: 
-      objectReference: {fileID: 92109472}
-    m_RemovedComponents:
-    - {fileID: 114224365853443516, guid: 615ae5ac2e222474da299745ba793a00, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 615ae5ac2e222474da299745ba793a00, type: 2}
   m_IsPrefabParent: 0
---- !u!4 &1356313842 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 4709185503967612, guid: 615ae5ac2e222474da299745ba793a00,
-    type: 2}
-  m_PrefabInternal: {fileID: 1356313841}
 --- !u!1 &1398623735
 GameObject:
   m_ObjectHideFlags: 0

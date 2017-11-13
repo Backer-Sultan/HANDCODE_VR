@@ -8304,7 +8304,6 @@ GameObject:
   - component: {fileID: 4655128208221918}
   - component: {fileID: 33655765038549726}
   - component: {fileID: 23200169049029418}
-  - component: {fileID: 114224365853443516}
   m_Layer: 0
   m_Name: Pinsher_05
   m_TagString: Untagged
@@ -28272,8 +28271,29 @@ MonoBehaviour:
   moveSpeed: 0.5
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
 --- !u!114 &114014612852202052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -28764,8 +28784,29 @@ MonoBehaviour:
   moveSpeed: 0.5
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   TapePiece: {fileID: 4051057605788218}
 --- !u!114 &114101998382694592
 MonoBehaviour:
@@ -29226,8 +29267,29 @@ MonoBehaviour:
   moveSpeed: 0.05
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   ID: 1
   move: 1
   rotate: 0
@@ -29235,6 +29297,7 @@ MonoBehaviour:
   rotationDirection: 0
   otherArm: {fileID: 114484720386755706}
   CloseStartsFrom: {fileID: 4382344103706074}
+  machine: {fileID: 0}
 --- !u!114 &114144100177436914
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -29277,8 +29340,29 @@ MonoBehaviour:
   moveSpeed: 0.5
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   armRigHologram: {fileID: 0}
   armLeftHologram: {fileID: 0}
   armRightHologram: {fileID: 0}
@@ -29487,22 +29571,6 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114224365853443516
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1799404173960176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1129584798, guid: 1205999a58fc5f94eaa322d2d8908630, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_type: 0
-  m_min: 0
-  m_max: 2.28
-  m_discreteStates: []
-  m_pivot: {fileID: 4709185503967612}
 --- !u!114 &114230716411927434
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -29624,8 +29692,29 @@ MonoBehaviour:
   moveSpeed: 0
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   ID: 2
   right_arm_hologram: {fileID: 114607140879942080}
   left_arm_hologram: {fileID: 114831514301511000}
@@ -29685,8 +29774,29 @@ MonoBehaviour:
   moveSpeed: 0.05
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   ID: 2
   right_arm_hologram: {fileID: 114484720386755706}
   left_arm_hologram: {fileID: 114138419853876908}
@@ -30038,8 +30148,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe61cb2809b4f4f44801a9f7c691cd0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 0.5
-  rotateSpeed: 0.5
+  movementSpeed: 0.5
+  rotationSpeed: 0.5
   waitTime: 3
   color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
   color2: {r: 1, g: 0.86, b: 0, a: 0.2}
@@ -30140,8 +30250,29 @@ MonoBehaviour:
   moveSpeed: 0.5
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   TapePiece: {fileID: 4130871797741622}
 --- !u!114 &114355927564547294
 MonoBehaviour:
@@ -30202,11 +30333,11 @@ MonoBehaviour:
   m_Script: {fileID: 1129584798, guid: 1205999a58fc5f94eaa322d2d8908630, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_type: 3
+  m_type: 0
   m_min: 0
-  m_max: 0
+  m_max: 2.28
   m_discreteStates: []
-  m_pivot: {fileID: 4554781508863922}
+  m_pivot: {fileID: 4709185503967612}
 --- !u!114 &114379477469059228
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -30605,8 +30736,29 @@ MonoBehaviour:
   moveSpeed: 0.05
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   ID: 2
   move: 1
   rotate: 0
@@ -30614,6 +30766,7 @@ MonoBehaviour:
   rotationDirection: 0
   otherArm: {fileID: 114138419853876908}
   CloseStartsFrom: {fileID: 4784469342320794}
+  machine: {fileID: 0}
 --- !u!114 &114500427602425102
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -31253,8 +31406,29 @@ MonoBehaviour:
   moveSpeed: 0.05
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   ID: 2
   move: 1
   rotate: 0
@@ -31262,6 +31436,7 @@ MonoBehaviour:
   rotationDirection: 0
   otherArm: {fileID: 114831514301511000}
   CloseStartsFrom: {fileID: 4503518345850768}
+  machine: {fileID: 0}
 --- !u!114 &114610376848261224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -31300,8 +31475,29 @@ MonoBehaviour:
   moveSpeed: 0.5
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   TapePiece: {fileID: 4334103414601042}
 --- !u!114 &114623441954165606
 MonoBehaviour:
@@ -32449,8 +32645,29 @@ MonoBehaviour:
   moveSpeed: 0.05
   rotateSpeed: 0.5
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   ID: 1
   move: 1
   rotate: 0
@@ -32458,6 +32675,7 @@ MonoBehaviour:
   rotationDirection: 0
   otherArm: {fileID: 114607140879942080}
   CloseStartsFrom: {fileID: 4140002180795162}
+  machine: {fileID: 0}
 --- !u!114 &114832915923500760
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -32472,8 +32690,29 @@ MonoBehaviour:
   moveSpeed: 0.5
   rotateSpeed: 1
   waitTime: 3
-  color1: {r: 1, g: 0.5, b: 0.5, a: 0.2}
-  color2: {r: 1, g: 0.86, b: 0, a: 0.2}
+  color1:
+    r: 1
+    g: 0.5
+    b: 0.5
+    a: 0.2
+  color2:
+    r: 1
+    g: 0.86
+    b: 0
+    a: 0.2
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0}
+  initialMoveSpeed: 0
+  initialRotateSpeed: 0
+  children: []
+  lerpedColor:
+    r: 0
+    g: 0
+    b: 0
+    a: 0
+  rends: []
+  resetPositionRoutineFlag: 0
+  resetRotationRoutineFlag: 0
   rotationDirection: 4
   upLimit: 0
   downLimit: -130
