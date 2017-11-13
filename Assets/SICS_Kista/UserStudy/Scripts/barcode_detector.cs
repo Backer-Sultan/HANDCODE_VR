@@ -17,7 +17,7 @@ public class barcode_detector : MonoBehaviour {
 	void Start () {
 		elapsedScanningTime = 0.0f;
 		emitterLine = GameObject.Find ("emitter_line");
-		GameObject scannerHead = GameObject.Find ("scanner");
+		GameObject scannerHead = GameObject.Find ("scannerhead");
 		scannerSpeaker = scannerHead.GetComponent<AudioSource>();
 	}
 	
@@ -30,11 +30,11 @@ public class barcode_detector : MonoBehaviour {
 		//Debug.DrawRay (start, dir * rayLength, Color.red, 2.5f, false);
 		if (Physics.Raycast (start, dir, out rayhit, rayLength)) {
 			float hitdistance = rayhit.distance;
-			//Debug.Log ("distance to hit is " + hitdistance);
+			// Debug.Log ("distance to hit is " + hitdistance);
 			// Adjust length of laser line
 			emitterLine.transform.localScale = new Vector3(1.0f, 1.0f, rayhit.distance * 1.0f);
 			if (rayhit.collider.tag == "barcode") {
-				//Debug.Log ("targeting barcode: " + rayhit.collider.name);
+				// Debug.Log ("targeting barcode: " + rayhit.collider.name);
 				if (rayhit.rigidbody == scanningTarget) {
 					// Still scanning the same object
 					elapsedScanningTime += Time.deltaTime;
