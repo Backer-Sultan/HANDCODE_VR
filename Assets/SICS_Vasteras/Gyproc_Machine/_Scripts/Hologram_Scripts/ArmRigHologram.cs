@@ -20,7 +20,6 @@ namespace HandCode
 
         public bool isArmsInDestPosition;
         public bool isArmsInDestRotation;
-        public bool waitingFlag;
 
         public enum ShowHologramFor
         {
@@ -38,6 +37,7 @@ namespace HandCode
             initRotationValue = GetSignedRotation(init_rotation.localEulerAngles.z);
             destRotationValue = GetSignedRotation(dest_rotation.localEulerAngles.z);
         }
+
         protected override void OnEnable()
         {
             base.OnEnable();

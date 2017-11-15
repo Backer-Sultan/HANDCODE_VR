@@ -26,7 +26,7 @@ namespace HandCode
         internal float initialMovementSpeed;
         internal float initialRotationSpeed;
         internal Transform[] children;
-
+        internal bool waitingFlag;
         private Color lerpedColor;
         private Renderer[] rends;
 
@@ -84,6 +84,7 @@ namespace HandCode
         {
             transform.localPosition = initialPosition;
             movementSpeed = initialMovementSpeed;
+            waitingFlag = false;
         }
 
         protected virtual void ResetRotation()
