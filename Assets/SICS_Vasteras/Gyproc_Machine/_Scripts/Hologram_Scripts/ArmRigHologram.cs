@@ -61,6 +61,13 @@ namespace HandCode
             }
         }
 
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            ResetArmsPosition();
+        }
+
         protected override void Update()
         {
             base.Update();

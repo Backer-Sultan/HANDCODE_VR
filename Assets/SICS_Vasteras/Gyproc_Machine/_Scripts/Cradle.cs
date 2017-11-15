@@ -122,7 +122,6 @@ namespace HandCode
 
         public void RaisePinsher()
         {
-            _isPinsherLow = false;
             StopAllCoroutines();
             StartCoroutine(RaisePinsherRoutine());
         }
@@ -222,16 +221,7 @@ namespace HandCode
 
         private void Update()
         {
-            if (GetSignedRotation(pinsherRotator.localEulerAngles.z) <= -130f)
-            {
-                _isPinsherLow = true;
-            }
-            else
-            {
-                _isPinsherLow = false;
-            }
-
-           
+                      
 
             // teset
 
