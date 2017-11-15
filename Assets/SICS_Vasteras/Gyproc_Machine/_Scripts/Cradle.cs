@@ -3,6 +3,7 @@
  * Author:  Backer Sultan                    *
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +24,7 @@ namespace HandCode
 
         [Range(0f, 1f)]
         public float speed = 0.5f;
-        [Range(1f, 10f)]
+        [Range(1f, 30f)]
         public float pinsherRotationSpeed = 5f;
         public Transform pinsherRotator;
         public Transform pinsherModelToLock;
@@ -67,7 +68,7 @@ namespace HandCode
             if (pinsherRotator == null)
                 Debug.LogError(string.Format("{0}\nCradle.cs: Object `PinsherRotator` is missing!", Machine.GetPath(gameObject)));
 
-            pinsherModel = pinsherRotator.Find("Spindle_03/Pinsher_05");
+            pinsherModel = pinsherRotator.Find("Pinsher_05");
             if (pinsherModel == null)
                 Debug.LogError(string.Format("{0}\nCradle.cs: No object with name 'Pinsher_05' is found under object 'PinsherRotator'!", Machine.GetPath(gameObject)));
 
@@ -104,10 +105,8 @@ namespace HandCode
 
         public void LowerPinsher()
         {
-            _isPinsherLow = true;
             StopAllCoroutines();
             StartCoroutine(LowerPinsherRoutine());
-            onPinsherLowered.Invoke();
         }
 
         private IEnumerator LowerPinsherRoutine()
@@ -126,7 +125,6 @@ namespace HandCode
             _isPinsherLow = false;
             StopAllCoroutines();
             StartCoroutine(RaisePinsherRoutine());
-            onPinsherRaised.Invoke();
         }
 
         private IEnumerator RaisePinsherRoutine()

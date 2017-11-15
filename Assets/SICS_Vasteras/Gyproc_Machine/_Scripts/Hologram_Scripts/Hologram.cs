@@ -4,7 +4,6 @@
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
 
-using System.Collections;
 using UnityEngine;
 
 namespace HandCode
@@ -15,14 +14,15 @@ namespace HandCode
 
         [Range(0f, 1f)]
         public float movementSpeed = 0.5f;
-        [Range(0f, 1f)]
+        [Range(0f, 20f)]
         public float rotationSpeed = 0.5f;
         public float waitTime = 3f; // time to wait before resetting the hologram to its initial position and rotation
         public Color color1 = new Color(1f, 0.5f, 0.5f, 0.2f);
         public Color color2 = new Color(1f, 0.86f, 0f, 0.2f);
 
         internal Vector3 initialPosition; // stored as local position
-        internal Vector3 initialRotation; // stored as Eular angles
+        internal Vector3 initialRotation; // stored as local euler angles
+
         internal float initialMovementSpeed;
         internal float initialRotationSpeed;
         internal Transform[] children;
@@ -78,7 +78,6 @@ namespace HandCode
                     continue;
                 t.gameObject.SetActive(false);
             }
-            StopAllCoroutines();
         }
 
         protected virtual void ResetPosition()
