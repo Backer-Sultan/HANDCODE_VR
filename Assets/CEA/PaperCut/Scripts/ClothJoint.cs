@@ -181,7 +181,7 @@ public class ClothJoint : MonoBehaviour
 
       Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
       if (material != null)
-        alphaCutOff = material.GetFloat("Left");
+        alphaCutOff = material.GetFloat("_Cutoff");
       material.SetFloat("_Cutoff", 0);
 
       Transform backside = clothParent.transform.Find("ClothBackSide");
@@ -272,6 +272,8 @@ public class ClothJoint : MonoBehaviour
     clothChild.GetComponent<SkinnedMeshRenderer>().enabled = true;
     GetComponentInChildren<MeshRenderer>().enabled = true;
 
+    Debug.Log("alphaCutOff " + alphaCutOff);
+    
     //Hide the removable part of paper on the parent paper
     Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
     if (material != null)
@@ -282,7 +284,7 @@ public class ClothJoint : MonoBehaviour
     if (backside != null)
     {
       material = backside.GetComponent<MeshRenderer>().material;
-      material.SetFloat("_Cutoff", 0);
+      material.SetFloat("_Cutoff", alphaCutOff);
     }
 
     clothChild.coefficients = coefficients;
