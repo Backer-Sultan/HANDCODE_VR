@@ -52,5 +52,6 @@ public class ClothDisplayBackSide : MonoBehaviour
 	void Update () {
 		mesh.vertices = cloth.vertices;
 		mesh.RecalculateNormals();
-	}
+    mesh.RecalculateBounds();
+  }
 }

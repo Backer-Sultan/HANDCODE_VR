@@ -185,11 +185,10 @@ public class ClothJoint : MonoBehaviour
                 jointCutId[i] = -1;
 
 
-            Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
-            if (material != null)
-                // alphaCutOff = material.GetFloat("Left");
-                alphaCutOff = material.GetFloat("_Cutoff");
-           // material.SetFloat("_Cutoff", 0);
+      Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
+      if (material != null)
+        alphaCutOff = material.GetFloat("Left");
+      material.SetFloat("_Cutoff", 0);
 
             //Transform backside = clothParent.transform.Find("ClothBackSide");
             //if (backside != null)
@@ -264,9 +263,32 @@ public class ClothJoint : MonoBehaviour
         }
     }
 
-    public void OnApplicationQuit()
+  public void OnApplicationQuit()
+  {
+    meshChild.vertices = initialVertices;
+  }
+
+  public void ActiveJoint()
+  {
+    ClothSkinningCoefficient[]  coefficients = clothChild.coefficients;
+    for (int i = 0; i < coefficients.Length; i++)
+        coefficients[i].maxDistance = 0;
+
+    //Display the removable part of paper
+    clothChild.GetComponent<SkinnedMeshRenderer>().enabled = true;
+    GetComponentInChildren<MeshRenderer>().enabled = true;
+
+    //Hide the removable part of paper on the parent paper
+    Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
+    if (material != null)
+      material.SetFloat("_Cutoff", alphaCutOff);
+
+    //Hide the removable part of paper on the parent back face
+    Transform backside = clothParent.transform.Find("ClothBackSide");
+    if (backside != null)
     {
-        meshChild.vertices = initialVertices;
+      material = backside.GetComponent<MeshRenderer>().material;
+      material.SetFloat("_Cutoff", 0);
     }
 
     public void ActiveJoint()
