@@ -36,16 +36,10 @@ public class ClothJoint : MonoBehaviour
     public int CutPointsCount { get { return cutPointsCount; } }
     public int JointPointsCount { get { return jointCutId.Length; } }
     public bool JointCut { get { return jointCut; } }
-    public bool CutClothVisible
-    {
-        get
-        {
-            if (clothChild)
+    public bool CutClothVisible{ get { if (clothChild)
                 return clothChild.GetComponent<SkinnedMeshRenderer>().enabled;
             else
-                return false;
-        }
-    }
+                return false; } }
 
     // Use this for initialization
     void Awake()
@@ -185,17 +179,17 @@ public class ClothJoint : MonoBehaviour
                 jointCutId[i] = -1;
 
 
-      Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
-      if (material != null)
-        alphaCutOff = material.GetFloat("Left");
-      material.SetFloat("_Cutoff", 0);
+            Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
+            if (material != null)
+                alphaCutOff = material.GetFloat("_Cutoff");
+            material.SetFloat("_Cutoff", 0);
 
-            //Transform backside = clothParent.transform.Find("ClothBackSide");
-            //if (backside != null)
-            //{
-            //    material = backside.GetComponent<MeshRenderer>().material;
-            //    material.SetFloat("_Cutoff", 0);
-            //}
+            Transform backside = clothParent.transform.Find("ClothBackSide");
+            if (backside != null)
+            {
+                material = backside.GetComponent<MeshRenderer>().material;
+                material.SetFloat("_Cutoff", 0);
+            }
         }
     }
 
@@ -263,32 +257,9 @@ public class ClothJoint : MonoBehaviour
         }
     }
 
-  public void OnApplicationQuit()
-  {
-    meshChild.vertices = initialVertices;
-  }
-
-  public void ActiveJoint()
-  {
-    ClothSkinningCoefficient[]  coefficients = clothChild.coefficients;
-    for (int i = 0; i < coefficients.Length; i++)
-        coefficients[i].maxDistance = 0;
-
-    //Display the removable part of paper
-    clothChild.GetComponent<SkinnedMeshRenderer>().enabled = true;
-    GetComponentInChildren<MeshRenderer>().enabled = true;
-
-    //Hide the removable part of paper on the parent paper
-    Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
-    if (material != null)
-      material.SetFloat("_Cutoff", alphaCutOff);
-
-    //Hide the removable part of paper on the parent back face
-    Transform backside = clothParent.transform.Find("ClothBackSide");
-    if (backside != null)
+    public void OnApplicationQuit()
     {
-      material = backside.GetComponent<MeshRenderer>().material;
-      material.SetFloat("_Cutoff", 0);
+        meshChild.vertices = initialVertices;
     }
 
     public void ActiveJoint()
@@ -301,6 +272,8 @@ public class ClothJoint : MonoBehaviour
         clothChild.GetComponent<SkinnedMeshRenderer>().enabled = true;
         GetComponentInChildren<MeshRenderer>().enabled = true;
 
+        Debug.Log("alphaCutOff " + alphaCutOff);
+
         //Hide the removable part of paper on the parent paper
         Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
         if (material != null)
@@ -311,7 +284,7 @@ public class ClothJoint : MonoBehaviour
         if (backside != null)
         {
             material = backside.GetComponent<MeshRenderer>().material;
-           // material.SetFloat("_Cutoff", 0);
+            material.SetFloat("_Cutoff", alphaCutOff);
         }
 
         clothChild.coefficients = coefficients;
@@ -481,8 +454,8 @@ public class ClothJoint : MonoBehaviour
     {
         //Showing parent cloth
         Material material = clothParent.GetComponent<SkinnedMeshRenderer>().material;
-       // if (material != null)
-         //   material.SetFloat("_Cutoff", 0);
+        if (material != null)
+            material.SetFloat("_Cutoff", 0);
 
         //Showing parent cloth back side
         Transform backside = clothParent.transform.Find("ClothBackSide");
