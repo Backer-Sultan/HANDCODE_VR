@@ -10,22 +10,21 @@ namespace HandCode
 {
     public class SpoolHologram : Hologram
     {
+
         /* methods & coroutines */
 
         protected override void Update()
         {
             base.Update();
-            transform.Translate(Vector3.back * moveSpeed * Time.deltaTime);
+            if (waitingFlag)
+                return;
 
-            if (transform.localPosition.z <= 0f)
-                ResetPositionAfter(waitTime);
-        }
-
-        private void FixedUpdate()
-        {
-        if (transform.localPosition == Vector3.zero)
+            transform.Translate(Vector3.forward * movementSpeed * Time.deltaTime);
+            if (transform.localPosition.z >= 0f)
             {
-                ResetPositionAfter(waitTime);
+                movementSpeed = 0f;
+                Invoke("ResetPosition", waitTime);
+                waitingFlag = true;
             }
         }
     }

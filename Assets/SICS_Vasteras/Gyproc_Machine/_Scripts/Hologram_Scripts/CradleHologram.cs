@@ -15,16 +15,17 @@ namespace HandCode
         protected override void Update()
         {
             base.Update();
-            transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
+
+            transform.Translate(Vector3.right * movementSpeed * Time.deltaTime);
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.tag == "CradleLimitRight")
-                ResetPositionAfter(waitTime);
+            {
+                movementSpeed = 0f;
+                Invoke("ResetPosition", waitTime);
+            }
         }
-
-
-        
     }
 }
