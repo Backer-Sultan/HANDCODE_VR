@@ -21,10 +21,10 @@ public class ClothCutControl : MonoBehaviour {
   {
     if(Input.GetKeyDown(KeyCode.A))
     {
-      if(clothAnimation.T==0)
-        clothAnimation.PlayAnimation();
-      else
-        clothAnimation.RewindAnimation();
+       if(clothAnimation.T==0)
+         clothAnimation.PlayAnimation();
+       else
+         clothAnimation.RewindAnimation();
     }
 
     if (Input.GetKeyDown(KeyCode.C))
@@ -72,7 +72,7 @@ public class ClothCutControl : MonoBehaviour {
     cutPlan1.rotation = flip * cutPlan1.rotation;
   }
 
-  public void PuchCutPlan()
+  public void PushCutPlan()
   {
     cutPlan2.position -= new Vector3(0, 0, 0.06f);
   }

@@ -10,99 +10,156 @@ namespace HandCode
 {
     public class ArmRigHologram : Hologram
     {
-        public Identifier ID;
+        public Transform rightArmHologram;
+        public Transform leftArmHologram;
+        public Transform spoolHologram;
+        public Transform rightArm_init_pos, rightArm_dest_pos;
+        public Transform leftArm_init_pos, leftArm_dest_pos;
+        public Transform init_rotation, dest_rotation; // I'm ignoring the base calass initial value as I want to manually set and manipulate it
+        public ShowHologramFor showHologramFor;
 
-        public ArmHologram right_arm_hologram;
-        public ArmHologram left_arm_hologram;
-        public GameObject staticSpoolHologram;
-        public bool enableSpoolHologram;
+        public bool isArmsInDestPosition;
+        public bool isArmsInDestRotation;
 
-
-
-        //protected override void OnEnable()
-        //{
-        //    base.OnEnable();
-
-        //    GetInitialSpeedValues();
-
-        //}
-
-
-        //private void GetInitialSpeedValues()
-        //{
-        //    right_arm_hologram.initialMoveSpeed = moveSpeed;
-        //    left_arm_hologram.initialMoveSpeed = moveSpeed;
-        //    right_arm_hologram.initialRotateSpeed = rotateSpeed;
-        //    left_arm_hologram.initialRotateSpeed = rotateSpeed;
-        //}
-
-        public void OpenArmsHologram()
+        public enum ShowHologramFor
         {
-            right_arm_hologram.moveDirection = Identifier.RIGHT;
-            left_arm_hologram.moveDirection = Identifier.LEFT;
-            SetArmsMove(true);
-            SetArmsActive(true);
+            NONE,
+            OPEN_CLOSE_ARMS,
+            RAISE_LOWER_ARMS,
+            RAISE_LOWER_ARMS_WITH_SPOOL,
         }
 
-        public void CloseArmsHologram()
+        private float initRotationValue;
+        private float destRotationValue;
+
+        private void Start()
         {
-            right_arm_hologram.moveDirection = Identifier.LEFT;
-            left_arm_hologram.moveDirection = Identifier.RIGHT;
-            SetArmsMove(true);
-            SetArmsActive(true);
+            initRotationValue = GetSignedRotation(init_rotation.localEulerAngles.z);
+            destRotationValue = GetSignedRotation(dest_rotation.localEulerAngles.z);
         }
 
-        public void RaiseArmsHologram()
+        protected override void OnEnable()
         {
-            right_arm_hologram.rotationDirection = Identifier.UP;
-            left_arm_hologram.rotationDirection = Identifier.UP;
-            SetArmsRotate(true);
-            SetArmsActive(true);
+            base.OnEnable();
+
+            if (showHologramFor == ShowHologramFor.RAISE_LOWER_ARMS_WITH_SPOOL)
+                spoolHologram.gameObject.SetActive(true);
+            else
+                spoolHologram.gameObject.SetActive(false);
+
+            switch (showHologramFor)
+            {
+                case ShowHologramFor.OPEN_CLOSE_ARMS:
+                    rightArmHologram.localPosition = rightArm_init_pos.localPosition;
+                    leftArmHologram.localPosition = leftArm_init_pos.localPosition;
+                    break;
+
+                case ShowHologramFor.RAISE_LOWER_ARMS:
+                case ShowHologramFor.RAISE_LOWER_ARMS_WITH_SPOOL:
+                    leftArmHologram.localEulerAngles = rightArmHologram.localEulerAngles = init_rotation.localEulerAngles;
+                    break;
+            }
         }
 
-        public void LowerArmsHologram()
+        protected override void OnDisable()
         {
-            right_arm_hologram.rotationDirection = Identifier.DOWN;
-            left_arm_hologram.rotationDirection = Identifier.DOWN;
-            SetArmsRotate(true);
-            SetArmsActive(true);
-        }
+            base.OnDisable();
 
-        public void HideHologram()
-        {
-            SetArmsMove(false);
-            SetArmsRotate(false);
-            SetArmsActive(false);
-        }
-
-        private void SetArmsMove(bool value)
-        {
-            right_arm_hologram.move = value;
-            left_arm_hologram.move = value;
-        }
-
-        private void SetArmsRotate(bool value)
-        {
-            right_arm_hologram.rotate = value;
-            left_arm_hologram.rotate = value;
-        }
-
-        private void SetArmsActive(bool value)
-        {
-            right_arm_hologram.gameObject.SetActive(value);
-            left_arm_hologram.gameObject.SetActive(value);
-        }
-
-        private void SetStaticSpoolActive(bool value)
-        {
-            staticSpoolHologram.SetActive(value);
+            ResetArmsPosition();
         }
 
         protected override void Update()
         {
             base.Update();
 
-            SetStaticSpoolActive(enableSpoolHologram);
+            // setting flags
+            switch (showHologramFor)
+            {
+                case ShowHologramFor.OPEN_CLOSE_ARMS:
+                    if (waitingFlag)
+                        break;
+
+                    if (isArmsInDestPosition)
+                    {
+                        Invoke("ResetArmsPosition", waitTime);
+                        waitingFlag = true;
+                    }
+                    else
+                        MoveArmsTowardsDestination();
+
+                    break;
+
+                case ShowHologramFor.RAISE_LOWER_ARMS:
+                case ShowHologramFor.RAISE_LOWER_ARMS_WITH_SPOOL:
+                    if (waitingFlag)
+                        break;
+
+                    if (isArmsInDestRotation)
+                    {
+                        Invoke("ResetArmsRotation", waitTime);
+                        waitingFlag = true;
+                    }
+                    else
+                        RotateArmsTowardsDestination();
+
+                    break;
+            }
+        }
+
+        private void ResetArmsPosition()
+        {
+            rightArmHologram.localPosition = rightArm_init_pos.localPosition;
+            leftArmHologram.localPosition = leftArm_init_pos.localPosition;
+            movementSpeed = initialMovementSpeed;
+            isArmsInDestPosition = false;
+            waitingFlag = false;
+        }
+
+        private void MoveArmsTowardsDestination()
+        {
+            if (leftArmHologram.localPosition == leftArm_dest_pos.localPosition || rightArmHologram.localPosition == rightArm_dest_pos.localPosition)
+            {
+                isArmsInDestPosition = true;
+                return;
+            }
+            leftArmHologram.localPosition = Vector3.MoveTowards(leftArmHologram.localPosition, leftArm_dest_pos.localPosition, movementSpeed * Time.deltaTime);
+            rightArmHologram.localPosition = Vector3.MoveTowards(rightArmHologram.localPosition, rightArm_dest_pos.localPosition, movementSpeed * Time.deltaTime);
+        }
+
+        private void ResetArmsRotation()
+        {
+            leftArmHologram.localEulerAngles = init_rotation.localEulerAngles;
+            rightArmHologram.localEulerAngles = init_rotation.localEulerAngles;
+            rotationSpeed = initialRotationSpeed;
+            isArmsInDestRotation = false;
+            waitingFlag = false;
+        }
+
+        private void RotateArmsTowardsDestination()
+        {
+            float currentArmRotationValue = GetSignedRotation(leftArmHologram.localEulerAngles.z);
+            bool dirUp = (destRotationValue > initRotationValue) ? true : false;
+
+            if (dirUp)
+            {
+                if(currentArmRotationValue >= destRotationValue)
+                {
+                    isArmsInDestRotation = true;
+                    return;
+                }
+                leftArmHologram.localEulerAngles += Vector3.forward * rotationSpeed * Time.deltaTime;
+                rightArmHologram.localEulerAngles = leftArmHologram.localEulerAngles;
+            }
+            else
+            {
+                if(currentArmRotationValue <= destRotationValue)
+                {
+                    isArmsInDestRotation = true;
+                    return;
+                }
+                leftArmHologram.localEulerAngles += Vector3.back * rotationSpeed * Time.deltaTime;
+                rightArmHologram.localEulerAngles = leftArmHologram.localEulerAngles;
+            }
         }
     }
 }

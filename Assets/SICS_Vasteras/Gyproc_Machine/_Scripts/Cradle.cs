@@ -3,6 +3,7 @@
  * Author:  Backer Sultan                    *
  * Email:   backer.sultan@ri.se              *
  * *******************************************/
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +24,7 @@ namespace HandCode
 
         [Range(0f, 1f)]
         public float speed = 0.5f;
-        [Range(1f, 10f)]
+        [Range(1f, 30f)]
         public float pinsherRotationSpeed = 5f;
         public Transform pinsherRotator;
         public Transform pinsherModelToLock;
@@ -47,7 +48,6 @@ namespace HandCode
         public UnityEvent onBreakDisabled;
 
         private AudioSource audioSource;
-        private Animator pinsherAnimator;
         private Transform pinsherModel;
         private bool _isBreakApplied = true;
         private bool _isPinsherLow = false;
@@ -67,10 +67,6 @@ namespace HandCode
                 pinsherRotator = transform.Find("PinsherRotator");
             if (pinsherRotator == null)
                 Debug.LogError(string.Format("{0}\nCradle.cs: Object `PinsherRotator` is missing!", Machine.GetPath(gameObject)));
-
-            pinsherAnimator = pinsherRotator.GetComponent<Animator>();
-            if (pinsherAnimator == null)
-                Debug.LogError(string.Format("{0}\nCrale.cs: Component `Animator` is missing on object `PinsherRotator`!", Machine.GetPath(gameObject)));
 
             pinsherModel = pinsherRotator.Find("Pinsher_05");
             if (pinsherModel == null)
@@ -109,10 +105,8 @@ namespace HandCode
 
         public void LowerPinsher()
         {
-            _isPinsherLow = true;
             StopAllCoroutines();
             StartCoroutine(LowerPinsherRoutine());
-            onPinsherLowered.Invoke();
         }
 
         private IEnumerator LowerPinsherRoutine()
@@ -128,10 +122,8 @@ namespace HandCode
 
         public void RaisePinsher()
         {
-            _isPinsherLow = false;
             StopAllCoroutines();
             StartCoroutine(RaisePinsherRoutine());
-            onPinsherRaised.Invoke();
         }
 
         private IEnumerator RaisePinsherRoutine()
@@ -229,16 +221,7 @@ namespace HandCode
 
         private void Update()
         {
-            if (GetSignedRotation(pinsherRotator.localEulerAngles.z) <= -130f)
-            {
-                _isPinsherLow = true;
-            }
-            else
-            {
-                _isPinsherLow = false;
-            }
-
-           
+                      
 
             // teset
 
