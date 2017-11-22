@@ -7638,6 +7638,7 @@ GameObject:
   - component: {fileID: 114154615506923122}
   - component: {fileID: 114399004464957732}
   - component: {fileID: 114256903197220664}
+  - component: {fileID: 114125684460293012}
   m_Layer: 0
   m_Name: AdhesiveTape
   m_TagString: Untagged
@@ -32658,6 +32659,18 @@ MonoBehaviour:
   m_eventThreshold: 0.5
   m_eventLock: {fileID: 0}
   m_eventUnlock: {fileID: 0}
+--- !u!114 &114125684460293012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1629078994510956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114126631448237252
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -36708,7 +36721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fea714448da1a4c8aaece832ca6674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSapped: 0
+  isSnapped: 0
 --- !u!114 &114904931104789896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -36903,7 +36916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fea714448da1a4c8aaece832ca6674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSapped: 0
+  isSnapped: 0
 --- !u!114 &114931532382568126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -37927,8 +37940,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.99039125, y: -0.31110656, z: -0.0000014305115}
-    m_Extent: {x: 0.0096075535, y: 0.50619966, z: 0.75000006}
+    m_Center: {x: -0.9903915, y: -0.31110656, z: -0.0000014305115}
+    m_Extent: {x: 0.0096075535, y: 0.5061998, z: 0.75000054}
   m_DirtyAABB: 0
 --- !u!137 &137743899053218074
 SkinnedMeshRenderer:
@@ -37973,8 +37986,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.00000008940697, y: -0.00000023841858, z: 0}
-    m_Extent: {x: 0.0047628945, y: 0.02450424, z: 0.75}
+    m_Center: {x: 0.5015406, y: -0.627892, z: 0.2599995}
+    m_Extent: {x: 0.013747067, y: 0.024469042, z: 0.75}
   m_DirtyAABB: 0
 --- !u!183 &183360362001303224
 Cloth:

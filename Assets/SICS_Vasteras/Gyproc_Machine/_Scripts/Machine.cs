@@ -143,7 +143,25 @@ namespace HandCode
                 print("haptics");
                 TriggerHaptics();
             }
-               
+
+
+            if (Input.GetKeyDown(KeyCode.X))
+                ResetState();
+        }
+
+        /* DIRTY PATCH */
+        // hardcoded reset for the spool and the arms to avoid restarting the game when damaging the spool.
+        public void ResetState()
+        {
+            spool_Right.transform.parent = transform;
+            spool_Right.transform.localPosition = Vector3.zero;
+            spool_Right.transform.localEulerAngles = Vector3.zero;
+            armRig_Right.arm_Left.transform.localPosition = new Vector3(0f, 0f, -0.2f);
+            armRig_Right.arm_Right.transform.localPosition = new Vector3(0f, 0f, 0.2f);
+            armRig_Right.arm_Left.speed = armRig_Right.arm_Right.speed = 0.1f;
+            spool_Right._isDamaged = false;
+            spool_Right._isHandled = false;
+            spool_Right.GetComponentInChildren<Renderer>().material.color = Color.white;
         }
     }
 }

@@ -1319,6 +1319,30 @@ Transform:
   m_PrefabParentObject: {fileID: 4531935944933550, guid: 5f49d70acc518da45a1cb478ebb30166,
     type: 2}
   m_PrefabInternal: {fileID: 1023852705}
+--- !u!1 &496955878 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1242262429639878, guid: 4b3dac61de229bd47b42097fed99ebe3,
+    type: 2}
+  m_PrefabInternal: {fileID: 628786228}
+--- !u!114 &496955880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 496955878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a20fbac879667047ac0725798345a22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlButton: {fileID: 1284504029}
+  controllerHighlighter: {fileID: 1284504038}
+  controlledHighlighter: {fileID: 1284504038}
+  instructionHologram: {fileID: 0}
+  instructionAudio: {fileID: 8300000, guid: 32d5b692ce071e244b5fd2b11415a2cd, type: 3}
+  explanationAudio: {fileID: 8300000, guid: c085110e5103c084581b924c1d494cab, type: 3}
+  ControllerAudio: {fileID: 8300000, guid: 3ed7d66d9d4edf04eb78d8ca0bdfb48c, type: 3}
+  ControlledAudio: {fileID: 8300000, guid: 200fe3fac91456344b15dc890981c768, type: 3}
 --- !u!1 &543948874
 GameObject:
   m_ObjectHideFlags: 0
@@ -1991,6 +2015,10 @@ Prefab:
       propertyPath: instructionHologram
       value: 
       objectReference: {fileID: 1452304172}
+    - target: {fileID: 1242262429639878, guid: 4b3dac61de229bd47b42097fed99ebe3, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b3dac61de229bd47b42097fed99ebe3, type: 2}
   m_IsPrefabParent: 0
@@ -3099,11 +3127,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 114988474641392898, guid: 5f49d70acc518da45a1cb478ebb30166,
+    - target: {fileID: 114154615506923122, guid: 5f49d70acc518da45a1cb478ebb30166,
         type: 2}
-      propertyPath: knife
+      propertyPath: spawnPoint
       value: 
-      objectReference: {fileID: 2054083152}
+      objectReference: {fileID: 2135287807}
     - target: {fileID: 114399004464957732, guid: 5f49d70acc518da45a1cb478ebb30166,
         type: 2}
       propertyPath: targetPoints.Array.data[0]
@@ -3114,11 +3142,11 @@ Prefab:
       propertyPath: targetPoints.Array.data[1]
       value: 
       objectReference: {fileID: 2135287808}
-    - target: {fileID: 114154615506923122, guid: 5f49d70acc518da45a1cb478ebb30166,
+    - target: {fileID: 114988474641392898, guid: 5f49d70acc518da45a1cb478ebb30166,
         type: 2}
-      propertyPath: spawnPoint
+      propertyPath: knife
       value: 
-      objectReference: {fileID: 2135287807}
+      objectReference: {fileID: 2054083152}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5f49d70acc518da45a1cb478ebb30166, type: 2}
   m_IsPrefabParent: 0
@@ -3463,6 +3491,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &1284504029 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4364981081380710, guid: 5f49d70acc518da45a1cb478ebb30166,
+    type: 2}
+  m_PrefabInternal: {fileID: 1023852705}
+--- !u!114 &1284504038 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114125684460293012, guid: 5f49d70acc518da45a1cb478ebb30166,
+    type: 2}
+  m_PrefabInternal: {fileID: 1023852705}
+  m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
 --- !u!4 &1288504250 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4674561517675710, guid: 5f49d70acc518da45a1cb478ebb30166,
