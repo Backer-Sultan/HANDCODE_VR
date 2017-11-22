@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 65910699679222246}
   - component: {fileID: 95944979500315210}
   - component: {fileID: 114018278296063926}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: DirectionIndictatorArrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,6 +55,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -70,6 +71,7 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -141,7 +143,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0.2
-  animator: {fileID: 0}
 --- !u!114 &114876061213721092
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,5 +154,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7295fc5c1b0978f43b9b4d832a77be5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parts: []
   speed: 0.31
+  parts: []

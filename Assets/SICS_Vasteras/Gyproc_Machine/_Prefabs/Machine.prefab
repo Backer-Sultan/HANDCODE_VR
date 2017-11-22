@@ -127,7 +127,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4883675435349598}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: engine_LO_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1231,7 +1231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4251438102873688}
   - component: {fileID: 136132654940004808}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SpoolCollisionTrigger_Cone_Right
   m_TagString: ArmCone
   m_Icon: {fileID: 0}
@@ -1410,7 +1410,7 @@ GameObject:
   - component: {fileID: 4705780591493626}
   - component: {fileID: 33988166062910642}
   - component: {fileID: 23740752274511032}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1786,7 +1786,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4063041469520734}
   - component: {fileID: 136143529745100282}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MovementLimitTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2016,7 +2016,7 @@ GameObject:
   - component: {fileID: 4415903635399450}
   - component: {fileID: 33932061589722286}
   - component: {fileID: 23662138084614262}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Default (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2064,7 +2064,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4787616875487434}
   - component: {fileID: 136407615436820512}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: MovementLimitTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4523,7 +4523,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4068296887909992}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: RailAndEngine_LO_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6225,7 +6225,7 @@ GameObject:
   - component: {fileID: 4774348557520394}
   - component: {fileID: 33329224719019218}
   - component: {fileID: 23540613354612928}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Default
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7267,7 +7267,7 @@ GameObject:
   - component: {fileID: 4622845962136832}
   - component: {fileID: 33598318660967728}
   - component: {fileID: 23713316571351282}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TileBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7638,6 +7638,7 @@ GameObject:
   - component: {fileID: 114154615506923122}
   - component: {fileID: 114399004464957732}
   - component: {fileID: 114256903197220664}
+  - component: {fileID: 114125684460293012}
   m_Layer: 0
   m_Name: AdhesiveTape
   m_TagString: Untagged
@@ -7768,7 +7769,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4956381287514924}
   - component: {fileID: 65789779726110978}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SpoolCollisionTrigger_Body
   m_TagString: ArmCone
   m_Icon: {fileID: 0}
@@ -7943,7 +7944,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4504786836140250}
   - component: {fileID: 136874919509102818}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SpoolCollisionTrigger_Cone_Left
   m_TagString: ArmCone
   m_Icon: {fileID: 0}
@@ -8629,7 +8630,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4903634323932390}
   - component: {fileID: 136501275130326260}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Cradle_Bottom_Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11233,7 +11234,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4157376759464896}
   - component: {fileID: 65265108265615714}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: SpoolCollisionTrigger_Body
   m_TagString: ArmCone
   m_Icon: {fileID: 0}
@@ -12243,6 +12244,7 @@ Transform:
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children:
   - {fileID: 4307678978067934}
+  - {fileID: 4060223655932840}
   m_Father: {fileID: 4251440414699540}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12580,12 +12582,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1268129439712530}
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.209, y: 0.592, z: 1.278}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0.706632, y: -0.025908355, z: 0.025908355, w: 0.706632}
+  m_LocalPosition: {x: -0.30015877, y: 0.05061003, z: -0.291}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4121138045582164}
-  m_RootOrder: 4
+  m_Father: {fileID: 4026168683275574}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!4 &4060652055909094
 Transform:
@@ -13227,7 +13229,6 @@ Transform:
   - {fileID: 4889324425733660}
   - {fileID: 4341709273165562}
   - {fileID: 4251440414699540}
-  - {fileID: 4060223655932840}
   m_Father: {fileID: 4121769087382452}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -32658,6 +32659,18 @@ MonoBehaviour:
   m_eventThreshold: 0.5
   m_eventLock: {fileID: 0}
   m_eventUnlock: {fileID: 0}
+--- !u!114 &114125684460293012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1629078994510956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221570a5de2eca441993f996ce48eb99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlightColor: {r: 0.7, g: 0.7, b: 0, a: 1}
 --- !u!114 &114126631448237252
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -36708,7 +36721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fea714448da1a4c8aaece832ca6674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSapped: 0
+  isSnapped: 0
 --- !u!114 &114904931104789896
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -36903,7 +36916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49fea714448da1a4c8aaece832ca6674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSapped: 0
+  isSnapped: 0
 --- !u!114 &114931532382568126
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -37927,8 +37940,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.99039125, y: -0.31110656, z: -0.0000014305115}
-    m_Extent: {x: 0.0096075535, y: 0.50619966, z: 0.75000006}
+    m_Center: {x: -0.9903915, y: -0.31110656, z: -0.0000014305115}
+    m_Extent: {x: 0.0096075535, y: 0.5061998, z: 0.75000054}
   m_DirtyAABB: 0
 --- !u!137 &137743899053218074
 SkinnedMeshRenderer:
@@ -37973,8 +37986,8 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.00000008940697, y: -0.00000023841858, z: 0}
-    m_Extent: {x: 0.0047628945, y: 0.02450424, z: 0.75}
+    m_Center: {x: 0.5015406, y: -0.627892, z: 0.2599995}
+    m_Extent: {x: 0.013747067, y: 0.024469042, z: 0.75}
   m_DirtyAABB: 0
 --- !u!183 &183360362001303224
 Cloth:
