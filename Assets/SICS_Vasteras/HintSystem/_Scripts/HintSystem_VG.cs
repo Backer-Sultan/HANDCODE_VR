@@ -56,9 +56,6 @@ namespace HandCode
                 return;
 
             lastClickedButton = button;
-            // specific for the old show-me button
-            /*showMeButtonState = true; 
-            showMeAnimator.SetBool("Active", showMeButtonState);*/
 
             /* Swiching between buttons */
 
