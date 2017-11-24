@@ -27,6 +27,7 @@ namespace HandCode
         PINSHER_LOWER,
         DOUBLE_COMMAND,
         MOVE_SPOOL,
+        MOVE_SPOOL_AWAY,
     }
 
 
