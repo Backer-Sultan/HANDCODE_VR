@@ -54,7 +54,7 @@ namespace HandCode
             completionConditions.Add(TaskID.MOUNT_MIDDLE_TAPE, () => machine.cradle.tapePiece_middle.isMounted);
             completionConditions.Add(TaskID.MOUNT_RIGHT_TAPE, () => machine.cradle.tapePiece_right.isMounted);
             completionConditions.Add(TaskID.MOUNT_LEFT_TAPE, () => machine.cradle.tapePiece_left.isMounted);
-            completionConditions.Add(TaskID.MOUNT_ADHESIVE_TAPE, () => machine.adhesiveTapeHandler.isSapped);
+            completionConditions.Add(TaskID.MOUNT_ADHESIVE_TAPE, () => machine.adhesiveTapeHandler.isSnapped);
             completionConditions.Add(TaskID.RAISE_PINSHER, () => !machine.cradle.isPinsherLow);
             completionConditions.Add(TaskID.MOVE_CRADLE_MIDDLE, () => machine.cradle.isMiddleTargetReached);
         }

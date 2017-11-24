@@ -27,9 +27,9 @@ namespace HandCode
         public bool isLeftSideHandled = false;
         [HideInInspector]
         public bool isRightSideHandled = false;
-
-        private bool _isDamaged = false;
-        private bool _isHandled = false;
+        
+        internal bool _isDamaged = false;
+        internal bool _isHandled = false;
         private bool isMoving = false;
         private bool _isTargetReached = false;
 

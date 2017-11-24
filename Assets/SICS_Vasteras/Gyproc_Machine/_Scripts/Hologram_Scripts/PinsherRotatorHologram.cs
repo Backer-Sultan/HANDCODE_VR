@@ -8,46 +8,77 @@ using UnityEngine;
 
 namespace HandCode
 {
-    public class PinsherRotatorHologram : Hologram 
+    public class PinsherRotatorHologram : Hologram
     {
-        /* fields & properties */
+        public float initRotationValue;
+        public float destRotationValue;
+        public ShowHologramFor showHologramFor;
 
-        public Identifier rotationDirection;
-        public float upLimit; // in Eular angle
-        public float downLimit; // in Eular angle
+        public enum ShowHologramFor
+        {
+            NONE,
+            RAISE_PINHSER,
+            LOWER_PINSHER,
+        }
 
-
+        private bool isPinsherInDestRotation;
 
         /* methods & coroutines */
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            transform.localEulerAngles = new Vector3(0f, 0f, initRotationValue);
+        }
 
         protected override void Update()
         {
             base.Update();
+            if (waitingFlag)
+                return;
 
-            Vector3 axis = Vector3.zero;
-
-            if(rotationDirection == Identifier.UP)
+            if (waitingFlag)
+                return;
+            if (isPinsherInDestRotation)
             {
-                axis = Vector3.forward; // +z rotation
+                Invoke("ResetPinsherRotation", waitTime);
+                waitingFlag = true;
             }
-            else if(rotationDirection == Identifier.DOWN)
+            else
+                RotateTowardsDestination();
+        }
+
+        private void ResetPinsherRotation()
+        {
+            transform.localEulerAngles = new Vector3(0f, 0f, initRotationValue);
+            rotationSpeed = initialRotationSpeed; 
+            isPinsherInDestRotation = false;
+            waitingFlag = false;
+        }
+
+        private void RotateTowardsDestination()
+        {
+            float currentRotationValue = GetSignedRotation(transform.localEulerAngles.z);
+            bool dirUp = (destRotationValue >= initRotationValue) ? true : false;
+
+            if(dirUp)
             {
-                axis = Vector3.back; // -z rotation
+                if(currentRotationValue >= destRotationValue)
+                {
+                    isPinsherInDestRotation = true;
+                    return;
+                }
+                transform.localEulerAngles += Vector3.forward * rotationSpeed * Time.deltaTime;
             }
             else
             {
-                Debug.LogError("Invalid direction!");
-            }
-
-            if(GetSignedRotation(transform.localEulerAngles.z) <= upLimit &&
-               GetSignedRotation(transform.localEulerAngles.z) >= downLimit)
-            {
-                transform.Rotate(axis, rotateSpeed);
-            }
-            else
-            {
-                ResetRotationAfter(waitTime);
+                if(currentRotationValue <= destRotationValue)
+                {
+                    isPinsherInDestRotation = true;
+                    return;
+                }
+                transform.localEulerAngles += Vector3.back * rotationSpeed * Time.deltaTime;
             }
         }
-    } 
+    }
 }

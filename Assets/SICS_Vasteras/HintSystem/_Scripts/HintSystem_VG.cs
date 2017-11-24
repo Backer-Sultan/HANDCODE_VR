@@ -56,9 +56,6 @@ namespace HandCode
                 return;
 
             lastClickedButton = button;
-            // specific for the old show-me button
-            /*showMeButtonState = true; 
-            showMeAnimator.SetBool("Active", showMeButtonState);*/
 
             /* Swiching between buttons */
 
@@ -239,17 +236,43 @@ namespace HandCode
         /* Show/Hide line rednerer */
         private void ShowHintLine(Transform destination)
         {
-            Transform lineDestination;
-            if (destination != null)
-                lineDestination = destination.Find("LineDestination");
-            else
-                lineDestination = destination.transform;
-            
+            //Transform lineDestination;
+            //if (destination != null)
+            //    lineDestination = destination.Find("LineDestination");
+            //else
+            //    lineDestination = destination.transform;
+            //hintLine.destination = lineDestination;
+            //hintLine.gameObject.SetActive(true);
 
+            if (destination == null)
+                return;
+
+            Transform lineDestination = null;
+            lineDestination = destination.Find("LineDestination");
+            // haven't found a direct child with name `LineDestination`
+            if(lineDestination == null)
+            {
+                Transform[] children = destination.GetComponentsInChildren<Transform>();
+                foreach(Transform t in children)
+                {
+                    if (t.name == "LineDestination")
+                    {
+                        lineDestination = t;
+                        break;
+                    }
+                }
+                // haven't found any child with name `LineDestination`
+                if (lineDestination == null)
+                {
+                    print("Couldn't find any child with name `LineDestination`");
+                    return;
+                }
+
+            }
             hintLine.destination = lineDestination;
             hintLine.gameObject.SetActive(true);
-
         }
+
         private void HideHintLine()
         {
             hintLine.destination = null;
