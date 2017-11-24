@@ -26,6 +26,7 @@ namespace HandCode
         PINSHER_RAISE,
         PINSHER_LOWER,
         DOUBLE_COMMAND,
+        MOVE_SPOOL,
     }
 
 
