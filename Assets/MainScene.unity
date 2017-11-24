@@ -4126,6 +4126,10 @@ Prefab:
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].outSlope
       value: 3.8992329
       objectReference: {fileID: 0}
+    - target: {fileID: 1892912837492376, guid: 1b6be5173e986fe4790f27f51f75edd9, type: 2}
+      propertyPath: m_Name
+      value: LineRenderer_HintSystem
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1b6be5173e986fe4790f27f51f75edd9, type: 2}
   m_IsPrefabParent: 0
@@ -4591,6 +4595,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 114949236446306150, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
+        type: 2}
+      propertyPath: hintLine
+      value: 
+      objectReference: {fileID: 2121745800}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0c5578f7fdd57e84d9537a4732c54ffa, type: 2}
   m_IsPrefabParent: 0
@@ -5384,6 +5393,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4892576512190972, guid: 5f49d70acc518da45a1cb478ebb30166,
     type: 2}
   m_PrefabInternal: {fileID: 1023852705}
+--- !u!114 &2121745800 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114191290933281894, guid: 1b6be5173e986fe4790f27f51f75edd9,
+    type: 2}
+  m_PrefabInternal: {fileID: 1591562260}
+  m_Script: {fileID: 11500000, guid: d49ac9a554e38d541ac7b2448afac580, type: 3}
 --- !u!1001 &2135287806
 Prefab:
   m_ObjectHideFlags: 0

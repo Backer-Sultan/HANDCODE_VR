@@ -7,6 +7,7 @@ namespace HandCode
     {
         public bool activeState;
         public UI_Button_VG instruction, controller, controlled, explanation, power, showMe;
+        public BezierLaserBeam hintLine;
 
         private UI_Button_VG activeButton, lastClickedButton;
         private Animator animator;
@@ -16,7 +17,6 @@ namespace HandCode
         private AudioClip currentClip;
 
         private GameFlowManager gameFlowManager;
-        private BezierLaserBeam hintLine;
 
         private bool showMeButtonState;
         private Highlighter activeHighligher;
@@ -35,7 +35,6 @@ namespace HandCode
             showMeAnimator = transform.Find("ProgressRadial_onHand/Button_ShowMe").GetComponent<Animator>();
 
             buttonsAnimators = new Animator[] { instructionAnimator, controlledAnimtor, controllerAnimator, explanationAnimator };
-            hintLine = GameObject.FindObjectOfType<BezierLaserBeam>();
             hintLine.gameObject.SetActive(false);
 
             audioSource = GetComponent<AudioSource>();
