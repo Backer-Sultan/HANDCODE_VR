@@ -16,9 +16,7 @@ public class SpoolTest : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.U))
             spool.MoveToTarget();
-        if (Input.GetKeyUp(KeyCode.S))
-            spool.Stop();
 	}
 }
