@@ -5,11 +5,39 @@ using UnityEngine.UI;
 
 public class test_controller : MonoBehaviour {
 
-    private const int MAX_SCENE_NR = 8;
+    private const int MAX_SCENE_NR = 34;
 
     private int curSceneNumber = -1;
     // names of the game objects to use in the test, add more as needed, the order doesn't matter
-    private string[] testObjectNames = { "tagged_box1", "MSH_Hammer", "MSH_Screwdriver", "scanner", "button1", "hela_hurtsen", "door", "Nyckel_vg", "Crank", "Lever", "tagged_box3" };
+    private string[] testObjectNames = {
+        "tagged_box1",
+        "MSH_Hammer",
+        "MSH_Screwdriver",
+        "scanner",
+        "button1",
+        "hela_hurtsen",
+        "door",
+        "Nyckel_vg",
+        "Crank",
+        "Lever",
+        "tagged_box3",
+        "wrench_with_ratchet",
+        "scotch_tape",
+        "saw",
+        "line_level",
+        "monitor",
+        "pliers",
+        "nut1",
+        "MSH_Nail",
+        "Lightbulb",
+        "Battery",
+        "scissors",
+        "brush",
+        "dril",
+        "chisel"
+    };
+    private GameObject sideTable;
+    private GameObject testTable;
     private GameObject[] testGameObjects;
     private GameObject debugText;
     public Material highlightMat;
@@ -18,15 +46,10 @@ public class test_controller : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-       // Debug.Log("test_controller - here we go!!");
-        StartTest();
-    }
-
-	void StartTest()
-    {
-       // Debug.Log("test_controller - starting test!");
+        // Debug.Log("test_controller - here we go!!");
+        //StartTest();
         testGameObjects = new GameObject[testObjectNames.Length];
-        for (int i=0; i<testObjectNames.Length; i++)
+        for (int i = 0; i < testObjectNames.Length; i++)
         {
             testGameObjects[i] = GameObject.Find(testObjectNames[i]);
             if (!testGameObjects[i])
@@ -35,12 +58,18 @@ public class test_controller : MonoBehaviour {
             }
             else
             {
-               // Debug.Log("test_controller.StartTest - found object with name " + testObjectNames[i]);
+                // Debug.Log("test_controller.StartTest - found object with name " + testObjectNames[i]);
             }
         }
-		HideAllTestObjects ();
+        testTable = GameObject.Find("testTable");
+        sideTable = GameObject.Find("sideTable");
         displayTextOnHud("Press right arrow to start test");
-	}
+    }
+
+	void StartTest()
+    {
+       // Debug.Log("test_controller - starting test!");
+    }
 
     void displayTextOnHud(string text)
     {
@@ -168,22 +197,49 @@ public class test_controller : MonoBehaviour {
         }
     }
 
+    void ShowAndPositionTestObject(string name)
+    {
+        int index = getTestObjectIndex(name);
+        if (index < 0)
+        {
+            Debug.Log("test_controller.ShowTestObject - can't find index of object " + name);
+        }
+        else
+        {
+            GameObject obj = testGameObjects[index];
+            if (obj)
+            {
+                obj.SetActive(true);
+                obj.transform.position = testTable.transform.position;
+                Debug.Log("test_controller.ShowTestObject - test object pos " + obj.transform.position);
+                Vector3 up = new Vector3(0, 0.8f, 0);
+                obj.transform.Translate(up, Space.World);
+                Debug.Log("test_controller.ShowTestObject - test object pos after " + obj.transform.position);
+            }
+            else
+            {
+                Debug.Log("test_controller.ShowTestObject - can't find object with index " + index);
+            }
+        }
+    }
+
     void ShowScene(int sceneNumber)
     {
         // Debug.Log("test_controller.ShowNextScene - enter " + sceneNumber);
         
         HideAllTestObjects();
+        sideTable.SetActive(false);
         UnhighlightAllTestObjects();
         if (clicksToNextScene == 1)
         {
-            displayTextOnHud("Click right to reach scene " + (sceneNumber + 1) + ", click left to reach scene " + sceneNumber);
+            displayTextOnHud("<-- scene " + sceneNumber + "       scene " + (sceneNumber + 1) + " -->");
         }
         else
         {
-            displayTextOnHud("Current scene is " + sceneNumber);
+            displayTextOnHud("scene " + sceneNumber);
             if (sceneNumber == 0)
             {
-                ShowTestObject("tagged_box3");
+                ShowAndPositionTestObject("tagged_box3");
             }
             else if (sceneNumber == 1)
             {
@@ -191,7 +247,7 @@ public class test_controller : MonoBehaviour {
             }
             else if (sceneNumber == 2)
             {
-                ShowTestObject("MSH_Hammer");
+                ShowAndPositionTestObject("MSH_Hammer");
             }
             else if (sceneNumber == 3)
             {
@@ -201,8 +257,8 @@ public class test_controller : MonoBehaviour {
             }
             else if (sceneNumber == 4)
             {
-                ShowTestObject("tagged_box1");
-                ShowTestObject("scanner");
+                ShowAndPositionTestObject("tagged_box1");
+                ShowAndPositionTestObject("scanner");
             }
             else if (sceneNumber == 5)
             {
@@ -210,11 +266,11 @@ public class test_controller : MonoBehaviour {
             }
             else if (sceneNumber == 6)
             {
-                ShowTestObject("MSH_Screwdriver");
+                ShowAndPositionTestObject("MSH_Screwdriver");
             }
             else if (sceneNumber == 7)
             {
-                ShowTestObject("button1");
+                ShowAndPositionTestObject("button1");
             }
             else if (sceneNumber == 8)
             {
@@ -223,11 +279,107 @@ public class test_controller : MonoBehaviour {
             }
             else if (sceneNumber == 9)
             {
-                ShowTestObject("Crank");
+                // should be empry, point to floor
             }
             else if (sceneNumber == 10)
             {
+                ShowAndPositionTestObject("wrench_with_ratchet");
+            }
+            else if (sceneNumber == 11)
+            {
+                // spray can
+            }
+            else if (sceneNumber == 12)
+            {
+                ShowAndPositionTestObject("scotch_tape");
+            }
+            else if (sceneNumber == 13)
+            {
+                ShowTestObject("Crank");
+            }
+            else if (sceneNumber == 14)
+            {
                 ShowTestObject("Lever");
+            }
+            else if (sceneNumber == 15)
+            {
+                ShowAndPositionTestObject("saw");
+            }
+            else if (sceneNumber == 16)
+            {
+                ShowAndPositionTestObject("line_level");
+            }
+            else if (sceneNumber == 17)
+            {
+                ShowAndPositionTestObject("monitor");
+            }
+            else if (sceneNumber == 18)
+            {
+                //ShowTestObject("");
+            }
+            else if (sceneNumber == 19)
+            {
+                ShowAndPositionTestObject("pliers");
+            }
+            else if (sceneNumber == 20)
+            {
+                //ShowTestObject("");
+            }
+            else if (sceneNumber == 21)
+            {
+                ShowAndPositionTestObject("nut1");
+            }
+            else if (sceneNumber == 22)
+            {
+                ShowAndPositionTestObject("MSH_Nail");
+            }
+            else if (sceneNumber == 23)
+            {
+                ShowAndPositionTestObject("Lightbulb");
+            }
+            else if (sceneNumber == 24)
+            {
+                //ShowAndPositionTestObject("");
+            }
+            else if (sceneNumber == 25)
+            {
+                //ShowAndPositionTestObject("");
+            }
+            else if (sceneNumber == 26)
+            {
+                ShowAndPositionTestObject("Battery");
+            }
+            else if (sceneNumber == 27)
+            {
+                // ShowAndPositionTestObject("");
+            }
+            else if (sceneNumber == 28)
+            {
+                // ShowAndPositionTestObject("");
+            }
+            else if (sceneNumber == 29)
+            {
+                ShowAndPositionTestObject("scissors");
+            }
+            else if (sceneNumber == 30)
+            {
+                ShowAndPositionTestObject("brush");
+            }
+            else if (sceneNumber == 31)
+            {
+                // ShowAndPositionTestObject("");
+            }
+            else if (sceneNumber == 32)
+            {
+                //ShowAndPositionTestObject("");
+            }
+            else if (sceneNumber == 33)
+            {
+                ShowAndPositionTestObject("dril");
+            }
+            else if (sceneNumber == 34)
+            {
+                ShowAndPositionTestObject("chisel");
             }
             else
             {
