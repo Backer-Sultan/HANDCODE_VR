@@ -35,7 +35,9 @@ namespace HandCode
         public PaperCut paperCut;
         public AdhesiveTape adhesiveTapeHandler;
         public bool isDoubleCommandActive { get { return _isDoubleCommandActive; } }
+        [HideInInspector]
         public MachineButton lastPushedButton;
+        [HideInInspector]
         public bool isSpoolBreakApplied;
 
         private bool _isDoubleCommandActive; // Dubble kommando.
