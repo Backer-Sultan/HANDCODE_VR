@@ -30,9 +30,9 @@ namespace HandCode
 
         internal bool _isDamaged = false;
         internal bool _isHandled = false;
-        private bool isMoving = false;
+        public bool isMoving = false;
         private bool _isTargetReached = false;
-        private bool isDirToTarget = false;
+        public bool isDirToTarget = false;
         private Vector3 initLocalPos;
 
 
@@ -61,12 +61,15 @@ namespace HandCode
         {
             isDirToTarget = true;
             isMoving = true;
+            print("MoveToTarget.. Triggered!");
+
         }
 
         public void MoveAwayFromTarget()
         {
             isDirToTarget = false;
             isMoving = true;
+            print("MoveAway.. Triggered!");
         }
 
         public void Stop()

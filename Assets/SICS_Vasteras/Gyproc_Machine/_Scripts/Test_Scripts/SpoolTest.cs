@@ -18,5 +18,9 @@ public class SpoolTest : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.U))
             spool.MoveToTarget();
+        if (Input.GetKeyDown(KeyCode.I))
+            spool.MoveAwayFromTarget();
+        if (Input.GetKeyDown(KeyCode.O))
+            spool.Stop();
 	}
 }
