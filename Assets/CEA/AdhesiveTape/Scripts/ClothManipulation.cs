@@ -11,6 +11,8 @@ public class ClothManipulation : MonoBehaviour
   public Transform[] targetPoints = new Transform[2];
   private int[] manipulatedPoints;
 
+  public ClothSnapping snapping;
+
   private Mesh mesh;
   private Vector3[] initialVertices;
   private HandCodeVirtualGrasp virtualGrasp;
@@ -40,7 +42,7 @@ public class ClothManipulation : MonoBehaviour
       coefficients = cloth.coefficients;
 
       for (int i = 0; i < coefficients.Length; i++)
-        coefficients[i].maxDistance = 0;
+          coefficients[i].maxDistance = 0;
 
       manipulatedPoints = new int[targetPoints.Length];
       for (int i = 0; i < manipulatedPoints.Length; i++)
@@ -133,19 +135,26 @@ public class ClothManipulation : MonoBehaviour
       Vector3 target = cloth.transform.InverseTransformPoint(targetPoints[targetId].position);
       for (int i = 0; i < cloth.vertices.Length; i++)
       {
-        float distance = Vector3.Distance(cloth.vertices[i], target);
-        if (minDistance > distance)
+        if (snapping == null || !snapping.snappedVertices[i])
         {
-          minDistance = distance;
-          minId = i;
+          float distance = Vector3.Distance(cloth.vertices[i], target);
+          if (minDistance > distance)
+          {
+            minDistance = distance;
+            minId = i;
+          }
         }
       }
       if (minId != -1)
       {
         manipulatedPoints[targetId] = minId;
 
+
         for (int i = 0; i < coefficients.Length; i++)
-          coefficients[i].maxDistance = float.MaxValue;
+        {
+          if (snapping == null || !snapping.snappedVertices[i])
+            coefficients[i].maxDistance = float.MaxValue;
+        }
 
         for(int i = 0;i< manipulatedPoints.Length; i++)
           if(manipulatedPoints[i]!=-1)
