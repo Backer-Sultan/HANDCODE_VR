@@ -135,7 +135,7 @@ public class ClothManipulation : MonoBehaviour
       Vector3 target = cloth.transform.InverseTransformPoint(targetPoints[targetId].position);
       for (int i = 0; i < cloth.vertices.Length; i++)
       {
-        if (snapping == null || !snapping.snappedVertices[i])
+        if (snapping == null || !snapping.snappedVertices[i] || snapping.Snapped)
         {
           float distance = Vector3.Distance(cloth.vertices[i], target);
           if (minDistance > distance)
