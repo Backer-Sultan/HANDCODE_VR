@@ -77,25 +77,31 @@ public class ClothUnsnapping : MonoBehaviour
                   coefficients[ids[j]].maxDistance = float.MaxValue;
                   snapping.snappedVertices[ids[j]] = false;
                 }
+                else
+                {
+                  snapping.snappedVertices[ids[j]] = false;
+                }
 
                 if (ids[k] != clothManipulation.GetManipulatedPoint(0) && ids[k] != clothManipulation.GetManipulatedPoint(1)) //exception of the manipulated vertices
                 {
                   coefficients[ids[k]].maxDistance = float.MaxValue;
                   snapping.snappedVertices[ids[k]] = false;
                 }
+                else
+                {
+                  snapping.snappedVertices[ids[j]] = false;
+                }
               }
             }
           }
         }
-        int unsnappedCount = 0;
+
         bool allUnsnapped = true;
         for (int i = 0; i < mesh.vertices.Length; i++)
           if (snapping.snappedVertices[i])
           {
             allUnsnapped = false;
-            unsnappedCount++;
           }
-
 
         if (allUnsnapped)
         {
