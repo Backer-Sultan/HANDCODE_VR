@@ -82,7 +82,7 @@ namespace HandCode
         }
         private IEnumerator SwitchButtonRoutine(UI_Button_VG button)
         {
-            yield return DeactivateCurrentHintRoutine(activeButton, 0f);
+            yield return DeactivateCurrentHintRoutine(activeButton);
             ActivateButton(button);
             StartCoroutine(DeactivateCurrentHintRoutine(activeButton, audioSource.clip.length));
         }
@@ -103,6 +103,18 @@ namespace HandCode
             if (hintLine != null)
                 HideHintLine();
         }
+
+        private IEnumerator DeactivateCurrentHintRoutine(UI_Button_VG button)
+        {
+            animator.enabled = true;
+            button.SetActiveAnimation(false);
+            audioSource.Stop();
+            currentClip = null;
+            activeButton = null;
+            DeactivateCurrentHint();
+            yield break;
+        }
+
         private IEnumerator DeactivateCurrentHintRoutine(UI_Button_VG button, float delay)
         {
             yield return new WaitForSeconds(delay);

@@ -4616,7 +4616,7 @@ Prefab:
     - target: {fileID: 114390869019075712, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
         type: 2}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224061059718617116, guid: 0c5578f7fdd57e84d9537a4732c54ffa,
         type: 2}
@@ -4628,7 +4628,8 @@ Prefab:
       propertyPath: hintLine
       value: 
       objectReference: {fileID: 2121745800}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114390869019075712, guid: 0c5578f7fdd57e84d9537a4732c54ffa, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 0c5578f7fdd57e84d9537a4732c54ffa, type: 2}
   m_IsPrefabParent: 0
 --- !u!114 &1767561922 stripped

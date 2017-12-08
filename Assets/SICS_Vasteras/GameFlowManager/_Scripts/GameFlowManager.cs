@@ -104,7 +104,7 @@ namespace HandCode
             }
             onCurrentTaskChanged.Invoke();
 
-            // at this point, if `taskInProgress == false` that mean all tasks are complete
+            // at this point, if `taskInProgress == false`, then all tasks are complete
             if (!taskInProgress)
             {
                 allTasksComplete = true;
