@@ -30,6 +30,9 @@
 
 [Y] Move arms to left (continious press & not used during the precess)
 
+### The Spool
+
+[U] Move spool to its destination
 
 ## Hint System:
 
