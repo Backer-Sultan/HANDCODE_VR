@@ -77,7 +77,7 @@ public class HandCodeVirtualGrasp : MonoBehaviour
 #else
 
 #if UNITY_EDITOR
-		libraryDirectory = Application.dataPath + "/Plugins/x86/";
+		libraryDirectory = Application.dataPath + "/Gleechi/Plugins/x86/";
 #else
 		libraryDirectory = Application.dataPath + "/Plugins/";
 #endif
