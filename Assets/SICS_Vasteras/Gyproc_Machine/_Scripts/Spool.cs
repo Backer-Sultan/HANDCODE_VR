@@ -28,11 +28,12 @@ namespace HandCode
         [HideInInspector]
         public bool isRightSideHandled = false;
 
-        private bool _isDamaged = false;
-        private bool _isHandled = false;
-        private bool isMoving = false;
+        internal bool _isDamaged = false;
+        internal bool _isHandled = false;
+        public bool isMoving = false;
         private bool _isTargetReached = false;
-
+        public bool isDirToTarget = false;
+        private Vector3 initLocalPos;
 
 
         /* methods & coroutines */
@@ -41,6 +42,7 @@ namespace HandCode
         {
             if (ID == Identifier.NONE)
                 Debug.LogError(string.Format("{0}\nSpool.cs: ID can't be empty!", Machine.GetPath(gameObject)));
+            initLocalPos = transform.localPosition;
         }
 
         public void ApplyDamage()
@@ -57,7 +59,17 @@ namespace HandCode
 
         public void MoveToTarget()
         {
+            isDirToTarget = true;
             isMoving = true;
+            print("MoveToTarget.. Triggered!");
+
+        }
+
+        public void MoveAwayFromTarget()
+        {
+            isDirToTarget = false;
+            isMoving = true;
+            print("MoveAway.. Triggered!");
         }
 
         public void Stop()
@@ -76,7 +88,19 @@ namespace HandCode
                     onTargetReached.Invoke();
                 }
                 else
-                    transform.localPosition = Vector3.MoveTowards(transform.localPosition, Vector3.zero, speed * Time.deltaTime);
+                {
+                    if (isDirToTarget)
+                        transform.localPosition = Vector3.MoveTowards(transform.localPosition, Vector3.zero, speed * Time.deltaTime);
+                    else
+                    {
+                        if (transform.localPosition.z > initLocalPos.z)
+                        {
+                            Vector3 direction = transform.localPosition - Vector3.zero;
+                            direction.Normalize();
+                            transform.Translate(direction * speed * Time.deltaTime);
+                        }
+                    }
+                }
             }
         }
     }

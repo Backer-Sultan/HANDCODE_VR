@@ -36,27 +36,29 @@ namespace HandCode
         /// </summary>
         private void InitializeCompletionConditions()
         {
-            completionConditions = new SortedList<TaskID, Func<bool>>();
-            completionConditions.Add(TaskID.MOVE_CRADLE_RIGHT, () => machine.cradle.isRightTargetReached);
-            completionConditions.Add(TaskID.OPEN_ARMS, () => machine.armRig_Right.isArmsOpen);
-            completionConditions.Add(TaskID.RAISE_ARMS, () => machine.armRig_Right.isArmsUp);
-            completionConditions.Add(TaskID.MOVE_SPOOL, () => machine.spool_Right.isTargetReached);
-            completionConditions.Add(TaskID.LOWER_ARMS, () => machine.armRig_Right.isArmsBelowZero);
-            completionConditions.Add(TaskID.TELEPORT_POS_4, () => FindObjectOfType<PlayerTracker>().isTeleportedPos4);
-            completionConditions.Add(TaskID.TELEPORT_POS_2, () => FindObjectOfType<PlayerTracker>().isTeleportedPos2);
-            completionConditions.Add(TaskID.HANDLE_SPOOL, () => machine.spool_Right.isHandled);
-            completionConditions.Add(TaskID.RAISE_ARMS_WITH_SPOOL, () => machine.armRig_Right.isArmsUp); // is set according to the joint max limit.
-            completionConditions.Add(TaskID.LOWER_ARMS_WITH_SPOOL, () => machine.armRig_Right.isArmsDown);
-            completionConditions.Add(TaskID.TELEPORT_POS_3, () => FindObjectOfType<PlayerTracker>().isTeleportedPos3);
-            completionConditions.Add(TaskID.LOWER_PINSHER, () => machine.cradle.isPinsherLow);
-            completionConditions.Add(TaskID.DISCONNECT_BREAK, () => !machine.cradle.isBreakApplied);
-            completionConditions.Add(TaskID.CUT_PAPER, () => machine.paperCut.isPaperCut);
-            completionConditions.Add(TaskID.MOUNT_MIDDLE_TAPE, () => machine.cradle.tapePiece_middle.isMounted);
-            completionConditions.Add(TaskID.MOUNT_RIGHT_TAPE, () => machine.cradle.tapePiece_right.isMounted);
-            completionConditions.Add(TaskID.MOUNT_LEFT_TAPE, () => machine.cradle.tapePiece_left.isMounted);
-            completionConditions.Add(TaskID.MOUNT_ADHESIVE_TAPE, () => machine.adhesiveTapeHandler.isSapped);
-            completionConditions.Add(TaskID.RAISE_PINSHER, () => !machine.cradle.isPinsherLow);
-            completionConditions.Add(TaskID.MOVE_CRADLE_MIDDLE, () => machine.cradle.isMiddleTargetReached);
+            completionConditions = new SortedList<TaskID, Func<bool>>
+            {
+                { TaskID.MOVE_CRADLE_RIGHT, () => machine.cradle.isRightTargetReached },
+                { TaskID.OPEN_ARMS, () => machine.armRig_Right.isArmsOpen },
+                { TaskID.RAISE_ARMS, () => machine.armRig_Right.isArmsUp },
+                { TaskID.MOVE_SPOOL, () => machine.spool_Right.isTargetReached },
+                { TaskID.LOWER_ARMS, () => machine.armRig_Right.isArmsBelowZero },
+                { TaskID.TELEPORT_POS_4, () => FindObjectOfType<PlayerTracker>().isTeleportedPos4 },
+                { TaskID.TELEPORT_POS_2, () => FindObjectOfType<PlayerTracker>().isTeleportedPos2 },
+                { TaskID.HANDLE_SPOOL, () => machine.spool_Right.isHandled },
+                { TaskID.RAISE_ARMS_WITH_SPOOL, () => machine.armRig_Right.isArmsUp }, // is set according to the joint max limit.
+                { TaskID.LOWER_ARMS_WITH_SPOOL, () => machine.armRig_Right.isArmsDown },
+                { TaskID.TELEPORT_POS_3, () => FindObjectOfType<PlayerTracker>().isTeleportedPos3 },
+                { TaskID.LOWER_PINSHER, () => machine.cradle.isPinsherLow },
+                { TaskID.DISCONNECT_BREAK, () => !machine.cradle.isBreakApplied },
+                { TaskID.CUT_PAPER, () => machine.paperCut.isPaperCut },
+                { TaskID.MOUNT_MIDDLE_TAPE, () => machine.cradle.tapePiece_middle.isMounted },
+                { TaskID.MOUNT_RIGHT_TAPE, () => machine.cradle.tapePiece_right.isMounted },
+                { TaskID.MOUNT_LEFT_TAPE, () => machine.cradle.tapePiece_left.isMounted },
+                { TaskID.MOUNT_ADHESIVE_TAPE, () => machine.adhesiveTapeHandler.isSnapped },
+                { TaskID.RAISE_PINSHER, () => !machine.cradle.isPinsherLow },
+                { TaskID.MOVE_CRADLE_MIDDLE, () => machine.cradle.isMiddleTargetReached }
+            };
         }
 
         private void InitializeTasks()
@@ -102,7 +104,7 @@ namespace HandCode
             }
             onCurrentTaskChanged.Invoke();
 
-            // at this point, if `taskInProgress == false` that mean all tasks are complete
+            // at this point, if `taskInProgress == false`, then all tasks are complete
             if (!taskInProgress)
             {
                 allTasksComplete = true;

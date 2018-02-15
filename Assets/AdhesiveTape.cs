@@ -6,11 +6,11 @@ namespace HandCode
 {
     public class AdhesiveTape : MonoBehaviour
     {
-        public bool isSapped = false;
+        public bool isSnapped = false;
 
         public void SetAdhesiveTapeSnapState(bool value)
         {
-            isSapped = value;
+            isSnapped = value;
         }
     }
 }

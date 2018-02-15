@@ -20,8 +20,8 @@ public class SelectionParams
         m_radiusScale = radiusScale;
     }
 
-    public float m_distanceThreshold = 0.25f;
-    public float m_angleThreshold = 30.0f;
+    public float m_distanceThreshold = 0.5f;
+    public float m_angleThreshold = 45.0f;
     public float m_radiusScale = 1.0f;
 }
 
@@ -43,11 +43,11 @@ public class HandCodeObjectSelection
     private Dictionary<VG_HandSide, Transform> m_highlightedObjects = new Dictionary<VG_HandSide, Transform>();
     // Dictionary to initialize different interaction parameters for multi-raycast object selection.
     static private Dictionary<string, SelectionParams> m_selectionParameters = new Dictionary<string, SelectionParams>();
-    private bool show_hints = false;
+    private bool show_hints = true;
     // Cached list of interactable objects
     private List<Transform> m_objects = new List<Transform>();
-    private SelectionType m_selectionType = SelectionType.SPHERE;
-    private TriggerPattern m_triggerPattern = TriggerPattern.TRIGGER_ONLY;
+    private SelectionType m_selectionType = SelectionType.SPHERE; // SPHERE;
+    private TriggerPattern m_triggerPattern = TriggerPattern.TRIGGER_ONLY; // TRIGGER_ONLY;
 
     // The seed points
     List<KeyValuePair<Vector3, float>> seedPts = new List<KeyValuePair<Vector3, float>>();
@@ -91,29 +91,20 @@ public class HandCodeObjectSelection
 
     public void InitFromHands(VG_HandStatus[] hands)
     {
-        switch (m_selectionType)
+        Vector3 p; Quaternion q; int iid;
+        foreach (VG_HandStatus h in hands)
         {
-            case SelectionType.PUSH_GRASP_RAYCAST:
-                break;
-            case SelectionType.SPHERE:
-                Vector3 p; Quaternion q; int iid;
-                foreach (VG_HandStatus h in hands)
-                {
-                    VG_Controller.GetFingerBone(1, h.side, 1, -1, out iid, out p, out q);
+            VG_Controller.GetFingerBone(1, h.side, 1, -1, out iid, out p, out q);
 
-                    GameObject pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                    pointer.name = "Pointer";
+            GameObject pointer = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            pointer.name = "Pointer";
 
-                    GameObject.DestroyImmediate(pointer.GetComponent<Collider>());
-                    //pointer.GetComponent<Renderer>().enabled = false;
-                    pointer.transform.SetParent(h.hand);
-                    pointer.transform.rotation = q;
-                    pointer.transform.position = p + q * new Vector3(0, 0, 0.02f);
-                    pointer.transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
-                }
-                break;
-            default:
-                break;
+            GameObject.DestroyImmediate(pointer.GetComponent<Collider>());
+            pointer.GetComponent<Renderer>().enabled = false;
+            pointer.transform.SetParent(h.hand);
+            pointer.transform.rotation = q;
+            pointer.transform.position = p + q * new Vector3(0, 0, 0.02f);
+            pointer.transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
         }
     }
 

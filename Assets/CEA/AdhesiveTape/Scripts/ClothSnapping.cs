@@ -18,6 +18,10 @@ public class ClothSnapping : MonoBehaviour
   private int snappingSide = 0;
   private bool initialConfig = true;
   private bool snapped = false;
+  public bool Snapped { get { return snapped; } }
+
+  [HideInInspector]
+  public bool[] snappedVertices;
 
   // Use this for initialization
   void Awake()
@@ -50,7 +54,6 @@ public class ClothSnapping : MonoBehaviour
       {
         Vector3[] vertices = mesh.vertices;
         ClothSkinningCoefficient[] coefficients = cloth.coefficients;
-        bool allSnapped = true;
 
         for (int i = 0; i < cloth.vertices.Length; i++)
         {
@@ -61,7 +64,7 @@ public class ClothSnapping : MonoBehaviour
           if (i == clothManipulation.GetManipulatedPoint(1))
             manipulatedVertex = 1;
 
-          if (coefficients[i].maxDistance != 0 || manipulatedVertex != -1)
+          if (coefficients[i].maxDistance > 0 || manipulatedVertex != -1)
           {
             if (snappingSide == 0)//Determining the side (the tape has a symmetry) 
             {
@@ -89,18 +92,37 @@ public class ClothSnapping : MonoBehaviour
                 if (manipulatedVertex != -1)
                   clothManipulation.DetachTarget(manipulatedVertex);
 
-                coefficients[i].maxDistance = 0;
+                coefficients[i].maxDistance = -1;
                 vertices[i] = initialVertices[i];
                 vertices[i].Scale(new Vector3(1, 1, snappingSide));
+                snappedVertices[i] = true;
               }
             }
-            allSnapped = false;
           }
         }
-        if(allSnapped)
+
+        bool allsnapped = true;
+        for (int i = 0; i < vertices.Length; i++)
+          if (!snappedVertices[i])
+            allsnapped = false;
+
+        if (allsnapped)
         {
           snapped = true;
           clothSnapped.Invoke(new BaseEventData(EventSystem.current));
+
+          Transform backside = transform.Find("ClothBackSide");
+          if (backside != null)
+          {
+            MeshRenderer renderer = backside.GetComponent<MeshRenderer>();
+            renderer.material = GetComponent<SkinnedMeshRenderer>().material;
+          }
+
+          Transform adhesive = transform.Find("Adhesive");
+          if(adhesive != null)
+          {
+            adhesive.GetComponent<MeshRenderer>().enabled = true;
+          }
         }
         cloth.coefficients = coefficients;
         mesh.vertices = vertices;
@@ -111,12 +133,13 @@ public class ClothSnapping : MonoBehaviour
   public void Reinitialize()
   {
     snappingSide = 0;
+
     if (cloth && spawnPoint)
     {
       for (int i = 0; i < cloth.coefficients.Length; i++)
         cloth.coefficients[i].maxDistance = 0;
 
-        mesh.vertices = initialVertices;
+      mesh.vertices = initialVertices;
       Vector3[] vertices = mesh.vertices;
       Vector3 translation = spawnPoint.position - cloth.transform.position;
       translation = cloth.transform.InverseTransformDirection(translation);
@@ -129,6 +152,10 @@ public class ClothSnapping : MonoBehaviour
       mesh.vertices = vertices;
       initialConfig = true;
       snapped = false;
+
+      snappedVertices = new bool[vertices.Length];
+      for (int i = 0; i < vertices.Length; i++)
+        snappedVertices[i] = false;
     }
   }
 }

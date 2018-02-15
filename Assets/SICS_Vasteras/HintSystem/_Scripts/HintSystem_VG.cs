@@ -7,6 +7,7 @@ namespace HandCode
     {
         public bool activeState;
         public UI_Button_VG instruction, controller, controlled, explanation, power, showMe;
+        public BezierLaserBeam hintLine;
 
         private UI_Button_VG activeButton, lastClickedButton;
         private Animator animator;
@@ -16,7 +17,6 @@ namespace HandCode
         private AudioClip currentClip;
 
         private GameFlowManager gameFlowManager;
-        private BezierLaserBeam hintLine;
 
         private bool showMeButtonState;
         private Highlighter activeHighligher;
@@ -35,7 +35,6 @@ namespace HandCode
             showMeAnimator = transform.Find("ProgressRadial_onHand/Button_ShowMe").GetComponent<Animator>();
 
             buttonsAnimators = new Animator[] { instructionAnimator, controlledAnimtor, controllerAnimator, explanationAnimator };
-            hintLine = GameObject.FindObjectOfType<BezierLaserBeam>();
             hintLine.gameObject.SetActive(false);
 
             audioSource = GetComponent<AudioSource>();
@@ -56,9 +55,6 @@ namespace HandCode
                 return;
 
             lastClickedButton = button;
-            // specific for the old show-me button
-            /*showMeButtonState = true; 
-            showMeAnimator.SetBool("Active", showMeButtonState);*/
 
             /* Swiching between buttons */
 
@@ -86,7 +82,7 @@ namespace HandCode
         }
         private IEnumerator SwitchButtonRoutine(UI_Button_VG button)
         {
-            yield return DeactivateCurrentHintRoutine(activeButton, 0f);
+            yield return DeactivateCurrentHintRoutine(activeButton);
             ActivateButton(button);
             StartCoroutine(DeactivateCurrentHintRoutine(activeButton, audioSource.clip.length));
         }
@@ -107,6 +103,18 @@ namespace HandCode
             if (hintLine != null)
                 HideHintLine();
         }
+
+        private IEnumerator DeactivateCurrentHintRoutine(UI_Button_VG button)
+        {
+            animator.enabled = true;
+            button.SetActiveAnimation(false);
+            audioSource.Stop();
+            currentClip = null;
+            activeButton = null;
+            DeactivateCurrentHint();
+            yield break;
+        }
+
         private IEnumerator DeactivateCurrentHintRoutine(UI_Button_VG button, float delay)
         {
             yield return new WaitForSeconds(delay);
