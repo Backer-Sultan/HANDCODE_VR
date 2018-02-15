@@ -3,11 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
+public struct _Tuple
+{
+    GameObject obj;
+    bool hightlight;
+}
+
+[System.Serializable]
+public class MultiDimensionalInt
+{
+    public Object[] objects;
+}
+
 public class test_controller : MonoBehaviour {
 
-    private const int MAX_SCENE_NR = 34;
+    private const int MAX_SCENE_NR = 15;
 
     private int curSceneNumber = -1;
+    public MultiDimensionalInt[] tasks;
     // names of the game objects to use in the test, add more as needed, the order doesn't matter
     private string[] testObjectNames = {
         "tagged_box1",
@@ -19,7 +33,6 @@ public class test_controller : MonoBehaviour {
         "door",
         "Nyckel_vg",
         "Crank",
-        "Lever",
         "tagged_box3",
         "wrench_with_ratchet",
         "scotch_tape",
@@ -34,7 +47,15 @@ public class test_controller : MonoBehaviour {
         "scissors",
         "brush",
         "dril",
-        "chisel"
+        "chisel",
+        "SafetyGlasses",
+        "Folder",
+        "linjal",
+        "Worker_Helm",
+        "earmuffs",
+        "Spray_can",
+        "keyboard",
+        "armatur"
     };
     private GameObject sideTable;
     private GameObject testTable;
@@ -211,10 +232,10 @@ public class test_controller : MonoBehaviour {
             {
                 obj.SetActive(true);
                 obj.transform.position = testTable.transform.position;
-                Debug.Log("test_controller.ShowTestObject - test object pos " + obj.transform.position);
-                Vector3 up = new Vector3(0, 0.8f, 0);
+                //Debug.Log("test_controller.ShowTestObject - test object pos " + obj.transform.position);
+                Vector3 up = new Vector3(0, 0.8f, 0); // XXX 
                 obj.transform.Translate(up, Space.World);
-                Debug.Log("test_controller.ShowTestObject - test object pos after " + obj.transform.position);
+                //Debug.Log("test_controller.ShowTestObject - test object pos after " + obj.transform.position);
             }
             else
             {
@@ -230,6 +251,7 @@ public class test_controller : MonoBehaviour {
         HideAllTestObjects();
         sideTable.SetActive(false);
         UnhighlightAllTestObjects();
+
         if (clicksToNextScene == 1)
         {
             displayTextOnHud("<-- scene " + sceneNumber + "       scene " + (sceneNumber + 1) + " -->");
@@ -239,15 +261,15 @@ public class test_controller : MonoBehaviour {
             displayTextOnHud("scene " + sceneNumber);
             if (sceneNumber == 0)
             {
-                ShowAndPositionTestObject("tagged_box3");
+                ShowAndPositionTestObject("scotch_tape");
             }
             else if (sceneNumber == 1)
             {
-                // scene should be empty
+                ShowAndPositionTestObject("MSH_Hammer");
             }
             else if (sceneNumber == 2)
             {
-                ShowAndPositionTestObject("MSH_Hammer");
+                // scene should be empty, draw circle in the air
             }
             else if (sceneNumber == 3)
             {
@@ -257,7 +279,7 @@ public class test_controller : MonoBehaviour {
             }
             else if (sceneNumber == 4)
             {
-                ShowAndPositionTestObject("tagged_box1");
+                ShowTestObject("tagged_box1");
                 ShowAndPositionTestObject("scanner");
             }
             else if (sceneNumber == 5)
@@ -279,59 +301,60 @@ public class test_controller : MonoBehaviour {
             }
             else if (sceneNumber == 9)
             {
-                // should be empry, point to floor
+                // should be empty, point to floor
             }
             else if (sceneNumber == 10)
             {
-                ShowAndPositionTestObject("wrench_with_ratchet");
+                // should be empty, draw triangle in the air
             }
             else if (sceneNumber == 11)
             {
-                // spray can
+                ShowAndPositionTestObject("saw");
             }
             else if (sceneNumber == 12)
             {
-                ShowAndPositionTestObject("scotch_tape");
+                ShowAndPositionTestObject("scissors");
             }
             else if (sceneNumber == 13)
             {
-                ShowTestObject("Crank");
+                ShowAndPositionTestObject("monitor");
             }
             else if (sceneNumber == 14)
             {
-                ShowTestObject("Lever");
+                ShowAndPositionTestObject("pliers");
             }
             else if (sceneNumber == 15)
             {
-                ShowAndPositionTestObject("saw");
+                ShowAndPositionTestObject("MSH_Nail");
+                HighlightTestObject("MSH_Nail");
             }
             else if (sceneNumber == 16)
             {
-                ShowAndPositionTestObject("line_level");
+                ShowAndPositionTestObject("wrench_with_ratchet");
             }
             else if (sceneNumber == 17)
             {
-                ShowAndPositionTestObject("monitor");
+                ShowAndPositionTestObject("Spray_can");
             }
             else if (sceneNumber == 18)
             {
-                //ShowTestObject("");
+                ShowTestObject("Crank");
             }
             else if (sceneNumber == 19)
             {
-                ShowAndPositionTestObject("pliers");
+                ShowAndPositionTestObject("line_level");
             }
             else if (sceneNumber == 20)
             {
-                //ShowTestObject("");
+                ShowAndPositionTestObject("linjal");
             }
             else if (sceneNumber == 21)
             {
-                ShowAndPositionTestObject("nut1");
+                ShowAndPositionTestObject("Worker_Helm");
             }
             else if (sceneNumber == 22)
             {
-                ShowAndPositionTestObject("MSH_Nail");
+                ShowAndPositionTestObject("nut1");
             }
             else if (sceneNumber == 23)
             {
@@ -339,11 +362,11 @@ public class test_controller : MonoBehaviour {
             }
             else if (sceneNumber == 24)
             {
-                //ShowAndPositionTestObject("");
+                ShowAndPositionTestObject("keyboard");
             }
             else if (sceneNumber == 25)
             {
-                //ShowAndPositionTestObject("");
+                ShowAndPositionTestObject("Folder");
             }
             else if (sceneNumber == 26)
             {
@@ -351,33 +374,30 @@ public class test_controller : MonoBehaviour {
             }
             else if (sceneNumber == 27)
             {
-                // ShowAndPositionTestObject("");
+                ShowAndPositionTestObject("earmuffs");
             }
             else if (sceneNumber == 28)
             {
-                // ShowAndPositionTestObject("");
+                ShowAndPositionTestObject("SafetyGlasses");
             }
             else if (sceneNumber == 29)
             {
-                ShowAndPositionTestObject("scissors");
+                ShowAndPositionTestObject("brush");
             }
             else if (sceneNumber == 30)
             {
-                ShowAndPositionTestObject("brush");
+                // dimmer
+                // ShowAndPositionTestObject("");
             }
             else if (sceneNumber == 31)
             {
-                // ShowAndPositionTestObject("");
+                ShowTestObject("armatur");
             }
             else if (sceneNumber == 32)
             {
-                //ShowAndPositionTestObject("");
-            }
-            else if (sceneNumber == 33)
-            {
                 ShowAndPositionTestObject("dril");
             }
-            else if (sceneNumber == 34)
+            else if (sceneNumber == 33)
             {
                 ShowAndPositionTestObject("chisel");
             }
@@ -402,6 +422,11 @@ public class test_controller : MonoBehaviour {
                     clicksToNextScene = 2;
                 }
                 ShowScene(curSceneNumber);
+            }
+            else
+            {
+                displayTextOnHud("END");
+                HideAllTestObjects();
             }
 		}
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
