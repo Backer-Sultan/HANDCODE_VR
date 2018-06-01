@@ -16,7 +16,7 @@ public class ClothUnsnapping : MonoBehaviour
 
   private Mesh mesh;
   private Vector3[] initialVertices;
-  private bool initialConfig = true;
+  //private bool initialConfig = true;
   private bool unsnapped = false;
 
   private ClothSnapping snapping;

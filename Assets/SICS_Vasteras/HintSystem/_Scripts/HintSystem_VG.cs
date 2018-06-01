@@ -9,7 +9,7 @@ namespace HandCode
         public UI_Button_VG instruction, controller, controlled, explanation, power, showMe;
         public BezierLaserBeam hintLine;
 
-        private UI_Button_VG activeButton, lastClickedButton;
+        private UI_Button_VG activeButton; //, lastClickedButton;
         private Animator animator;
         private Animator instructionAnimator, controllerAnimator, controlledAnimtor, explanationAnimator, powerAnimator, showMeAnimator;
         private Animator[] buttonsAnimators;
@@ -54,7 +54,7 @@ namespace HandCode
             if (button.ID == UI_Button_ID.SHOW_ME)
                 return;
 
-            lastClickedButton = button;
+            //lastClickedButton = button;
 
             /* Swiching between buttons */
 

@@ -36,7 +36,8 @@ namespace HandCode
         {
             while (true)
             {
-                GameObject newArrow = Instantiate(arrowPrefab, transform, false);
+                //GameObject newArrow = 
+                Instantiate(arrowPrefab, transform, false);
                 yield return wait;
             }
         }

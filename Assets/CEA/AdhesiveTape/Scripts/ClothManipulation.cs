@@ -15,7 +15,7 @@ public class ClothManipulation : MonoBehaviour
 
   private Mesh mesh;
   private Vector3[] initialVertices;
-  private HandCodeVirtualGrasp virtualGrasp;
+  private MyVirtualGrasp virtualGrasp;
 
   // Use this for initialization
   void Awake()
@@ -29,7 +29,7 @@ public class ClothManipulation : MonoBehaviour
 
       mesh = cloth.GetComponent<SkinnedMeshRenderer>().sharedMesh;
       coefficients = cloth.coefficients;
-      virtualGrasp = FindObjectOfType<HandCodeVirtualGrasp>();
+      virtualGrasp = FindObjectOfType<MyVirtualGrasp>();
     }
   }
 
@@ -87,9 +87,13 @@ public class ClothManipulation : MonoBehaviour
       {
         for (uint handID = 0; handID < 2; handID++)
         {
-          if (virtualGrasp.GetCurrentSelection(handID) == targetPoints[handID])
+          if (VirtualGrasp.VG_Controller.current[1][handID].selectedObject == targetPoints[handID])
+          //if (virtualGrasp.GetCurrentSelection(handID) == targetPoints[handID])
           {
-            if (manipulatedPoints[handID] == -1 && virtualGrasp.GetCurrentMode(handID) == VirtualGrasp.VG_InteractionMode.HOLD)
+            if (manipulatedPoints[handID] == -1 &&
+                //virtualGrasp.GetCurrentMode(handID) == VirtualGrasp.VG_InteractionMode.HOLD
+                VirtualGrasp.VG_Controller.current[1][handID].mode == VirtualGrasp.VG_InteractionMode.HOLD
+              )
               AttachTarget((int)handID);
           }
           else if (manipulatedPoints[handID] != -1)

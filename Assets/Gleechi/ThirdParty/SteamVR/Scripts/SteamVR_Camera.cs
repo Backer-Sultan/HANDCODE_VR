@@ -5,6 +5,7 @@
 //=============================================================================
 
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Reflection;
 using Valve.VR;

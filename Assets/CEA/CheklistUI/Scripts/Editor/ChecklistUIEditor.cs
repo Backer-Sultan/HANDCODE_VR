@@ -19,7 +19,7 @@ public class ChecklistUIEditor : Editor
   {
 
     //Title Update
-    Transform frame = m_Checklist.m_Frame;
+    //Transform frame = m_Checklist.m_Frame;
 
     m_Checklist.SetTitle(EditorGUILayout.TextField("Checklist Title", m_Checklist.GetTitle()));
     

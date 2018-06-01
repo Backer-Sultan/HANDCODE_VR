@@ -14,8 +14,7 @@ namespace HandCode
     {
         /* fields & properties */
 
-        public Renderer renderer;
-
+        new public Renderer renderer;
 
         /* methods & coroutines */
 

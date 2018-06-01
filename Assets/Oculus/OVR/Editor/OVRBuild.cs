@@ -31,7 +31,7 @@ partial class OculusBuildApp
 	{
 		if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.StandaloneWindows)
 		{
-			EditorUserBuildSettings.SwitchActiveBuildTarget (BuildTarget.StandaloneWindows);
+			EditorUserBuildSettings.SwitchActiveBuildTarget (BuildTargetGroup.Standalone, BuildTarget.StandaloneWindows);
 		}
 #if UNITY_5_4
 		UnityEditorInternal.VR.VREditor.SetVREnabled(BuildTargetGroup.Standalone, true);
@@ -46,7 +46,7 @@ partial class OculusBuildApp
 
 		if (EditorUserBuildSettings.activeBuildTarget != BuildTarget.Android)
 		{
-			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
+			EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTargetGroup.Android, BuildTarget.Android);
 		}
 #if UNITY_5_4
 		UnityEditorInternal.VR.VREditor.SetVREnabled(BuildTargetGroup.Android, true);
