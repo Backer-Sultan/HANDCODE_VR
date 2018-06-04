@@ -52,17 +52,17 @@ public class ObjectSelection
 #endif
 	private Material[] m_highLightMaterials = new Material[2] {null, null};
 	private Material[] m_unhighLightedMaterials = new Material[2] {null, null};
-
     // Dictionary to keep track of highlighted objects.
     private Dictionary<VG_HandSide, Transform> m_highlightedObjects = new Dictionary<VG_HandSide, Transform>();
     // Cached list of interactable objects
     private List<Transform> m_objects = new List<Transform>();
     // Selected list of objects close to hands
     private List<Transform> m_closeObjects = new List<Transform>();
+    private bool m_filterOutInactiveObjectsFromSelection = true;
 
     public SelectionType m_selectionType = 
-        SelectionType.SPHERE; // example of external selection by shere
-        // SelectionType.VIRTUALGRASP_SELECTION; // VG internal selection
+        // SelectionType.SPHERE; // example of external selection by shere
+         SelectionType.VIRTUALGRASP_SELECTION; // VG internal selection
         // SelectionType.PUSH_GRASP_RAYCAST; // example of external selection by raycasting
     public TriggerPattern m_triggerPattern = TriggerPattern.TRIGGER_ONLY;
 
@@ -124,7 +124,7 @@ public class ObjectSelection
             m_layerMask += 1 << layer;
 
         // Just cache the list of objects that are tagged
-        foreach (GameObject obj in Resources.FindObjectsOfTypeAll(typeof(GameObject)))
+        foreach (GameObject obj in GameObject.FindObjectsOfTypeAll(typeof(GameObject)))
             if (obj.tag == "Object")
                 m_objects.Add(obj.transform);
 
@@ -134,9 +134,8 @@ public class ObjectSelection
 
         // Parameters for raycast-based object selection
         sunflower(50, 0.05f);
-        m_selectionParameters["Grasp"] = new SelectionParams(0.20f, 45.0f, 1.5f);
+        m_selectionParameters["Grasp"] = new SelectionParams(0.40f, 45.0f, 1.5f);
         m_selectionParameters["Push"] = new SelectionParams(0.075f, 90.0f, 0.75f);
-        m_selectionParameters["PointerSphere"] = new SelectionParams(0.075f, 90.0f, 0.75f);
         SetSelectionMethod(m_selectionType);
 
 #if USE_SHADERGLOW
@@ -205,7 +204,7 @@ public class ObjectSelection
             return;
 
 #if USE_SHADERGLOW
-        //int iid = hand.selectedObject.GetInstanceID ();
+        int iid = hand.selectedObject.GetInstanceID ();
 		if (false) //highlights.ContainsKey (iid)) 
 		{
             // m_highlightedObjects[hand.side] = hand.selectedObject;
@@ -218,11 +217,11 @@ public class ObjectSelection
         {
             int id = hand.side < 0 ? 0 : 1;
 			m_highlightedObjects [hand.side] = hand.selectedObject;
-            m_unhighLightedMaterials[id] = new Material (hand.selectedObject.GetComponent<MeshRenderer> ().material);
-            m_highLightMaterials[id] = new Material (hand.selectedObject.GetComponent<MeshRenderer> ().material);
+            m_unhighLightedMaterials[id] = new Material (hand.selectedObject.GetComponentInChildren<MeshRenderer> ().material);
+            m_highLightMaterials[id] = new Material (hand.selectedObject.GetComponentInChildren<MeshRenderer> ().material);
             m_highLightMaterials[id].shader = shader;
-			m_highlightedObjects [hand.side].GetComponent<MeshRenderer> ().material = m_highLightMaterials[id];
-			m_highlightedObjects [hand.side].GetComponent<MeshRenderer> ().material.SetColor ("_RimColor", colors [id]);
+			m_highlightedObjects [hand.side].GetComponentInChildren<MeshRenderer> ().material = m_highLightMaterials[id];
+			m_highlightedObjects [hand.side].GetComponentInChildren<MeshRenderer> ().material.SetColor ("_RimColor", colors [id]);
 		}
     }
 
@@ -234,7 +233,7 @@ public class ObjectSelection
             return;
         
 #if USE_SHADERGLOW
-        //int iid = highlightedObject.GetInstanceID ();
+        int iid = highlightedObject.GetInstanceID ();
 		if (false) //highlights.ContainsKey (iid)) 
 		{
 			// //highlights [iid].lightOff ();
@@ -246,7 +245,7 @@ public class ObjectSelection
 #endif
         {
             int id = hand.side < 0 ? 0 : 1;
-            highlightedObject.GetComponent<MeshRenderer> ().material = m_unhighLightedMaterials[id];
+            highlightedObject.GetComponentInChildren<MeshRenderer> ().material = m_unhighLightedMaterials[id];
             m_highlightedObjects[hand.side] = null;
 		}
     }
@@ -347,7 +346,7 @@ public class ObjectSelection
 
         foreach (Transform obj in m_closeObjects)
         {
-            Collider[] colliders = obj.GetComponents<Collider>();
+            Collider[] colliders = obj.GetComponentsInChildren<Collider>();
             if (colliders.Length == 0) continue;
             closestPoint = colliders[0].bounds.ClosestPoint(p);
             nxt_distance = Vector3.Distance(p, closestPoint);
@@ -363,7 +362,7 @@ public class ObjectSelection
                     collider = colliders[i];
                 }
             }
-            if (nxt_distance > 0.05f)
+            if (nxt_distance > m_selectionParameters["Grasp"].m_distanceThreshold)
                 continue;
             
             // draw white lines to show closest objects
@@ -403,7 +402,7 @@ public class ObjectSelection
 
         foreach (Transform obj in m_closeObjects)
         {
-            Collider[] colliders = obj.GetComponents<Collider>();
+            Collider[] colliders = obj.GetComponentsInChildren<Collider>();
             if (colliders.Length == 0) continue;
             closestPoint = colliders[0].bounds.ClosestPoint(p);
             nxt_distance = Vector3.Distance(p, closestPoint);
@@ -554,7 +553,16 @@ public class ObjectSelection
                     m_closeObjects.Add(obj);
             }
         }
-        //Debug.Log("filtered out " + m_closeObjects.Count + "/" + m_objects.Count + " that are in hand proximity.");
+
+        /*
+        if (m_closeObjects.Count > 0)
+        {
+            string str = "filtered out " + m_closeObjects.Count + "/" + m_objects.Count + " that are in hand proximity:\n";
+            foreach (Transform t in m_closeObjects)
+                str += t.name + "\n";
+            Debug.Log(str);
+        }
+        */
     }
 
     // Select objects based on current hands.
@@ -562,10 +570,22 @@ public class ObjectSelection
     {
         bool trigger_pushed = false;
 
-        filterObjects(status);
-
         if (m_selectionType == SelectionType.VIRTUALGRASP_SELECTION)
+        {
+            if (m_filterOutInactiveObjectsFromSelection)
+            {
+                List<Transform> hiddenObjects = new List<Transform>();
+                foreach (Transform obj in m_objects)
+                    if (!obj.gameObject.activeInHierarchy)
+                        hiddenObjects.Add(obj);
+                VG_Controller.SetHiddenObjects(hiddenObjects);
+            }
+        }
+        else
+        {
+            filterObjects(status);
             VG_Controller.RegisterObjectsForSelection(m_closeObjects);
+        }
 
         foreach (VG_HandStatus hand in status)
         {
