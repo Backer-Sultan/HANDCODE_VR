@@ -39,13 +39,21 @@ public class SelectionParams
     public float m_radiusScale = 1.0f;
 }
 
-public class ObjectSelection
+public class ObjectSelection : MonoBehaviour
 {
-    // Parameters for different selection methods (see SelectionParams above)
-    static private Dictionary<string, SelectionParams> m_selectionParameters = new Dictionary<string, SelectionParams>();
-    
+    [Header("Object Selection Settings")]
+    public SelectionType m_selectionType = SelectionType.VIRTUALGRASP_SELECTION;
+    public TriggerPattern m_triggerPattern = TriggerPattern.TRIGGER_ONLY;
+
+    public float m_graspSelectorRadiusScale = 2.0f; // * hand opening
+    public float m_graspAngleThreshold = 0.5f; // * 180 degree
+    public float m_graspDistanceThreshold = 1.0f; // * hand opening
+
+    [Header("Highlighting Settings")]
+    public bool m_enableHighlighting = true;
     public Shader shader = null;
-    private Color[] colors = new Color[] {Color.magenta, Color.green, Color.white};
+    public Color[] colors = new Color[] {Color.magenta, Color.green, Color.white};
+
     private int m_layerMask = 0;
 #if USE_SHADERGLOW
 //	private Dictionary<int, shaderGlow> highlights = new Dictionary<int, shaderGlow>();
@@ -58,17 +66,13 @@ public class ObjectSelection
     private List<Transform> m_objects = new List<Transform>();
     // Selected list of objects close to hands
     private List<Transform> m_closeObjects = new List<Transform>();
+    // Parameters for different selection methods (see SelectionParams above)
+    static private Dictionary<string, SelectionParams> m_selectionParameters = new Dictionary<string, SelectionParams>();
     private bool m_filterOutInactiveObjectsFromSelection = true;
-
-    public SelectionType m_selectionType = 
-        // SelectionType.SPHERE; // example of external selection by shere
-         SelectionType.VIRTUALGRASP_SELECTION; // VG internal selection
-        // SelectionType.PUSH_GRASP_RAYCAST; // example of external selection by raycasting
-    public TriggerPattern m_triggerPattern = TriggerPattern.TRIGGER_ONLY;
-
+ 
     private bool show_hints = false;
     // Lines for hints when external selection is active
-    private GameObject[] lines = new GameObject[2] { new GameObject(), new GameObject() };
+    private GameObject[] lines; // = new GameObject[2] { new GameObject(), new GameObject() };
     private int m_avatarID = 1; // currently only support 1 avatar here
 
     // The seed points
@@ -111,9 +115,10 @@ public class ObjectSelection
         lr.SetPosition(1, end);
     }
 
-    public ObjectSelection(Shader shader_)
+    //public ObjectSelection(Shader shader_)
+    void Start()
 	{
-        shader = shader_;
+        //shader = shader_;
 
         // Initialize the layer mask for raycast-based object selection
         HashSet<int> _selectionLayers = new HashSet<int>();
@@ -136,7 +141,8 @@ public class ObjectSelection
         sunflower(50, 0.05f);
         m_selectionParameters["Grasp"] = new SelectionParams(0.40f, 45.0f, 1.5f);
         m_selectionParameters["Push"] = new SelectionParams(0.075f, 90.0f, 0.75f);
-        SetSelectionMethod(m_selectionType);
+        
+        lines = new GameObject[2] { new GameObject(), new GameObject() };
 
 #if USE_SHADERGLOW
         foreach (Transform obj in m_objects)
@@ -160,9 +166,11 @@ public class ObjectSelection
 #endif
     }
 
-    public void SetSelectionMethod(SelectionType type)
+    public void SetSelectionMethod()
     {
-        m_selectionType = type;
+        VG_Controller.SetGraspSelectorRadiusScale(m_graspSelectorRadiusScale);
+        VG_Controller.SetGraspAngleThreshold(m_graspAngleThreshold);
+        VG_Controller.SetGraspDistanceThreshold(m_graspDistanceThreshold);
         VG_Controller.SetSelectObjectMethod(VG_HandSide.LEFT, m_selectionType == SelectionType.VIRTUALGRASP_SELECTION ? VG_SelectObjectMethod.vgsINTERNAL_SELECTION : VG_SelectObjectMethod.vgsEXTERNAL_SELECTION);
         VG_Controller.SetSelectObjectMethod(VG_HandSide.RIGHT, m_selectionType == SelectionType.VIRTUALGRASP_SELECTION ? VG_SelectObjectMethod.vgsINTERNAL_SELECTION : VG_SelectObjectMethod.vgsEXTERNAL_SELECTION);
     }
@@ -190,10 +198,15 @@ public class ObjectSelection
             pointer.transform.position = p + q * new Vector3(0, 0, 0.02f);
             pointer.transform.localScale = new Vector3(0.0001f, 0.0001f, 0.0001f);
         }
+
+        SetSelectionMethod();
     }
 
 	public void Highlight(VG_HandStatus hand)
     {
+        if (!m_enableHighlighting)
+            return;
+
         // Got no object, got no highlight
         if (hand.selectedObject == null)
             return;
@@ -605,7 +618,7 @@ public class ObjectSelection
             // De/Activate the selection pointer
             Transform pointer = hand.hand.Find("Pointer");
             if (pointer != null) pointer.gameObject.SetActive(show_hints); // && hand.mode == VG_InteractionMode.EMPTY);
-            lines[hand.side == VG_HandSide.LEFT ? 0 : 1].SetActive(show_hints && !trigger_pushed);
+            //lines[hand.side == VG_HandSide.LEFT ? 0 : 1].SetActive(show_hints && !trigger_pushed);
 
             // If the hand is anything but empty, keep the current selection
             if (hand.mode != VG_InteractionMode.EMPTY)

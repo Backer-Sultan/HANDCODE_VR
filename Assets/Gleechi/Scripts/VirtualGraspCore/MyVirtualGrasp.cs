@@ -22,9 +22,6 @@ using VirtualGrasp;
  */
 public class MyVirtualGrasp : MonoBehaviour
 {
-    // Only to set a shader for the object selection
-    public Shader shader = null;
-
     // Currently we only assume one avatar in the scene
     private List<int> m_avatarIDs = new List<int>() { 1 };
     
@@ -138,8 +135,8 @@ public class MyVirtualGrasp : MonoBehaviour
 			enabled = false;
 			return;
 		}
-        
-		if (pSensorMapper != null)
+
+        if (pSensorMapper != null)
 		{
             pSensorMapper.Register ();
             // Option: set this to true to have the alternative button pushing interaction
@@ -147,7 +144,9 @@ public class MyVirtualGrasp : MonoBehaviour
             VG_Controller.RegisterHands(m_avatarIDs[0]);
 		}
 
-        pSelector = new ObjectSelection(shader);
+        pSelector = GetComponent<ObjectSelection>();
+        if (pSelector == null)
+            pSelector = gameObject.AddComponent<ObjectSelection>();
 
         VG_Controller.Update();
         pSelector.InitFromHands(VG_Controller.current[m_avatarIDs[0]]);
